@@ -22,7 +22,7 @@
     <meta name="description" content="个人博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>biubiu&#39;s website</title>
+    <title>Linux基础--xshell和虚拟机使用技巧（快照和挂起） · biubiu&#39;s website</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Welcome to biubiu's Blog</a>
 </header>
@@ -220,24 +231,78 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            Linux基础--xshell和虚拟机使用技巧（快照和挂起）
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "xshell">xshell</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "VMware">VMware</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">161</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/09/27</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,395 +403,61 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux基础-xshell/" >
-            
-                <span>Linux基础--xshell和虚拟机使用技巧（快照和挂起）</span>
-        </a>
-        <div class="abstract-content">
-            xshell的使用、虚拟机的使用技巧（快照和挂起）1.检查wins真实机器的vmnet1的ip 和Linux虚拟机的ip
-2.ping一下测试网络是否ping的通
-远程连接工具：
-​    xshell
-Xshell的使用1.填写ip地址
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="xshell的使用、虚拟机的使用技巧（快照和挂起）"><a href="#xshell的使用、虚拟机的使用技巧（快照和挂起）" class="headerlink" title="xshell的使用、虚拟机的使用技巧（快照和挂起）"></a>xshell的使用、虚拟机的使用技巧（快照和挂起）</h1><p>1.检查wins真实机器的vmnet1的ip 和Linux虚拟机的ip</p>
+<p>2.ping一下测试网络是否ping的通</p>
+<p>远程连接工具：</p>
+<p>​    xshell</p>
+<h4 id="Xshell的使用"><a href="#Xshell的使用" class="headerlink" title="Xshell的使用"></a>Xshell的使用</h4><p>1.填写ip地址</p>
+<p><img src="1569551541703.png" alt="1569551541703"></p>
+<p>2.输入用户密码</p>
+<p>3.选编码格式，建议utf-8</p>
+<h4 id="虚拟机的使用技巧"><a href="#虚拟机的使用技巧" class="headerlink" title="虚拟机的使用技巧"></a>虚拟机的使用技巧</h4><p>​    1.快照（snapshot）：创建一个Linux系统好的状态，一旦系统出现问题的时候，可以快速恢复到当时创建好的系统的状态。</p>
+<p>​        ——<strong>创建快照会消耗真实机器的磁盘空间</strong></p>
+<ol start="2">
+<li>挂起（suspend）:让虚拟机暂停在某个时间点    </li>
+</ol>
 
-2.输入用户密码
-3.选编码格式，建议utf-8
-虚拟机的使用技巧​    1.快照（snapshot）：创建一个Linux系统好的状态，一旦系统出现问题的时候，可以快速恢复到当时创建好的系统的状态。
-​        ——创建快照会消耗真实机器的磁盘空间
-
-挂起（suspend）:让虚拟机暂停在某个时间点    
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xshell">xshell</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VMware">VMware</a>
-    
-</div>
-            
-        </div>
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux命令/" >
-            
-                <span>Linux基础（二）--Linux命令</span>
-        </a>
-        <div class="abstract-content">
-            linux基本命令Linux网络设置
-
-桥接bridge:本地连接（有线网卡）、无线网络，，，相当于通过一个交换机通信
-NAT：
-host-only（仅主机模式）：只和真实机器VMnet1通信，不能和其他的主机通信
-
-
-
-
-配置ip地址（临时配置ip,重新启动会使ip地址失效）
-
-ip address add 192.168.20.24/24  dev eth0    —-》不会覆盖原来的ip地址，一个网卡可以有多个ip,推荐使用
-给eth0这个网卡配置ip地址192.168.20.24，子网掩码为255.255.255.0
-
-
-ifconfig (centos7 使用yum insta...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/09/27/Linux基础-xshell/">https://biubiu34.github.io/2019/09/27/Linux基础-xshell/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/09/27/Linux基础-xshell/">September 27th 2019, 10:23:57 am</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/27/Linux基础-xshell/">September 27th 2019, 10:48:39 am</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/linux基础（一）/" >
-            
-                <span>linux基础（一）---操作系统和Linux常用命令</span>
-        </a>
-        <div class="abstract-content">
-            操作系统
-操作系统就是特殊的软件
-
-作用
-
-
-直接操作硬件
-把操作硬件的代码封装成一个又一个系统调用，供其它的成员通过系统调用间接操作操作系统的硬件
-
-
-
-没有安装操作系统的计算机，被称为裸机
-
-
-系统调用的好处
-
-
-操作系统提供了不同的系统调用就可以直接和系统调用
-
-
-操作系统吧对内存对硬盘对声卡等的操作统统都变成系统调用，避免了繁琐的0101的编码
-
-
-不同应用领域的操作系统
-
-桌面操作系统
-
-
-windows系统
-
-
-应用软件多，用户群体大
-不稳定
-
-
-macOS
-
-
-适合开发人员
-
-
-linux
-
-
-应用软件少
-用户基数少
-
-
-
-
-服务器操作系统
-
-
-服务器
-
-
-硬件层面上：所谓...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "操作系统">操作系统</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/vim编辑器/" >
-            
-                <span>VIM编辑器</span>
-        </a>
-        <div class="abstract-content">
-            vi —— 终端中的编辑器
-目标
-
-vi 简介
-打开和新建文件
-三种工作模式
-常用命令
-分屏命令
-常用命令速查图
-
-01. vi 简介
-1.1 学习 vi 的目的
-
-在工作中，要对 服务器 上的文件进行 简单 的修改，可以使用 ssh 远程登录到服务器上，并且使用 vi 进行快速的编辑即可
-
-常见需要修改的文件包括：
-
-
-源程序
-配置文件，例如 ssh 的配置文件 ~/.ssh/config
-在没有图形界面的环境下，要编辑文件，vi 是最佳选择！
-每一个要使用 Linux       的程序员，都应该或多或少的学习一些 vi 的常用命令
-
-
-
-1.2 vi 和 vim
-
-在很多 Linu...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VIM">VIM</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/计算机网络-ip地址/" >
-            
-                <span>计算机网络(一)--ip地址</span>
-        </a>
-        <div class="abstract-content">
-            
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "网络">网络</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ip`">ip`</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/25/hexo+github搭建静态博客/" >
-            
-                <span>hexo+github搭建静态博客</span>
-        </a>
-        <div class="abstract-content">
-            前言​    使用win10+git+hexo搭建静态个人博客
-什么是hexo?​    Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。Hexo是一款基于Node.js的静态博客框架，依赖少易于安装使用，可以方便的生成静态网页托管在GitHub和Heroku上，是搭建博客的首选框架。
-安装hexo安装前提安装之前需要检查电脑是否安装:
-12- Node.js- Git
-
-​        1.安装Node.js
-
-Hexo需用通过npm安装，而npm需要node，现在只要安装node 就自...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Markdown">Markdown</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/25/post-name/" >
-            
-                <span>hexo 插入音乐和视频</span>
-        </a>
-        <div class="abstract-content">
-            ​         博客中只有文字和图片感觉还是太枯燥了，就想到了能不能在hexo博客中加入音乐和视频。尝试了用网易云音乐外链，操作简单但是很多都因为版权问题不能播放。然后我查到了aplayer和dplayer这两个hexo插件。
-
-1.在hexo插入音乐1.使用网易云外链播放器（可能有版权问题）​        使用网易云外链方法可以说很简单，但是很多因为版权问题不能生成外链播放器。
-
-
-
-
-
-
-遇到问题：
-
-在markdown和博客页面中都能显示图标但是播放不了音乐。
-猜测可能是版权问题
-
-无意间看到别人的博客，粘贴了幻听的代码之后，发现“幻听”又是可以播放的。
-
-
-
-
-2.使用ap...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/25/Markdown语法/" >
-            
-                <span>Markdown学习</span>
-        </a>
-        <div class="abstract-content">
-            ​     之前有看过.md的文档，但是对markdown的语法却不了解。今天学了hexo搭建静态博客，就先通过“菜鸟教程”学习下markdown的语法来写博客。
-Markdown 简介Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。
-Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。
-Markdown 编写的文档后缀为 .md, .markdown
-编辑器​    使用 Typora 编辑器来讲解 Markdown 的语法，Typora 支持 MacOS 、Windows、Linux 平台，且包含多...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Mardown">Mardown</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/09/27/Linux命令/" title= "Linux基础（二）--Linux命令">
+                    <div class="prevTitle">Linux基础（二）--Linux命令</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -811,6 +542,24 @@ Markdown 编写的文档后缀为 .md, .markdown
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#xshell的使用、虚拟机的使用技巧（快照和挂起）"><span class="toc-number">1.</span> <span class="toc-text">xshell的使用、虚拟机的使用技巧（快照和挂起）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Xshell的使用"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Xshell的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟机的使用技巧"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">虚拟机的使用技巧</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1072,6 +821,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
