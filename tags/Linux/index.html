@@ -346,6 +346,47 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/09/28/Linux基础（三）-重定向/" >
+            
+                <span>Linux基础（三）--重定向</span>
+        </a>
+        <div class="abstract-content">
+            标准输入、标准输出和标准错误​       构建了一个带有编号标记的通道（文件描述符）的进程结构来管理要打开的文件，进程连接到文件，从而到达这些文件所代表的数据内存或设备。通过用户通道0、1、2（称之为标准输入、标准输出和标准错误）的默认连接创建进程。进程使用3以上编号的通道连接 其他文件。
+
+
+标准的输入  -》键盘–》0
+标准的输出  -》显示器 —》正确的  —》1
+标准的错误输出  —》显示器  —》错误的   —-》2
+其他文件  —-》无  —》读取和/或写入 –》3+
+
+重定向（redirect）
+
+默认情况下，所有的输出都输出到屏幕上，有时候需要改变输出的方向，例如输出到...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/28</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "重定向">重定向</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/09/27/Linux基础-xshell/" >
             
                 <span>Linux基础--xshell和虚拟机使用技巧（快照和挂起）</span>
@@ -528,8 +569,7 @@ linux
                 <span>VIM编辑器</span>
         </a>
         <div class="abstract-content">
-            vi —— 终端中的编辑器
-目标
+            目标
 
 vi 简介
 打开和新建文件
@@ -538,9 +578,7 @@ vi 简介
 分屏命令
 常用命令速查图
 
-01. vi 简介
-1.1 学习 vi 的目的
-
+vi 简介学习 vi 的目的
 在工作中，要对 服务器 上的文件进行 简单 的修改，可以使用 ssh 远程登录到服务器上，并且使用 vi 进行快速的编辑即可
 
 常见需要修改的文件包括：
@@ -553,9 +591,9 @@ vi 简介
 
 
 
-1.2 vi 和 vim
-
-在很多 Linu...
+vi 和 vim
+在很多 Linux 发行版中，直接把 vi 做成 vim 的软连接
+vi ...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -768,9 +806,24 @@ vi 简介
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 8
+        Total : 9
         </div>
         <!-- search  -->
         
@@ -783,6 +836,11 @@ vi 简介
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -844,6 +902,8 @@ vi 简介
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
         <span class="sidebar-tag-name" data-tags="ip`"><span class="iconfont-archer">&#xe606;</span>ip`</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
     
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
