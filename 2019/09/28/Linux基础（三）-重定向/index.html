@@ -274,7 +274,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">5.6k</span>阅读时长: <span class="post-count reading-time">27 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">9k</span>阅读时长: <span class="post-count reading-time">45 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -784,24 +784,337 @@ height:50vh;
 </ul>
 </li>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# echo 123456|tr 234 abc</span><br><span class="line">1abc56</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><p><strong>cut</strong></p>
+<ul>
+<li><p>从文本文件或文本刘中提取文本列</p>
+</li>
+<li><p>cut -选项 提取范围 文本文件</p>
+</li>
+<li><p>常见选项</p>
+<ul>
+<li>-c :从指定提取范围中提取字符</li>
+<li>-f :从指定提取范围中提取字段<ul>
+<li>-d：指定分隔符，默认分隔符是TAB键</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>t提取范围</p>
+<ul>
+<li>n 第n项</li>
+<li>n-:第n项到行尾</li>
+<li>-m :行首到第m项</li>
+<li>n,m：第n项和第m项</li>
+<li>n-m:第n-m项</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# who</span><br><span class="line">root     tty1         2019-09-28 22:38</span><br><span class="line">root     pts/0        2019-10-01 18:15 (192.168.0.16)</span><br><span class="line">root     pts/1        2019-10-01 14:16 (192.168.0.16)</span><br><span class="line">[root@localhost lianxi]# who |cut -f 2</span><br><span class="line">root     tty1         2019-09-28 22:38</span><br><span class="line">root     pts/0        2019-10-01 18:15 (192.168.0.16)</span><br><span class="line">root     pts/1        2019-10-01 14:16 (192.168.0.16)</span><br><span class="line">[root@localhost lianxi]# who |tr -s &quot; &quot;</span><br><span class="line">root tty1 2019-09-28 22:38</span><br><span class="line">root pts/0 2019-10-01 18:15 (192.168.0.16)</span><br><span class="line">root pts/1 2019-10-01 14:16 (192.168.0.16)</span><br><span class="line">[root@localhost lianxi]# who |tr -s &quot; &quot;|cut -d &quot; &quot; -f 2</span><br><span class="line">tty1</span><br><span class="line">pts/0</span><br><span class="line">pts/1</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# df -Th</span><br><span class="line">文件系统                类型      容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/mapper/centos-root xfs        17G  5.5G   12G   33% /</span><br><span class="line">devtmpfs                devtmpfs  899M     0  899M    0% /dev</span><br><span class="line">tmpfs                   tmpfs     911M     0  911M    0% /dev/shm</span><br><span class="line">tmpfs                   tmpfs     911M   90M  822M   10% /run</span><br><span class="line">tmpfs                   tmpfs     911M     0  911M    0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1               xfs      1014M  142M  873M   14% /boot</span><br><span class="line">tmpfs                   tmpfs     183M     0  183M    0% /run/user/0</span><br><span class="line"></span><br><span class="line">[root@localhost lianxi]# df -Th|tr -s &quot; &quot;</span><br><span class="line">文件系统 类型 容量 已用 可用 已用% 挂载点</span><br><span class="line">/dev/mapper/centos-root xfs 17G 5.5G 12G 33% /</span><br><span class="line">devtmpfs devtmpfs 899M 0 899M 0% /dev</span><br><span class="line">tmpfs tmpfs 911M 0 911M 0% /dev/shm</span><br><span class="line">tmpfs tmpfs 911M 90M 822M 10% /run</span><br><span class="line">tmpfs tmpfs 911M 0 911M 0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1 xfs 1014M 142M 873M 14% /boot</span><br><span class="line">tmpfs tmpfs 183M 0 183M 0% /run/user/0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@localhost lianxi]# df -Th|tr -s &quot; &quot;|cut -d &quot; &quot; -f 6</span><br><span class="line">已用%</span><br><span class="line">33%</span><br><span class="line">0%</span><br><span class="line">0%</span><br><span class="line">10%</span><br><span class="line">0%</span><br><span class="line">14%</span><br><span class="line">0%</span><br><span class="line"></span><br><span class="line">[root@localhost lianxi]# df -Th|tr -s &quot; &quot;|cut -d &quot; &quot; -f 6 |tr -d &quot;%&quot;</span><br><span class="line">已用</span><br><span class="line">33</span><br><span class="line">0</span><br><span class="line">0</span><br><span class="line">10</span><br><span class="line">0</span><br><span class="line">14</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">[root@localhost lianxi]# df -Th|tr -s &quot; &quot;|cut -d &quot; &quot; -f 6 |tr -d &quot;%&quot;|tail -2|head -n 1</span><br><span class="line">14</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 </li>
 <li><p><strong>uniq</strong></p>
+<ul>
+<li><strong>删除经过排序后的数据的重复记录（去重）</strong></li>
+<li><strong>经常和sort 连用</strong>，先排序，再去重<ul>
+<li>sort -n tt|uniq</li>
+</ul>
 </li>
-<li><p><strong>sort</strong></p>
-</li>
-<li><p><strong>grep</strong></p>
+<li>选项<ul>
+<li>-c:统计特定记录出现的次数</li>
+<li>-u :只显示唯一的行</li>
+<li>-d 只显示重复的行</li>
+</ul>
 </li>
 </ul>
-<h2 id="扩展重定向相关命令：-diff-patch"><a href="#扩展重定向相关命令：-diff-patch" class="headerlink" title="扩展重定向相关命令：(diff ,patch)"></a>扩展重定向相关命令：(diff ,patch)</h2><h2 id="脚本分析：日志分析"><a href="#脚本分析：日志分析" class="headerlink" title="脚本分析：日志分析"></a>脚本分析：日志分析</h2>
+</li>
+<li><p><strong>sort</strong></p>
+<ul>
+<li>默认按每行的第一个字符排序，比较首字母的ASCII编码值的大小来排序（默认升序）</li>
+<li>选项：<ul>
+<li>-n :按整数进行排序</li>
+<li>-r 递减排序（默认是升序，-r是降序）</li>
+<li>-k:指定哪一列为排序键<br>- </li>
+<li>-t :指定字段分隔符（默认是空白）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>grep</strong></p>
+<ul>
+<li><p>在文件中查找并显示包含指定字符串的行，正则表达式，查找过滤</p>
+</li>
+<li><p>工具：根据用户给的正则表达式去文件里搜索符号符合的内容，然后将内容在屏幕是上显示，默认情况下，将符号要求的内容所在的行显示在屏幕是上</p>
+</li>
+<li><p>grep 是一个<strong>文本过滤</strong>命令，根据条件来进行过滤，符号要求的行在屏幕上显示。</p>
+<ul>
+<li>条件 =通过一个 模式来表示</li>
+<li>模式里可以一个正则表达式也可以是字符串</li>
+</ul>
+</li>
+<li><p>格式 grep 【选项】…模式 目标文件</p>
+</li>
+<li><p>元字符：有特殊作用的字符，表达特殊的含义</p>
+</li>
+<li><p>基本正则：</p>
+<ul>
+<li>基本正则：特殊字符（元字符）比较少   —–》grep支持基本正则</li>
+<li>扩展正则：元字符比较多，新加入了一些进来  —》egrep支持扩展正则</li>
+</ul>
+</li>
+<li><p>选项</p>
+<ul>
+<li><p>-i :查找时候忽 略大小写</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat phone.txt |egrep -i &quot;apple&quot; --color</span><br><span class="line">apple huawei xiaomi</span><br><span class="line">APPLE SANGSUNG sony nkia</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-v:反转查找，输出与模式不相符的行</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat phone.txt |egrep -v -in &quot;apple&quot; --color</span><br><span class="line">2:oppo vivo</span><br><span class="line">3:OPPO VIVO</span><br><span class="line">5:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-o:仅仅显示符合匹配的内容</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat phone.txt |egrep -o -in &quot;apple&quot; --color</span><br><span class="line">1:apple</span><br><span class="line">4:APPLE</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-n:  显示符合模式要求的行号</p>
+</li>
+<li><p>-r:递归搜索所有的文件</p>
+</li>
+<li><p>-a :以文本文件方式搜索</p>
+</li>
+<li><p>–color :将匹配的内容用红色表示，建议使用</p>
+</li>
+<li><p>-An:同时显示符合条件行的下面n行 A:after</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat passwd |egrep &quot;ftp&quot;</span><br><span class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">[root@localhost lianxi]# cat passwd |egrep  -A2 &quot;ftp&quot;</span><br><span class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">nobody:x:99:99:Nobody:/:/sbin/nologin</span><br><span class="line">systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Bn：同时显示符合条件行的上面n行 B:before</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat passwd |egrep  -B2 &quot;ftp&quot;</span><br><span class="line">operator:x:11:0:operator:/root:/sbin/nologin</span><br><span class="line">games:x:12:100:games:/usr/games:/sbin/nologin</span><br><span class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-Cn:同时显示符合条件行的上面和下面n行</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat passwd |egrep  -C2 &quot;ftp&quot;</span><br><span class="line">operator:x:11:0:operator:/root:/sbin/nologin</span><br><span class="line">games:x:12:100:games:/usr/games:/sbin/nologin</span><br><span class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">nobody:x:99:99:Nobody:/:/sbin/nologin</span><br><span class="line">systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-E：支持扩展正则表达式 grep -E =egrep</p>
+</li>
+</ul>
+</li>
+<li><p>模式</p>
+<ul>
+<li><p>^……：以…开头 </p>
+</li>
+<li><p>……$:以…结尾</p>
+</li>
+<li><p>^$:表示空行</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat /etc/ssh/sshd_config |egrep &quot;^$&quot; -c</span><br><span class="line">24</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>.表示任意单个字符</p>
+</li>
+<li><p>\bwubing\b 界定单词，只是查找wubing单词，包含wubing 的不算</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat phone.txt |egrep &quot;\bhuawei\b&quot;</span><br><span class="line">apple huawei xiaomi</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>\bwubng :单词以wubing 开头</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat phone.txt |egrep &quot;\bhuawei&quot;</span><br><span class="line">apple huawei xiaomi</span><br><span class="line">huaweibsdh sdbhhuawei df</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>wubing\b ：单词以wubing结尾</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat phone.txt |egrep &quot;huawei\b&quot;</span><br><span class="line">apple huawei xiaomi</span><br><span class="line">huaweibsdh sdbhhuawei df</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>\<wubing>\ :界定单词，只是查找wubing单词，包含wubing的不算</wubing></p>
+</li>
+<li><p>grep :在定界单词的时候，默认使用的分隔符是空白（空格和tab）,其他的符号也可以作为单词的定界符号。</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat phone.txt |egrep &quot;[0-9]&quot;</span><br><span class="line">t12234</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>\：续航符号</p>
+</li>
+<li><p>\转义字符：让元字符没有特殊的含义，恢复到字符本身的意思</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>egrep**</p>
+<ul>
+<li><p>egrep = grep -E</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/passwd|grep --color -E &quot;^root|bash$&quot;</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">jsj:x:1000:1000::/home/jsj:/bin/bash</span><br><span class="line">biubiu:x:1001:1001::/home/biubiu:/bin/bash</span><br><span class="line">biu:x:1002:1002::/home/biu:/bin/bash</span><br><span class="line">[root@localhost ~]#  </span><br><span class="line"></span><br><span class="line">[root@localhost ~]# cat /etc/passwd|egrep --color  &quot;^root|bash$&quot;</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">jsj:x:1000:1000::/home/jsj:/bin/bash</span><br><span class="line">biubiu:x:1001:1001::/home/biubiu:/bin/bash</span><br><span class="line">biu:x:1002:1002::/home/biu:/bin/bash</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>wc</strong></p>
+<ul>
+<li><p>字数统计命令</p>
+</li>
+<li><p>格式 ：wc 【选项】…目标文件…</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat student.txt |wc</span><br><span class="line">     11      55     325</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>选项</p>
+<ul>
+<li><p>-l :统计行数    </p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat student.txt |wc -l</span><br><span class="line">11</span><br><span class="line"></span><br><span class="line">[root@localhost lianxi]# cat -n student.txt </span><br><span class="line">     1	number	name 	age	grade	sex </span><br><span class="line">     2	1	li	18	89	male</span><br><span class="line">     3	2	hu	5	85	female</span><br><span class="line">     4	3	liu	20	90	female</span><br><span class="line">     5	4	feng	7	70	male</span><br><span class="line">     6	1       li      18      89      male</span><br><span class="line">     7	2       hu      5       85      female</span><br><span class="line">     8	3       liu     20      90      female</span><br><span class="line">     9	4       feng    7       70      male</span><br><span class="line">    10	2       liu     20      90      female</span><br><span class="line">    11	4       feng    7       70      male</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-w :统计字数（前后都是空白的一组字符）</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat student.txt |wc -w</span><br><span class="line">55</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-c 统计字符数（可见和不可见的字符）</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat student.txt |wc -c</span><br><span class="line">325</span><br><span class="line"></span><br><span class="line">[root@localhost lianxi]# ll -h student.txt </span><br><span class="line">-rw-r--r--. 1 root root 325 9月  29 16:57 student.txt</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="扩展重定向相关命令：-diff-patch"><a href="#扩展重定向相关命令：-diff-patch" class="headerlink" title="扩展重定向相关命令：(diff ,patch)"></a>扩展重定向相关命令：(diff ,patch)</h2><ul>
+<li><strong>diff</strong><ul>
+<li>比较两个文件之间的差异，输出结果为两个文件的不同之处</li>
+<li>输出格式<ul>
+<li>标准diff</li>
+<li>-u :会将不同的地方放在一起，紧凑易读</li>
+<li>-r :递归比较目录下的所有文件</li>
+</ul>
+</li>
+<li>利用diff命令生成补丁<ul>
+<li>diff -u test1 test2 &gt;test.patch</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>patch</strong><ul>
+<li>用途：用来打补丁修复文件</li>
+<li>格式：patch 【选项】 原始文件 &lt;补丁文件</li>
+<li>-pN :N表示忽略N层路径</li>
+<li>-R:回滚还原到老版本</li>
+<li>注意事项<ul>
+<li>如果打多个补丁，注意先后顺序</li>
+<li>打补丁前不要修改源文件 </li>
+</ul>
+</li>
+<li>顺序<ul>
+<li>1.生成补丁文件</li>
+<li>2.打补丁（旧的文件）</li>
+<li>3.可以回滚带旧版本</li>
+</ul>
+</li>
+<li>目录补丁生成和打补丁<ul>
+<li>1.生成补丁<ul>
+<li>diff -Nur QQv1 QQv2 &gt;v1-to-v2.patch    </li>
+<li>-r :递归的比较</li>
+<li>-N 没有的文件，另一方会拿一个空文件和它进行对比</li>
+</ul>
+</li>
+<li>2.打补丁（旧的文件）</li>
+<li>3.可以回滚到就版本</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="脚本分析：WEB日志分析"><a href="#脚本分析：WEB日志分析" class="headerlink" title="脚本分析：WEB日志分析"></a>脚本分析：WEB日志分析</h2><ul>
+<li><p>web服务器的日志</p>
+<ul>
+<li><p>apache软件 —》httpd</p>
+</li>
+<li><p>yum 安装</p>
+<ul>
+<li><p>vim local.repo</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[local_yum]  ---本地yum源的名字</span><br><span class="line">name=local yum  ---yum 源的描述</span><br><span class="line">baseurl=file:///yum ---yum源的地址，file://文本路径协议</span><br><span class="line">enabled=1 ---》让这个yum源可以使用</span><br><span class="line">gpgcheck=0  ---》不检查yum 源里的软件gpg验证码</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>步骤</p>
+<ul>
+<li><p>1.安装httpd 软件</p>
+<ul>
+<li>yum install httpd -y </li>
+</ul>
+</li>
+<li><p>2.启动服务</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]#  service httpd start</span><br><span class="line">Redirecting to /bin/systemctl start httpd.service</span><br><span class="line">[root@localhost yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>3.访问web服务</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# ip add</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 00:0c:29:47:13:d0 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.0.30/24 brd 192.168.0.255 scope global noprefixroute dynamic ens33</span><br><span class="line">       valid_lft 4340sec preferred_lft 4340sec</span><br><span class="line">    inet6 fe80::832e:57d:afbd:9554/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">[root@localhost yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问不了，检查防火墙</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# iptables -L 查看防火墙</span><br><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line">[root@localhost yum.repos.d]# </span><br><span class="line"></span><br><span class="line">[root@localhost yum.repos.d]# iptables -F 关闭防火墙</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]#  cd /var/www/html ---》存放网站的目录</span><br><span class="line">[root@localhost html]# pwd</span><br><span class="line">/var/www/html</span><br><span class="line">[root@localhost html]# ls</span><br><span class="line">[root@localhost html]# echo &quot;hello,welcome to cali&apos;s website&quot; &gt;index.html  </span><br><span class="line">	index.html 首页的名字</span><br><span class="line">[root@localhost html]# ls</span><br><span class="line">index.html</span><br><span class="line">[root@localhost html]#  cat index.html </span><br><span class="line">hello,welcome to cali&apos;s website</span><br><span class="line">[root@localhost html]#</span><br></pre></td></tr></table></figure>
+
+<p><img src="1570022123662.png" alt="1570022123662"></p>
+</li>
+</ul>
+</li>
+<li><p>4.得到日志记录</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost html]# cd /var/log/httpd/</span><br><span class="line">[root@localhost httpd]# ls</span><br><span class="line">access_log  error_log</span><br><span class="line">[root@localhost httpd]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>5.脚本去分析 </p>
+<ul>
+<li><p>将/var/log/httpd/access_log 文件里的web日志访问次数最多的3个ip地址，显示出来要求显示的格式 </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost httpd]# ls</span><br><span class="line">access_log  error_log</span><br><span class="line">[root@localhost httpd]# cat access_log </span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET / HTTP/1.1&quot; 403 4897 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /noindex/css/bootstrap.min.css HTTP/1.1&quot; 200 19341 &quot;http://192.168.0.30/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /noindex/css/open-sans.css HTTP/1.1&quot; 200 5081 &quot;http://192.168.0.30/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /images/apache_pb.gif HTTP/1.1&quot; 200 2326 &quot;http://192.168.0.30/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /images/poweredby.png HTTP/1.1&quot; 200 3956 &quot;http://192.168.0.30/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /noindex/css/fonts/Bold/OpenSans-Bold.woff HTTP/1.1&quot; 404 239 &quot;http://192.168.0.30/noindex/css/open-sans.css&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /noindex/css/fonts/Light/OpenSans-Light.woff HTTP/1.1&quot; 404 241 &quot;http://192.168.0.30/noindex/css/open-sans.css&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /noindex/css/fonts/Bold/OpenSans-Bold.ttf HTTP/1.1&quot; 404 238 &quot;http://192.168.0.30/noindex/css/open-sans.css&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /noindex/css/fonts/Light/OpenSans-Light.ttf HTTP/1.1&quot; 404 240 &quot;http://192.168.0.30/noindex/css/open-sans.css&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:13:15 +0800] &quot;GET /favicon.ico HTTP/1.1&quot; 404 209 &quot;http://192.168.0.30/&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">::1 - - [02/Oct/2019:21:13:20 +0800] &quot;OPTIONS * HTTP/1.0&quot; 200 - &quot;-&quot; &quot;Apache/2.4.6 (CentOS) (internal dummy connection)&quot;</span><br><span class="line">::1 - - [02/Oct/2019:21:13:21 +0800] &quot;OPTIONS * HTTP/1.0&quot; 200 - &quot;-&quot; &quot;Apache/2.4.6 (CentOS) (internal dummy connection)&quot;</span><br><span class="line">192.168.0.67 - - [02/Oct/2019:21:14:56 +0800] &quot;GET / HTTP/1.1&quot; 200 32 &quot;-&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36&quot;</span><br><span class="line">[root@localhost httpd]# cat access_log |cut -d &quot; &quot; -f 1</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">::1</span><br><span class="line">::1</span><br><span class="line">192.168.0.67</span><br><span class="line">[root@localhost httpd]# vim access_log </span><br><span class="line">[root@localhost httpd]# cat access_log |cut -d &quot; &quot; -f 1|sort</span><br><span class="line">::1</span><br><span class="line">::1</span><br><span class="line">192.168.0.25</span><br><span class="line">192.168.0.29</span><br><span class="line">192.168.0.29</span><br><span class="line">192.168.0.30</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">192.168.0.67</span><br><span class="line">[root@localhost httpd]# cat access_log |cut -d &quot; &quot; -f 1|sort|uniq</span><br><span class="line">::1</span><br><span class="line">192.168.0.25</span><br><span class="line">192.168.0.29</span><br><span class="line">192.168.0.30</span><br><span class="line">192.168.0.67</span><br><span class="line">[root@localhost httpd]# cat access_log |cut -d &quot; &quot; -f 1|sort|uniq -c</span><br><span class="line">      2 ::1</span><br><span class="line">      1 192.168.0.25</span><br><span class="line">      2 192.168.0.29</span><br><span class="line">      1 192.168.0.30</span><br><span class="line">      7 192.168.0.67</span><br><span class="line">[root@localhost httpd]# cat access_log |cut -d &quot; &quot; -f 1|sort|uniq -c|sort -n</span><br><span class="line">      1 192.168.0.25</span><br><span class="line">      1 192.168.0.30</span><br><span class="line">      2 ::1</span><br><span class="line">      2 192.168.0.29</span><br><span class="line">      7 192.168.0.67</span><br><span class="line">[root@localhost httpd]# cat access_log |cut -d &quot; &quot; -f 1|sort|uniq -c|sort -rn</span><br><span class="line">      7 192.168.0.67</span><br><span class="line">      2 192.168.0.29</span><br><span class="line">      2 ::1</span><br><span class="line">      1 192.168.0.30</span><br><span class="line">      1 192.168.0.25</span><br><span class="line">[root@localhost httpd]# cat access_log |cut -d &quot; &quot; -f 1|sort|uniq -c|sort -rn|head -3</span><br><span class="line">      7 192.168.0.67</span><br><span class="line">      2 192.168.0.29</span><br><span class="line">      2 ::1</span><br><span class="line">[root@localhost httpd]#</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
     </article>
     <!-- license  -->
     
@@ -809,7 +1122,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/09/28/Linux基础（三）-重定向/">https://biubiu34.github.io/2019/09/28/Linux基础（三）-重定向/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/09/28/Linux基础（三）-重定向/">September 28th 2019, 5:03:55 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/28/Linux基础（三）-重定向/">September 29th 2019, 1:49:30 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/28/Linux基础（三）-重定向/">October 2nd 2019, 9:39:58 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -946,7 +1259,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向"><span class="toc-number">1.</span> <span class="toc-text">重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#标准输入、标准输出和标准错误"><span class="toc-number">1.1.</span> <span class="toc-text">标准输入、标准输出和标准错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核"><span class="toc-number">1.2.</span> <span class="toc-text">内核</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux操作系统的基本体系结构"><span class="toc-number">1.2.1.</span> <span class="toc-text">Linux操作系统的基本体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内核的作用："><span class="toc-number">1.2.2.</span> <span class="toc-text">内核的作用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何查看进程"><span class="toc-number">1.2.3.</span> <span class="toc-text">如何查看进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pro目录文件系统"><span class="toc-number">1.2.4.</span> <span class="toc-text">/pro目录文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件系统："><span class="toc-number">1.2.4.1.</span> <span class="toc-text">文件系统：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-—一个虚拟文件系统"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">/proc —一个虚拟文件系统</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#root-localhost-cd-proc"><span class="toc-number">1.2.5.</span> <span class="toc-text">[root@localhost ~]# cd /proc</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件描述符的介绍"><span class="toc-number">1.3.</span> <span class="toc-text">文件描述符的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重定向和管道"><span class="toc-number">1.4.</span> <span class="toc-text">重定向和管道</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重定向输出到文件"><span class="toc-number">1.4.1.</span> <span class="toc-text">重定向输出到文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道"><span class="toc-number">1.4.2.</span> <span class="toc-text">管道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特殊文件的介绍（-dev-null）"><span class="toc-number">1.5.</span> <span class="toc-text">特殊文件的介绍（/dev/null）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#here-document的介绍"><span class="toc-number">1.6.</span> <span class="toc-text">here document的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本的使用"><span class="toc-number">1.7.</span> <span class="toc-text">脚本的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">1.8.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向和管道操作相关命令"><span class="toc-number">2.</span> <span class="toc-text">重定向和管道操作相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#管道过滤截取相关命令：（echo-、basename、wc-、xargs、-seq-、tr、-cut、-uniq-、sort-、grep）"><span class="toc-number">2.1.</span> <span class="toc-text">管道过滤截取相关命令：（echo 、basename、wc 、xargs、 seq 、tr、 cut、 uniq 、sort 、grep）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展重定向相关命令：-diff-patch"><span class="toc-number">2.2.</span> <span class="toc-text">扩展重定向相关命令：(diff ,patch)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本分析：日志分析"><span class="toc-number">2.3.</span> <span class="toc-text">脚本分析：日志分析</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向"><span class="toc-number">1.</span> <span class="toc-text">重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#标准输入、标准输出和标准错误"><span class="toc-number">1.1.</span> <span class="toc-text">标准输入、标准输出和标准错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核"><span class="toc-number">1.2.</span> <span class="toc-text">内核</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux操作系统的基本体系结构"><span class="toc-number">1.2.1.</span> <span class="toc-text">Linux操作系统的基本体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内核的作用："><span class="toc-number">1.2.2.</span> <span class="toc-text">内核的作用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何查看进程"><span class="toc-number">1.2.3.</span> <span class="toc-text">如何查看进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pro目录文件系统"><span class="toc-number">1.2.4.</span> <span class="toc-text">/pro目录文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件系统："><span class="toc-number">1.2.4.1.</span> <span class="toc-text">文件系统：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-—一个虚拟文件系统"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">/proc —一个虚拟文件系统</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#root-localhost-cd-proc"><span class="toc-number">1.2.5.</span> <span class="toc-text">[root@localhost ~]# cd /proc</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件描述符的介绍"><span class="toc-number">1.3.</span> <span class="toc-text">文件描述符的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重定向和管道"><span class="toc-number">1.4.</span> <span class="toc-text">重定向和管道</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重定向输出到文件"><span class="toc-number">1.4.1.</span> <span class="toc-text">重定向输出到文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道"><span class="toc-number">1.4.2.</span> <span class="toc-text">管道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特殊文件的介绍（-dev-null）"><span class="toc-number">1.5.</span> <span class="toc-text">特殊文件的介绍（/dev/null）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#here-document的介绍"><span class="toc-number">1.6.</span> <span class="toc-text">here document的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本的使用"><span class="toc-number">1.7.</span> <span class="toc-text">脚本的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">1.8.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向和管道操作相关命令"><span class="toc-number">2.</span> <span class="toc-text">重定向和管道操作相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#管道过滤截取相关命令：（echo-、basename、wc-、xargs、-seq-、tr、-cut、-uniq-、sort-、grep）"><span class="toc-number">2.1.</span> <span class="toc-text">管道过滤截取相关命令：（echo 、basename、wc 、xargs、 seq 、tr、 cut、 uniq 、sort 、grep）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展重定向相关命令：-diff-patch"><span class="toc-number">2.2.</span> <span class="toc-text">扩展重定向相关命令：(diff ,patch)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本分析：WEB日志分析"><span class="toc-number">2.3.</span> <span class="toc-text">脚本分析：WEB日志分析</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -959,6 +1272,12 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1160,11 +1479,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
-    
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
@@ -1172,9 +1491,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
-        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
-    
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1211,9 +1530,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     

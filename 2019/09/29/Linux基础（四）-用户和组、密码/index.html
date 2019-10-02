@@ -264,9 +264,15 @@ height:50vh;
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+                
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -395,10 +401,152 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p><embed src="http://yuesuixiang.com/plug/cmp/cmp.swf?context_menu=2&id=play&lists={song}2711&skin=/skin/x5sing/play/play.swf" allowfullscreen="true" quality="high" width="586" height="36" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
+        <h2 id="管理用户和组"><a href="#管理用户和组" class="headerlink" title="管理用户和组"></a>管理用户和组</h2><ul>
+<li><p>每个账号都有一个唯一的UID —》身份证</p>
+</li>
+<li><p>每个组也有一个唯一的GID —》公司—》组织代码</p>
+</li>
+<li><p>多个账户可以属于同一个组，一个用户可以属于多个组</p>
+</li>
+<li><p>用户、用户组关系图</p>
+<ul>
+<li>​    <img src="1570022977644.png" alt="1570022977644"></li>
+</ul>
+</li>
+<li><p>root ：windows里的超级用户叫administartor</p>
+</li>
+<li><p>linux里的超级用户是root</p>
+<ul>
+<li>新建的用户，没有设置密码，是否登录windows系统？ —》可以</li>
+<li>新建的用户，没有设置密码，是否登录Linux系统？ —》不可以</li>
+</ul>
+</li>
+<li><p>用户和组背后的问题</p>
+<ul>
+<li>权限的问题、资源管控的问题</li>
+</ul>
+</li>
+<li><p>程序  —–》服务—-》进程—–》端口</p>
+<ul>
+<li><p>文本服务ftp  —-&gt; vsftpd—&gt;21</p>
+</li>
+<li><p>网站服务web—–》httpd—-&gt; 80</p>
+</li>
+<li><p>​        mysql —-&gt;mysqld—-&gt;3306</p>
+</li>
+</ul>
+</li>
+<li><p>守护进程</p>
+<ul>
+<li>一直存在在内存里的，一直提供某个服务</li>
+</ul>
+</li>
+</ul>
+<h3 id="用户和组的相关文件详解"><a href="#用户和组的相关文件详解" class="headerlink" title="用户和组的相关文件详解"></a>用户和组的相关文件详解</h3><ul>
+<li><h4 id="和账户相关的文件"><a href="#和账户相关的文件" class="headerlink" title="和账户相关的文件"></a>和账户相关的文件</h4><ul>
+<li><p><strong>/etc/passwd</strong></p>
+<ul>
+<li><p>用于保存用户的账号基本信息</p>
+</li>
+<li><p>每一行对应一个账户的账号记录</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost httpd]# cat /etc/passwd |tail -3</span><br><span class="line">biu:x:1002:1002::/home/biu:/bin/bash</span><br><span class="line">apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</span><br><span class="line">xiaolifd:x:1003:1003::/home/xiaolifd:/bin/bash</span><br><span class="line">[root@localhost httpd]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost httpd]# echo $SHELL</span><br><span class="line">/bin/bash</span><br><span class="line">[root@localhost httpd]# cat /etc/shells</span><br><span class="line">/bin/sh</span><br><span class="line">/bin/bash</span><br><span class="line">/sbin/nologin</span><br><span class="line">/usr/bin/sh</span><br><span class="line">/usr/bin/bash</span><br><span class="line">/usr/sbin/nologin</span><br><span class="line">[root@localhost httpd]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字段</p>
+<ul>
+<li>字段1：用户账号的名称</li>
+<li>字段2：用户密码字串或者密码占位符“x”</li>
+<li>字段3：用户账号的UUID</li>
+<li>字段4 ：所属基本组账号的GID号</li>
+<li>字段5：用户描述信息</li>
+<li>字段6：家目录</li>
+<li>字段7：登录shell信息 </li>
+</ul>
+</li>
+<li><p>先有用户再有组</p>
+</li>
+<li><p>新建用户的时候如果不指定组，会自动新建一个与用户名同名的组</p>
+</li>
+<li><p>[root@localhost httpd]# tailf /var/log/secure</p>
+</li>
+</ul>
+</li>
+<li><p><strong>/etc/shadow</strong></p>
+</li>
+<li><p><strong>观察系统日志</strong></p>
+<ul>
+<li><p>1.在一个终端里：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost httpd]# tailf /var/log/secure</span><br><span class="line">Oct  2 21:12:02 localhost polkitd[661]: Registered Authentication Agent for unix-process:72644:9624589 (system bus name :1.226 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale zh_CN.UTF-8)</span><br><span class="line">Oct  2 21:12:03 localhost polkitd[661]: Unregistered Authentication Agent for unix-process:72644:9624589 (system bus name :1.226,  object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale zh_CN.UTF-8) (disconnected from bus)</span><br><span class="line">Oct  2 22:07:10 localhost useradd[11908]: new group: name=xiaolifd, GID=1003</span><br><span class="line">Oct  2 22:07:10 localhost useradd[11908]: new user: name=xiaolifd, UID=1003, GID=1003, home=/home/xiaolifd, shell=/bin/bash</span><br><span class="line">Oct  2 22:17:08 localhost useradd[24568]: new group: name=linhu, GID=1004</span><br><span class="line">Oct  2 22:17:08 localhost useradd[24568]: new user: name=linhu, UID=1004, GID=1004, home=/home/linhu, shell=/bin/bash</span><br><span class="line">Oct  2 22:17:10 localhost useradd[24611]: new group: name=linhu1, GID=1005</span><br><span class="line">Oct  2 22:17:10 localhost useradd[24611]: new user: name=linhu1, UID=1005, GID=1005, home=/home/linhu1, shell=/bin/bash</span><br><span class="line">Oct  2 22:17:14 localhost useradd[24679]: new group: name=linhu2, GID=1006</span><br><span class="line">Oct  2 22:17:14 localhost useradd[24679]: new user: name=linhu2, UID=1006, GID=1006, home=/home/linhu2, shell=/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>2.再开启另外一个终端</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# useradd hu</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="和组相关的文件"><a href="#和组相关的文件" class="headerlink" title="和组相关的文件"></a>和组相关的文件</h4><ul>
+<li><strong>/etc/group</strong></li>
+<li><strong>/etc/gshadow</strong></li>
+</ul>
+</li>
+<li><h4 id="账户宿主目录中文件来源"><a href="#账户宿主目录中文件来源" class="headerlink" title="账户宿主目录中文件来源"></a>账户宿主目录中文件来源</h4><ul>
+<li>新建账户账号时，从/etc/skel目录中复制而来 </li>
+</ul>
+</li>
+<li><h4 id="默认账户的属性文件"><a href="#默认账户的属性文件" class="headerlink" title="默认账户的属性文件"></a>默认账户的属性文件</h4><ul>
+<li><strong>/etc/login.defs</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="用户、组操作"><a href="#用户、组操作" class="headerlink" title="用户、组操作"></a>用户、组操作</h3><h3 id="用户和组账号查询"><a href="#用户和组账号查询" class="headerlink" title="用户和组账号查询"></a>用户和组账号查询</h3><h2 id="用户分类：超级用户、程序用户、普通用户"><a href="#用户分类：超级用户、程序用户、普通用户" class="headerlink" title="用户分类：超级用户、程序用户、普通用户"></a>用户分类：超级用户、程序用户、普通用户</h2><ul>
+<li><ul>
+<li><p>超级用户root</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>root用户的家目录在/root</p>
+</li>
+</ul>
+</li>
+<li><p>程序用户:实现特定的功能（开启ftp服务、http服务、关机、MySQL服务等），但是一般不能登录系统：uid在1-499 </p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>程序用户不需要手动新建，一般会自动新建</p>
+<ul>
+<li>1.安装某个程序的时候，例如：httpd、ftp、mysql</li>
+<li>2.安装好linux系统，就有的</li>
+</ul>
+</li>
+<li><p>程序用户体现价值所在：启动服务（mysql、Apache）和访问服务（ftp）</p>
+</li>
+</ul>
+</li>
+<li><p>普通用户：使用useradd命令新建的用户，一般uid从500开始，每新建一个用户，uid会自动加1 </p>
+<ul>
+<li>默认情况下普通用户的家目录在/home目录下，回合用户名同名</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>UID（用户标 识号）</p>
+<ul>
+<li>超级用户root的UID为0</li>
+<li>程序用户的UID 1-499</li>
+<li>普通用户的UID大于等 于500</li>
+</ul>
+</li>
+</ul>
+<h2 id="etc-passwd-、-etc-shadow、-etc-group-、-etc-login-defs-、bashrc、bash-profile"><a href="#etc-passwd-、-etc-shadow、-etc-group-、-etc-login-defs-、bashrc、bash-profile" class="headerlink" title="/etc/passwd 、/etc/shadow、/etc/group 、/etc/login.defs 、bashrc、bash_profile"></a>/etc/passwd 、/etc/shadow、/etc/group 、/etc/login.defs 、bashrc、bash_profile</h2><h2 id="useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><a href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w" class="headerlink" title="useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w"></a>useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</h2><h2 id="手动建立用户案例、破解root用户密码"><a href="#手动建立用户案例、破解root用户密码" class="headerlink" title="手动建立用户案例、破解root用户密码"></a>手动建立用户案例、破解root用户密码</h2><h2 id="脚本案例"><a href="#脚本案例" class="headerlink" title="脚本案例"></a>脚本案例</h2>
     </article>
     <!-- license  -->
     
@@ -406,7 +554,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">September 29th 2019, 11:33:03 am</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">September 29th 2019, 3:19:27 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">October 3rd 2019, 12:08:16 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -538,7 +686,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理用户和组"><span class="toc-number">1.</span> <span class="toc-text">管理用户和组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用户和组的相关文件详解"><span class="toc-number">1.1.</span> <span class="toc-text">用户和组的相关文件详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#和账户相关的文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">和账户相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#和组相关的文件"><span class="toc-number">1.1.2.</span> <span class="toc-text">和组相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#账户宿主目录中文件来源"><span class="toc-number">1.1.3.</span> <span class="toc-text">账户宿主目录中文件来源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认账户的属性文件"><span class="toc-number">1.1.4.</span> <span class="toc-text">默认账户的属性文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户、组操作"><span class="toc-number">1.2.</span> <span class="toc-text">用户、组操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户和组账号查询"><span class="toc-number">1.3.</span> <span class="toc-text">用户和组账号查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户分类：超级用户、程序用户、普通用户"><span class="toc-number">2.</span> <span class="toc-text">用户分类：超级用户、程序用户、普通用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#etc-passwd-、-etc-shadow、-etc-group-、-etc-login-defs-、bashrc、bash-profile"><span class="toc-number">3.</span> <span class="toc-text">/etc/passwd 、/etc/shadow、/etc/group 、/etc/login.defs 、bashrc、bash_profile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><span class="toc-number">4.</span> <span class="toc-text">useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手动建立用户案例、破解root用户密码"><span class="toc-number">5.</span> <span class="toc-text">手动建立用户案例、破解root用户密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本案例"><span class="toc-number">6.</span> <span class="toc-text">脚本案例</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -551,6 +699,12 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
     
     
     
@@ -752,11 +906,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
-    
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
@@ -764,9 +918,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
-        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
-    
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -803,9 +957,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
