@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">7k</span>阅读时长: <span class="post-count reading-time">33 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -447,6 +447,12 @@ height:50vh;
 <li><p><strong>/etc/passwd</strong></p>
 <ul>
 <li><p>用于保存用户的账号基本信息</p>
+<ul>
+<li><p>passwd -备份文件</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost home]# diff /etc/passwd /etc/passwd-</span><br><span class="line">34d33</span><br><span class="line">&lt; hushitian:x:995:993::/home/hushitian:/bin/bash</span><br><span class="line">[root@localhost home]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 </li>
 <li><p>每一行对应一个账户的账号记录</p>
 </li>
@@ -471,9 +477,54 @@ height:50vh;
 </li>
 <li><p>[root@localhost httpd]# tailf /var/log/secure</p>
 </li>
+<li><p>每新建一个用户就会去/etc/passwd文件下追加一行，每每删一个用户就回去/ect/passwd下删一行</p>
+</li>
 </ul>
 </li>
 <li><p><strong>/etc/shadow</strong></p>
+<ul>
+<li><p>用于保存密码、密码有效期等信息</p>
+</li>
+<li><p>文件位置：/etc/shadow</p>
+</li>
+<li><p>每一行对应一个用户的密码记录</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# cat shadow|tail -3</span><br><span class="line">hushi:!!:18171::::::</span><br><span class="line">hushitian:!!:18171::::::</span><br><span class="line">dehua:!!:18172:0:99999:7:::</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字段</p>
+<ul>
+<li>字段1：用户账号的名称</li>
+<li><strong>字段2：加密的密码字串信息</strong><ul>
+<li>！！说明该用户没有设置密码<ul>
+<li>！！使用useradd新建的普通用户.</li>
+</ul>
+</li>
+<li>*:也是说明该用户满意设置密码 <ul>
+<li>*是相对linux系统内置的用户，系统安装好就有用户，不需要新建的用户</li>
+</ul>
+</li>
+<li>用户不设置密码，不能登录系统。但是可以通过其他用户su 切换过去</li>
+<li>root用户切换到普通用户不需要密码，而普通用户切换到root用户或者其他普通用户需要密码</li>
+</ul>
+</li>
+<li>字段3：上次修改密码的时间   以1970-1-1为基准日期</li>
+<li>字段4：密码的最短有效天数，默认是0</li>
+<li>字段5：密码的最长有效天数，默认为99999</li>
+<li>字段6：提前多少天警告用户口令将过期，默认值是7</li>
+<li>字段7：在密码过期之后多少天禁用此用户</li>
+<li>字段8：账号失效时间，默认值为空</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>shadow-用来存放备份文件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# ls |grep &apos;shadow&apos;</span><br><span class="line">gshadow</span><br><span class="line">gshadow-</span><br><span class="line">shadow</span><br><span class="line">shadow-</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li></li>
+</ul>
 </li>
 <li><p><strong>观察系统日志</strong></p>
 <ul>
@@ -494,20 +545,111 @@ height:50vh;
 </ul>
 </li>
 <li><h4 id="和组相关的文件"><a href="#和组相关的文件" class="headerlink" title="和组相关的文件"></a>和组相关的文件</h4><ul>
-<li><strong>/etc/group</strong></li>
-<li><strong>/etc/gshadow</strong></li>
+<li><p><strong>/etc/group</strong></p>
+<ul>
+<li><p>用于存储用户的组的信息</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# cat group|tail</span><br><span class="line">linhu2:x:1006:</span><br><span class="line">hu:x:1007:</span><br><span class="line">tss:x:59:</span><br><span class="line">wudang:x:1212:</span><br><span class="line">hushi:x:994:</span><br><span class="line">hushitian:x:993:</span><br><span class="line">tianyp:x:1213:</span><br><span class="line">mingjiao:x:1214:</span><br><span class="line">dehua:x:2234:</span><br><span class="line">biubiu1:x:2235:</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字段</p>
+<ul>
+<li>字段1：组账号名</li>
+<li>字段2 ：x</li>
+<li>字段3：GID</li>
+<li>字段4：组成员列表</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>/etc/gshadow</strong></p>
+</li>
 </ul>
 </li>
 <li><h4 id="账户宿主目录中文件来源"><a href="#账户宿主目录中文件来源" class="headerlink" title="账户宿主目录中文件来源"></a>账户宿主目录中文件来源</h4><ul>
-<li>新建账户账号时，从/etc/skel目录中复制而来 </li>
+<li><p>新建账户账号时，从/etc/skel目录中复制而来 </p>
+</li>
+<li><p><strong>/etc/skel/*文件</strong></p>
+<ul>
+<li><p>新建用户账号时，复制到用户宿主目录（家目录）中</p>
+</li>
+<li><p>主要控制<strong>用户初始</strong>配置文件</p>
+<ul>
+<li><p>.bash_profile :用户每次登录时执行</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#脚本文件，每次登录的时候都执行，放在用户的家目录下</span><br><span class="line"># .bash_profile</span><br><span class="line"># Get the aliases and functions</span><br><span class="line"></span><br><span class="line">if [ -f ~/.bashrc ]; then</span><br><span class="line">        . ~/.bashrc</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"># User specific environment and startup programs</span><br><span class="line"></span><br><span class="line">PATH=$PATH:$HOME/.local/bin:$HOME/bin</span><br><span class="line"></span><br><span class="line">export PATH</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>.bashrc:每次进入新的bash环境时执行</p>
+<ul>
+<li>.bashrc文件加载的次数要比.bash_profile文件加载的次数要多</li>
+</ul>
+</li>
+<li><p>.bash_logout:用户每次退出登录时候执行</p>
+<ul>
+<li>系统注销的时候，会执行这个文件里的命令</li>
+</ul>
+</li>
+<li><p>.bash_history:记录存放上次注销前使用的历史命令</p>
+<ul>
+<li><p>只要用户注销或是退出系统，Linux系统就会把这个用户使用过的历史命令存放到.bash_history</p>
+</li>
+<li><p>全新的用户是没有.bash_history的</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#root用户的家目录下</span><br><span class="line">[root@localhost ~]# ls -a|egrep &quot;.bash*&quot;</span><br><span class="line">.bash_history</span><br><span class="line">.bash_logout</span><br><span class="line">.bash_profile</span><br><span class="line">.bashrc</span><br><span class="line">[root@localhost ~]# </span><br><span class="line"></span><br><span class="line">#全新的用户是没有.bash_history的</span><br><span class="line">[root@localhost ~]# useradd zhangsan</span><br><span class="line">[root@localhost ~]# su - zhangsan</span><br><span class="line">[zhangsan@localhost ~]$ pwd</span><br><span class="line">/home/zhangsan</span><br><span class="line">[zhangsan@localhost ~]$ ls -a</span><br><span class="line">.  ..  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[zhangsan@localhost ~]$</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# useradd zhaomin</span><br><span class="line">[root@localhost ~]# cd /home</span><br><span class="line">[root@localhost home]# cat /etc/passwd |grep zhaomin</span><br><span class="line">zhaomin:x:8898:8898::/home/zhaomin:/bin/bash</span><br><span class="line">[root@localhost home]# ls</span><br><span class="line">biu     biubiu1  califeng123  heike  jsj    linhu1  xiaolifd   zhaomin</span><br><span class="line">biubiu  cali9    dehua        hu     linhu  linhu2  zenguofan  zhuxi</span><br><span class="line">[root@localhost home]# cd zhaomin/</span><br><span class="line">[root@localhost zhaomin]# ls -a</span><br><span class="line">.  ..  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[root@localhost zhaomin]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>.bash_history命令：记录存放上次注销前使用的历史命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# useradd zhangsan</span><br><span class="line">[root@localhost ~]# su - zhangsan</span><br><span class="line">[zhangsan@localhost ~]$ pwd</span><br><span class="line">/home/zhangsan</span><br><span class="line">[zhangsan@localhost ~]$ ls -a</span><br><span class="line">.  ..  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[zhangsan@localhost ~]$ cd /lianxi</span><br><span class="line">[zhangsan@localhost lianxi]$ ls -a /lianxi</span><br><span class="line">.         all_conf.txt  create_user_pwd.sh  for.sh?;?exit?quit  passwd        student.txt</span><br><span class="line">..        back          e.txt               mobile_phone.txt    phone.txt     test</span><br><span class="line">9_28.txt  beyond.txt    for.sh              m.patch             redirect.txt  zhangxueyou.txt</span><br><span class="line">[zhangsan@localhost lianxi]$ exit</span><br><span class="line">登出</span><br><span class="line">[root@localhost ~]# cd /home/zhangsan</span><br><span class="line">[root@localhost zhangsan]# ls</span><br><span class="line">[root@localhost zhangsan]# ls -a</span><br><span class="line">.  ..  .bash_history  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[root@localhost zhangsan]# cat .bash_history </span><br><span class="line">pwd</span><br><span class="line">ls -a</span><br><span class="line">cd /lianxi</span><br><span class="line">ls -a /lianxi</span><br><span class="line">exit</span><br><span class="line">[root@localhost zhangsan]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>history -c清除之前用过的命令</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost skel]# su - zhangsan</span><br><span class="line">上一次登录：四 10月  3 17:36:15 CST 2019pts/1 上</span><br><span class="line">[zhangsan@localhost ~]$ pwd</span><br><span class="line">/home/zhangsan</span><br><span class="line">[zhangsan@localhost ~]$ ls -a</span><br><span class="line">.  ..  .bash_history  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[zhangsan@localhost ~]$ mkdir jk</span><br><span class="line">[zhangsan@localhost ~]$ ls</span><br><span class="line">jk</span><br><span class="line"></span><br><span class="line">#history 默认可以保存之前使用过最近的1000条命令 </span><br><span class="line">[zhangsan@localhost ~]$ history</span><br><span class="line">    1  pwd</span><br><span class="line">    2  ls -a</span><br><span class="line">    3  cd /lianxi</span><br><span class="line">    4  ls -a /lianxi</span><br><span class="line">    5  exit</span><br><span class="line">    6  pwd</span><br><span class="line">    7  ls -a</span><br><span class="line">    8  mkdir jk</span><br><span class="line">    9  ls</span><br><span class="line">   10  history</span><br><span class="line">[zhangsan@localhost ~]$ history -c</span><br><span class="line">[zhangsan@localhost ~]$ history</span><br><span class="line">    1  history</span><br><span class="line">[zhangsan@localhost ~]$</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>*<em>/etc/skel *</em></p>
+<ul>
+<li><p>存放用户登录系统需要的最基本的一些配置文件（样板文件和目录）</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost zhangsan]# cd /etc/skel/</span><br><span class="line">[root@localhost skel]# ls -a</span><br><span class="line">.  ..  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[root@localhost skel]#</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
 <li><h4 id="默认账户的属性文件"><a href="#默认账户的属性文件" class="headerlink" title="默认账户的属性文件"></a>默认账户的属性文件</h4><ul>
-<li><strong>/etc/login.defs</strong></li>
+<li><p><strong>/etc/login.defs</strong></p>
+<ul>
+<li><p>对账户初始的属性设置</p>
+</li>
+<li><p>设置普通用户的UID和GID范围等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"># Please note that the parameters in this configuration file control the</span><br><span class="line"></span><br><span class="line"># behavior of the tools from the shadow-utils component. None of these</span><br><span class="line"></span><br><span class="line"># tools uses the PAM mechanism, and the utilities that use PAM (such as the</span><br><span class="line"></span><br><span class="line"># passwd command) should therefore be configured elsewhere. Refer to</span><br><span class="line"></span><br><span class="line"># /etc/pam.d/system-auth for more information.</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"></span><br><span class="line"># *REQUIRED*</span><br><span class="line"></span><br><span class="line"># Directory where mailboxes reside, _or_ name of file, relative to the</span><br><span class="line"></span><br><span class="line"># home directory.  If you _do_ define both, MAIL_DIR takes precedence.</span><br><span class="line"></span><br><span class="line"># QMAIL_DIR is for Qmail</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line">#QMAIL_DIR      Maildir</span><br><span class="line">MAIL_DIR        /var/spool/mail</span><br><span class="line">#MAIL_FILE      .mail</span><br><span class="line"></span><br><span class="line"># Password aging controls:</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"></span><br><span class="line"># PASS_MAX_DAYS   Maximum number of days a password may be used.</span><br><span class="line"></span><br><span class="line"># PASS_MIN_DAYS   Minimum number of days allowed between password changes.</span><br><span class="line"></span><br><span class="line"># PASS_MIN_LEN    Minimum acceptable password length.</span><br><span class="line"></span><br><span class="line"># PASS_WARN_AGE   Number of days warning given before a password expires.</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line">PASS_MAX_DAYS   99999</span><br><span class="line">PASS_MIN_DAYS   0</span><br><span class="line">PASS_MIN_LEN    5</span><br><span class="line">PASS_WARN_AGE   7</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"></span><br><span class="line"># Min/max values for automatic uid selection in useradd</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line">UID_MIN                  1000</span><br><span class="line">UID_MAX                 60000</span><br><span class="line"># System accounts</span><br><span class="line">SYS_UID_MIN               201</span><br><span class="line">SYS_UID_MAX               999</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># Min/max values for automatic gid selection in groupadd</span><br><span class="line">#</span><br><span class="line">GID_MIN                  1000</span><br><span class="line">GID_MAX                 60000</span><br><span class="line"># System accounts</span><br><span class="line">SYS_GID_MIN               201</span><br><span class="line">SYS_GID_MAX               999</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># If defined, this command is run when removing a user.</span><br><span class="line"># It should remove any at/cron/print jobs etc. owned by</span><br><span class="line"># the user to be removed (passed as the first argument).</span><br><span class="line">#</span><br><span class="line">#USERDEL_CMD    /usr/sbin/userdel_local</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># If useradd should create home directories for users by default</span><br><span class="line"># On RH systems, we do. This option is overridden with the -m flag on</span><br><span class="line"># useradd command line.</span><br><span class="line">#</span><br><span class="line">CREATE_HOME     yes</span><br><span class="line"></span><br><span class="line"># The permission mask is initialized to this value. If not specified, </span><br><span class="line"># the permission mask will be initialized to 022.</span><br><span class="line">UMASK           077</span><br><span class="line"></span><br><span class="line"># This enables userdel to remove user groups if no members exist.</span><br><span class="line">#</span><br><span class="line">USERGROUPS_ENAB yes</span><br><span class="line"></span><br><span class="line"># Use SHA512 to encrypt password.</span><br><span class="line">ENCRYPT_METHOD SHA512</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
 </li>
 </ul>
-<h3 id="用户、组操作"><a href="#用户、组操作" class="headerlink" title="用户、组操作"></a>用户、组操作</h3><h3 id="用户和组账号查询"><a href="#用户和组账号查询" class="headerlink" title="用户和组账号查询"></a>用户和组账号查询</h3><h2 id="用户分类：超级用户、程序用户、普通用户"><a href="#用户分类：超级用户、程序用户、普通用户" class="headerlink" title="用户分类：超级用户、程序用户、普通用户"></a>用户分类：超级用户、程序用户、普通用户</h2><ul>
+</li>
+</ul>
+<h3 id="用户、组操作"><a href="#用户、组操作" class="headerlink" title="用户、组操作"></a>用户、组操作</h3><ul>
+<li><strong>主要组 （基本组、初始组）</strong><ul>
+<li>与用户相关的默认组，在/etc/passwd文件的第四个字段定义</li>
+</ul>
+</li>
+<li><strong>次要组（附属组）</strong><ul>
+<li>用户可以同时属于其他的组，在/etc/group文件的第4个字段定义</li>
+</ul>
+</li>
+</ul>
+<h2 id="用户分类：超级用户、程序用户、普通用户"><a href="#用户分类：超级用户、程序用户、普通用户" class="headerlink" title="用户分类：超级用户、程序用户、普通用户"></a>用户分类：超级用户、程序用户、普通用户</h2><ul>
 <li><ul>
 <li><p>超级用户root</p>
 <ul>
@@ -533,20 +675,572 @@ height:50vh;
 </li>
 <li><p>普通用户：使用useradd命令新建的用户，一般uid从500开始，每新建一个用户，uid会自动加1 </p>
 <ul>
-<li>默认情况下普通用户的家目录在/home目录下，回合用户名同名</li>
+<li><p>默认情况下普通用户的家目录在/home目录下，会和用户名同名</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost home]# su - baimeilyw</span><br><span class="line">[baimeilyw@localhost ~]$ mkdir wuji</span><br><span class="line">[baimeilyw@localhost ~]$ ll</span><br><span class="line">总用量 0</span><br><span class="line">drwxr-xr-x. 2 baimeilyw tianyp 6 10月  3 11:40 wuji</span><br><span class="line">[baimeilyw@localhost ~]$ mkdir /lianxiwuji</span><br><span class="line">mkdir: 无法创建目录&quot;/lianxiwuji&quot;: 权限不够</span><br><span class="line">[baimeilyw@localhost ~]$</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
+</li>
+<li><p>默认情况下，普通用户只能在自己的家目录和/tmp下建文件夹，在其他大多地方不能建，除非授权</p>
 </li>
 </ul>
 </li>
 <li><p>UID（用户标 识号）</p>
 <ul>
 <li>超级用户root的UID为0</li>
-<li>程序用户的UID 1-499</li>
+<li>程序用户的UID <ul>
+<li>centos6:1-499</li>
+<li>centos 7 :201-999</li>
+</ul>
+</li>
 <li>普通用户的UID大于等 于500</li>
 </ul>
 </li>
 </ul>
-<h2 id="etc-passwd-、-etc-shadow、-etc-group-、-etc-login-defs-、bashrc、bash-profile"><a href="#etc-passwd-、-etc-shadow、-etc-group-、-etc-login-defs-、bashrc、bash-profile" class="headerlink" title="/etc/passwd 、/etc/shadow、/etc/group 、/etc/login.defs 、bashrc、bash_profile"></a>/etc/passwd 、/etc/shadow、/etc/group 、/etc/login.defs 、bashrc、bash_profile</h2><h2 id="useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><a href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w" class="headerlink" title="useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w"></a>useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</h2><h2 id="手动建立用户案例、破解root用户密码"><a href="#手动建立用户案例、破解root用户密码" class="headerlink" title="手动建立用户案例、破解root用户密码"></a>手动建立用户案例、破解root用户密码</h2><h2 id="脚本案例"><a href="#脚本案例" class="headerlink" title="脚本案例"></a>脚本案例</h2>
+<h2 id="useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><a href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w" class="headerlink" title="useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w"></a>useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</h2><ul>
+<li><p><strong>LINUX中只认UID来认定用户身份</strong></p>
+</li>
+<li><p><strong>useradd</strong></p>
+<ul>
+<li><p>格式：useradd 【选项】…用户名</p>
+</li>
+<li><p>常用选项：</p>
+<ul>
+<li><p>-u :指定UID标记号</p>
+</li>
+<li><p>-d:指定宿主目录，缺省为/home/用户名</p>
+</li>
+<li><p>-e :指定账号失效时间</p>
+</li>
+<li><p>-g :指定用户的基本组名（或GID号）</p>
+</li>
+<li><p>-G：指定用户的附加组名（或GID号）</p>
+</li>
+<li><p>-M ：不为用户建立并初始化宿主目录</p>
+</li>
+<li><p>-s :指定用户的登录shell</p>
+</li>
+<li><p>-c:用户注释描述信息</p>
+</li>
+<li><p>-r :新建系统用户，不会有新建家目录</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ftp]# useradd -r hushitian</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ftp]# useradd -u 1212 -g 1212 -s /bin/bash -c &quot;teacher&quot; -d /home/califeng123 -G 0 -e &quot;2018-1-1&quot; cali123</span><br><span class="line">useradd：用户“cali123”已存在</span><br><span class="line">[root@localhost ftp]# cat /etc/passwd |grep &quot;cali123&quot;</span><br><span class="line">cali123:x:1212:1212:teacher:/home/califeng123:/bin/bash</span><br><span class="line">[root@localhost ftp]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>useradd命令在后台到底做了哪些工作？</strong></p>
+<ul>
+<li><img src="Linux%E5%9F%BA%E7%A1%80(1570084557646.png" alt="1570084557646"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>userdel</strong></p>
+<ul>
+<li><p>userdel 【-r 】用户名</p>
+<ul>
+<li><p>添加 -r 选项时候，表示连用户的宿主目录一并删除</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost home]# userdel baimeilyw</span><br><span class="line">[root@localhost home]# ls</span><br><span class="line">baimeiyw  biu  biubiu  califeng123  hu  jsj  linhu  linhu1  linhu2  xiaolifd[root@localhost home]# ls /var/spool/mail</span><br><span class="line">baimeilyw  biu  biubiu  cali123  hu  jsj  linhu  linhu1  linhu2  xiaolifd</span><br><span class="line">[root@localhost home]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost home]# useradd baimeiyw</span><br><span class="line">useradd：警告：此主目录已经存在。</span><br><span class="line">不从 skel 目录里向其中复制任何文件。</span><br><span class="line">[root@localhost home]# userdel baimeilyw -r </span><br><span class="line">userdel：用户“baimeilyw”不存在</span><br><span class="line"></span><br><span class="line">之前的baimeilyw用户的UID是2234 ，现在新建的baimeiyw的UID是1215，两个虽然名字家目录名称相同但是两个不同的目录</span><br><span class="line">[root@localhost home]# userdel baimeiyw -r</span><br><span class="line">userdel：/home/baimeiyw 并不属于 baimeiyw，所以不会删除</span><br><span class="line">[root@localhost home]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>usermod</strong></p>
+<ul>
+<li><p>修改用户信息</p>
+</li>
+<li><p>格式：usermod 【选项】…用户名</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# id baimeiyw</span><br><span class="line">uid=2333(baimeiyw) gid=1213(tianyp) 组=1213(tianyp),1214(mingjiao)</span><br><span class="line">[root@localhost ~]# usermod -u 2234 baimeiyw</span><br><span class="line">[root@localhost ~]# id baimeiyw</span><br><span class="line">uid=2234(baimeiyw) gid=1213(tianyp) 组=1213(tianyp),1214(mingjiao)</span><br><span class="line">[root@localhost ~]# usermod -l baimeiyw baimeilyw</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>常用选项：</p>
+<ul>
+<li><p>-l :更改用户账号的登录名称</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# usermod -l baimeilyw baimeiyw</span><br><span class="line">[root@localhost ~]# id 2234</span><br><span class="line">uid=2234(baimeilyw) gid=1213(tianyp) 组=1213(tianyp),1214(mingjiao)</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-L:锁定用户账号</p>
+</li>
+<li><p>-U：解锁用户账户</p>
+</li>
+<li><p>以下选项与useradd命令中的含义相同</p>
+<ul>
+<li>-u,-d,-e,-g,-G,-s</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/passwd |tail -3</span><br><span class="line">cali123:x:1212:1212:teacher:/home/califeng123:/bin/bash</span><br><span class="line">hushi:x:996:994::/home/hushi:/bin/bash</span><br><span class="line">hushitian:x:995:993::/home/hushitian:/bin/bash</span><br><span class="line">[root@localhost ~]# usermod -u 1214 -g wudang -s /bin/sh hushi</span><br><span class="line">[root@localhost ~]# cat /etc/passwd |tail -3</span><br><span class="line">cali123:x:1212:1212:teacher:/home/califeng123:/bin/bash</span><br><span class="line">hushi:x:1214:1212::/home/hushi:/bin/sh</span><br><span class="line">hushitian:x:995:993::/home/hushitian:/bin/bash</span><br><span class="line">[root@localhost ~]# </span><br><span class="line">[root@localhost ~]# id hushi</span><br><span class="line">uid=1214(hushi) gid=1212(wudang) 组=1212(wudang)</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# su - cali123</span><br><span class="line">[cali123@localhost ~]$ pwd</span><br><span class="line">/home/califeng123</span><br><span class="line">[cali123@localhost ~]$</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>passwd</strong></p>
+<ul>
+<li><p>格式 ：passwd【选项】… 用户名</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#交互式修改密码</span><br><span class="line">[root@localhost etc]# cat /etc/shadow |tail -3</span><br><span class="line">hushitian:!!:18171::::::</span><br><span class="line">dehua:!!:18172:0:99999:7:::</span><br><span class="line">biubiu1:!!:18172:0:99999:7::18173:</span><br><span class="line">[root@localhost etc]# passwd biubiu1</span><br><span class="line">更改用户 biubiu1 的密码 。</span><br><span class="line">新的 密码：</span><br><span class="line">无效的密码： 密码少于 8 个字符</span><br><span class="line">重新输入新的 密码：</span><br><span class="line">passwd：所有的身份验证令牌已经成功更新。</span><br><span class="line">[root@localhost etc]# cat /etc/shadow |tail -3</span><br><span class="line">hushitian:!!:18171::::::</span><br><span class="line">dehua:!!:18172:0:99999:7:::</span><br><span class="line">biubiu1:$6$3yws16hw$9/tFOQALoamGSCETRXM75.k4ehEpEkI6yWIxnVBjAZ/Jhxfxzhs4hYx35ElX9RaLSEWAudVT.mDs9iYpp9pkC1:18172:0:99999:7::18173:</span><br><span class="line">[root@localhost etc]# </span><br><span class="line"></span><br><span class="line">#非交互式修改</span><br><span class="line">[root@localhost etc]#  echo 123|passwd dehua --stdin</span><br><span class="line">更改用户 dehua 的密码 。</span><br><span class="line">passwd：所有的身份验证令牌已经成功更新。</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>常用命令选项</p>
+<ul>
+<li><p>-d :清空用户的密码，是指无需密码即可登录</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# passwd -d dehua</span><br><span class="line">清除用户的密码 dehua。</span><br><span class="line">passwd: 操作成功</span><br><span class="line">[root@localhost etc]# cat shadow|tail -3</span><br><span class="line">hushitian:!!:18171::::::</span><br><span class="line">dehua::18172:0:99999:7:::</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-l:锁定用户账号</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# passwd -l dehua</span><br><span class="line">锁定用户 dehua 的密码 。</span><br><span class="line">passwd: 操作成功</span><br><span class="line">[root@localhost etc]# cat shadow|tail -3</span><br><span class="line">hushitian:!!:18171::::::</span><br><span class="line">dehua:!!:18172:0:99999:7:::</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-S:查看用户账号的状态（是否被锁定）</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# passwd -S dehua</span><br><span class="line">dehua LK 2019-10-03 0 99999 7 -1 (密码已被锁定。)</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-u :解锁用户账号</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# passwd -u dehua</span><br><span class="line">解锁用户 dehua 的密码。</span><br><span class="line">passwd: 警告：未锁定的密码将是空的。</span><br><span class="line">passwd: 不安全的操作(使用 -f 参数强制进行该操作)</span><br><span class="line">[root@localhost etc]# cat shadow|tail -3</span><br><span class="line">hushitian:!!:18171::::::</span><br><span class="line">dehua:!!:18172:0:99999:7:::</span><br><span class="line">biubiu1:$6$3yws16hw$9/tFOQALoamGSCETRXM75.k4ehEpEkI6yWIxnVBjAZ/Jhxfxzhs4hYx35ElX9RaLSEWAudVT.mDs9iYpp9pkC1:18172:0:99999:7::18173:</span><br><span class="line"></span><br><span class="line">[root@localhost etc]# passwd -uf dehua</span><br><span class="line">解锁用户 dehua 的密码。</span><br><span class="line">passwd: 操作成功</span><br><span class="line">[root@localhost etc]# cat shadow|tail -3</span><br><span class="line">hushitian:!!:18171::::::</span><br><span class="line">dehua::18172:0:99999:7:::</span><br><span class="line">biubiu1:$6$3yws16hw$9/tFOQALoamGSCETRXM75.k4ehEpEkI6yWIxnVBjAZ/Jhxfxzhs4hYx35ElX9RaLSEWAudVT.mDs9iYpp9pkC1:18172:0:99999:7::18173:</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>–stdin:接收别的命令stdout作为stdin标准输入作为密码</p>
+</li>
+</ul>
+</li>
+<li><p>注意</p>
+<ul>
+<li>root用户可以修改所有用户的密码，不要求复杂性</li>
+<li>普通用户只能修改自己的密码，要求复杂性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>*<em>groupadd *</em></p>
+<ul>
+<li><p>格式：groupadd 【-g GID】组账户名</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# groupadd -g 10001 yuelushuyuan</span><br><span class="line">[root@localhost etc]# cat group|tail</span><br><span class="line">hu:x:1007:</span><br><span class="line">tss:x:59:</span><br><span class="line">wudang:x:1212:</span><br><span class="line">hushi:x:994:</span><br><span class="line">hushitian:x:993:</span><br><span class="line">tianyp:x:1213:</span><br><span class="line">mingjiao:x:1214:</span><br><span class="line">dehua:x:2234:</span><br><span class="line">biubiu1:x:2235:</span><br><span class="line">yuelushuyuan:x:10001:</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# useradd -g yuelushuyuan zenguofan</span><br><span class="line">[root@localhost etc]# id zenguofan</span><br><span class="line">uid=2236(zenguofan) gid=10001(yuelushuyuan) 组=10001(yuelushuyuan)</span><br><span class="line">[root@localhost etc]# useradd -g yuelushuyuan zhuxi</span><br><span class="line">[root@localhost etc]# useradd -g 10001 cali9</span><br><span class="line">[root@localhost etc]# cat /etc/group|grep yuelushuyuan</span><br><span class="line">yuelushuyuan:x:10001:</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>groupdel</strong></p>
+<ul>
+<li><p>格式：groupdel 组账户名</p>
+</li>
+<li><p>如果有个用户的主要组是xx,则不能直接删除这个xx组</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# groupdel yuelushuyuan</span><br><span class="line">groupdel：不能移除用户“zenguofan”的主组</span><br><span class="line">[root@localhost etc]#</span><br><span class="line"></span><br><span class="line">[root@localhost etc]# groupdel yuelushuyuan</span><br><span class="line">groupdel：不能移除用户“zenguofan”的主组</span><br><span class="line">[root@localhost etc]# usermod -g wudang zhuxi</span><br><span class="line">[root@localhost etc]# id zhuxi</span><br><span class="line">uid=2237(zhuxi) gid=1212(wudang) 组=1212(wudang)</span><br><span class="line">[root@localhost etc]# usermod -g wudang zenguofan</span><br><span class="line">[root@localhost etc]# id zenguofan</span><br><span class="line">uid=2236(zenguofan) gid=1212(wudang) 组=1212(wudang)</span><br><span class="line">[root@localhost etc]# usermod -g wudang cali9</span><br><span class="line">[root@localhost etc]# id cali9</span><br><span class="line">uid=2238(cali9) gid=1212(wudang) 组=1212(wudang)</span><br><span class="line">[root@localhost etc]# groupdel yuelushuyuan</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>groupmod</strong> </p>
+<ul>
+<li><p>用途：设置组名和组id</p>
+</li>
+<li><p>格式：groupmod 【选项】…组账号名</p>
+</li>
+<li><p>常见命令选项</p>
+<ul>
+<li>-n :修改组名</li>
+<li>-g :修改组id</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# groupmod -g 11223 wudang</span><br><span class="line">[root@localhost etc]# id cali9</span><br><span class="line">uid=2238(cali9) gid=11223(wudang) 组=11223(wudang)</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>newgrep</strong> </p>
+<ul>
+<li>用途：临时改变有效组</li>
+<li>用户必须是要改变组的成员</li>
+</ul>
+</li>
+<li><p><strong>gpasswd</strong></p>
+<ul>
+<li><p>用途：设置组账号密码（极少用）、添加/删除组成员</p>
+</li>
+<li><p>格式：gpasswd【选项】…组账号名</p>
+</li>
+<li><p>常用命令选项</p>
+<ul>
+<li><p>-a :向组内添加一个用户</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# gpasswd -a cali9 root</span><br><span class="line">正在将用户“cali9”加入到“root”组中</span><br><span class="line">[root@localhost etc]# id cali9</span><br><span class="line">uid=2238(cali9) gid=11223(wudang) 组=11223(wudang),0(root)</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-d:从组内删除一个用户成员</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# gpasswd -d cali9 root</span><br><span class="line">正在将用户“cali9”从“root”组中删除</span><br><span class="line">[root@localhost etc]# id cali9</span><br><span class="line">uid=2238(cali9) gid=11223(wudang) 组=11223(wudang)</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>-M:定义组成员列表，以逗号分割</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# gpasswd -M cali9,biubiu1 root</span><br><span class="line">[root@localhost etc]# id cali9</span><br><span class="line">uid=2238(cali9) gid=11223(wudang) 组=11223(wudang),0(root)</span><br><span class="line">[root@localhost etc]# id biubiu1</span><br><span class="line">uid=2235(biubiu1) gid=2235(biubiu1) 组=2235(biubiu1),0(root)</span><br><span class="line">[root@localhost etc]# </span><br><span class="line"></span><br><span class="line">[root@localhost etc]# cat /etc/group |grep root</span><br><span class="line">root:x:0:cali9,biubiu1</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>id</strong></p>
+<ul>
+<li>用途：查询用户身份标识</li>
+<li>格式：id 【用户名】</li>
+</ul>
+</li>
+<li><p><strong>who、w、users命令</strong></p>
+<ul>
+<li>用途：查询已登录到主机的用户信息</li>
+<li>w比who显示的信息更多</li>
+</ul>
+</li>
+<li><p><strong>groups命令</strong> </p>
+<ul>
+<li>用途：查询用户所属的组</li>
+</ul>
+</li>
+<li><p><strong>lats、lastlog命令</strong></p>
+<ul>
+<li><p>last</p>
+<ul>
+<li><p>查询最近哪些用户登录</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mail]# last</span><br><span class="line">root     pts/4        192.168.0.23     Thu Oct  3 12:58 - 13:04  (00:06)    </span><br><span class="line">root     pts/3        192.168.0.12     Thu Oct  3 12:44   still logged in   </span><br><span class="line">root     pts/2        192.168.0.12     Thu Oct  3 12:38 - 14:54  (02:15)    </span><br><span class="line">root     pts/1        192.168.0.12     Thu Oct  3 11:25 - 14:47  (03:21)    </span><br><span class="line">root     pts/0        192.168.0.12     Thu Oct  3 10:41 - 14:04  (03:23)    </span><br><span class="line">root     pts/2        192.168.8.9      Wed Oct  2 23:13 - 00:42  (01:29)    </span><br><span class="line">root     pts/0        192.168.0.67     Wed Oct  2 22:32 - 23:26  (00:53)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>lastlog </p>
+<ul>
+<li><p>查询哪些用户登陆过，哪些用户从未登陆过</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mail]# lastlog</span><br><span class="line">用户名           端口     来自             最后登陆时间</span><br><span class="line">root             pts/4    192.168.0.23     四 10月  3 12:58:06 +0800 2019</span><br><span class="line">bin                                        **从未登录过**</span><br><span class="line">daemon                                     **从未登录过**</span><br><span class="line">adm                                        **从未登录过**</span><br><span class="line">lp                                         **从未登录过**</span><br><span class="line">sync                                       **从未登录过**</span><br><span class="line">shutdown                                   **从未登录过**</span><br><span class="line">halt                                       **从未登录过**</span><br><span class="line">mail                                       **从未登录过**</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="手动建立用户案例、破解root用户密码、营救模式"><a href="#手动建立用户案例、破解root用户密码、营救模式" class="headerlink" title="手动建立用户案例、破解root用户密码、营救模式"></a>手动建立用户案例、破解root用户密码、营救模式</h2><h3 id="手动新建用户"><a href="#手动新建用户" class="headerlink" title="手动新建用户"></a>手动新建用户</h3><ul>
+<li><p>要求：用户名为zhouyu  家目录：/dongwu/sangzhi  uid ：8896 组名：dongwu gid:8895 shell:/bn/bash 注释为wu guo dudu 密码为空</p>
+</li>
+<li><p>步骤</p>
+<ul>
+<li><p>1.创建</p>
+<ul>
+<li><p>/etc/passwd </p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- [root@localhost etc]# vim /etc/passwd</span><br><span class="line">- zhouyu:x:8896:8895:wu guo dudu:/dongwu/sangzhi:/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>/etc/shadow</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- [root@localhost etc]# vim /etc/shadow</span><br><span class="line">- zhouyu:!!:18172:0:99999:7:::</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>/etc/group</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# vim /etc/group</span><br><span class="line">dongwu:x:8895:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>家目录</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# mkdir /dongwu/sangzhi -p</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>/etc/skel/*</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# cd /dongwu/sangzhi/</span><br><span class="line">[root@localhost sangzhi]# cp /etc/skel/.bash* .</span><br><span class="line">[root@localhost sangzhi]# ls</span><br><span class="line">[root@localhost sangzhi]# ls -a</span><br><span class="line">.  ..  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[root@localhost sangzhi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>/var/spool/mail/</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost sangzhi]# cd /var/spool/mail/</span><br><span class="line">[root@localhost mail]# touch zhouyu</span><br><span class="line">[root@localhost mail]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>2.验证</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mail]# su - zhouyu</span><br><span class="line">[zhouyu@localhost ~]$ pwd</span><br><span class="line">/dongwu/sangzhi</span><br><span class="line">[zhouyu@localhost ~]$ ls -a</span><br><span class="line">.  ..  .bash_logout  .bash_profile  .bashrc</span><br><span class="line">[zhouyu@localhost ~]$ </span><br><span class="line">更改权限</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>3.更改权限</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">- [root@localhost mail]# chown -R zhouyu:dongwu /dongwu/sangzhi/ </span><br><span class="line">  [root@localhost mail]# ll /dongwu/sangzhi/ -d</span><br><span class="line">  drwxr-xr-x. 2 zhouyu dongwu 62 10月  3 14:57 /dongwu/sangzhi/</span><br><span class="line">  [root@localhost mail]# </span><br><span class="line">- [root@localhost mail]# ll -a /dongwu/sangzhi/</span><br><span class="line">  总用量 12</span><br><span class="line">  drwxr-xr-x. 2 zhouyu dongwu  62 10月  3 14:57 .</span><br><span class="line">  drwxr-xr-x. 3 root   root    21 10月  3 14:48 ..</span><br><span class="line">  -rw-r--r--. 1 zhouyu dongwu  18 10月  3 14:57 .bash_logout</span><br><span class="line">  -rw-r--r--. 1 zhouyu dongwu 193 10月  3 14:57 .bash_profile</span><br><span class="line">  -rw-r--r--. 1 zhouyu dongwu 231 10月  3 14:57 .bashrc</span><br><span class="line">  [root@localhost mail]# </span><br><span class="line"> </span><br><span class="line"> #修改邮箱的权限</span><br><span class="line">[root@localhost mail]# chown zhouyu:mail /var/spool/mail/zhouyu</span><br><span class="line">[root@localhost mail]# ll zhouyu</span><br><span class="line">-rw-r--r--. 1 zhouyu dongwu 0 10月  3 14:59 zhouyu</span><br><span class="line">[root@localhost mail]# </span><br><span class="line">[root@localhost mail]#  chmod 660 zhouyu</span><br><span class="line">[root@localhost mail]# ll zhouyu </span><br><span class="line">-rw-rw----. 1 zhouyu dongwu 0 10月  3 14:59 zhouyu</span><br><span class="line">[root@localhost mail]# </span><br><span class="line"></span><br><span class="line">#修改权限使只能owner有读写执行的权限</span><br><span class="line">[root@localhost mail]# chmod 700 /dongwu/sangzhi/</span><br><span class="line">[root@localhost mail]# ll -d /dongwu/sangzhi/</span><br><span class="line">drwx------. 2 zhouyu dongwu 62 10月  3 14:57 /dongwu/sangzhi/</span><br><span class="line">[root@localhost mail]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>4.再验证</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mail]# su - zhouyu</span><br><span class="line">上一次登录：四 10月  3 15:00:13 CST 2019pts/3 上</span><br><span class="line">[zhouyu@localhost ~]$ pwd</span><br><span class="line">/dongwu/sangzhi</span><br><span class="line">[zhouyu@localhost ~]$ ll</span><br><span class="line">总用量 0</span><br><span class="line">[zhouyu@localhost ~]$ mkdir xiaoqiao</span><br><span class="line">[zhouyu@localhost ~]$ ll</span><br><span class="line">总用量 0</span><br><span class="line">drwxr-xr-x. 2 zhouyu dongwu 6 10月  3 15:11 xiaoqiao</span><br><span class="line">[zhouyu@localhost ~]$</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="破解root用户的密码"><a href="#破解root用户的密码" class="headerlink" title="破解root用户的密码"></a>破解root用户的密码</h3><ul>
+<li><p>root 用户可以更改任何用户的密码，普通用户只能修改自己的密码</p>
+</li>
+<li><p>root密码破解步骤</p>
+<ul>
+<li><p>centos 6</p>
+<ul>
+<li>1.重新启动系统</li>
+<li>2.开机倒数时间内，敲任意键</li>
+<li>3.按字母e去编辑</li>
+<li>4.选择kernel开头的行，再次按e编辑，然后敲空格<ul>
+<li>输入数字1，再敲回车，进入单用户模式，破解密码。次模式绕过密码验证</li>
+</ul>
+</li>
+<li>5.按字母b,去引导进入系统</li>
+<li>6.直接passwd或者修改root用户的密码</li>
+<li>7.输入init 6 或者init 3 进入系统，或者reboot 重新启动系统</li>
+</ul>
+</li>
+<li><p>centos 7:</p>
+<ul>
+<li>1.重启服务器，在Centos 7 操作系统启动到GRUB界面时候，按”e”进入编辑模式<ul>
+<li><img src="1570107665609.png" alt="1570107665609"></li>
+</ul>
+</li>
+<li>2.找到Linux16的一行，在最后添加”rd.break console=tty0” ,按“Ctrl + x”键进入恢复模式。<ul>
+<li><img src="1570107738021.png" alt="1570107738021"></li>
+</ul>
+</li>
+<li>3.以可写的模式重新挂载根系统分区。 mout -o remount,rw  /sysroot</li>
+<li>4.切换到根系统分区.   chroot /sysroot/</li>
+<li>5.修改root户密码。 echo “密码”|passwd –stdin root</li>
+<li>6.重新标记系统selinux安全标签。  touch /.autorelabel<ul>
+<li><img src="1570107897265.png" alt="1570107897265"></li>
+</ul>
+</li>
+<li>7.重新启动服务器即可 。exit ,reboot</li>
+</ul>
+</li>
+<li><p>vim /etc/inittab</p>
+<ul>
+<li>0 halt 关机</li>
+<li>1 单用户模式   —》破解密码的时候</li>
+<li>2 多用户模式 —–》不能使用NFS功能</li>
+<li>3 完全多用户模式，可以使用网络功能 —-》字符界面</li>
+<li>5 图形界面</li>
+<li>6 重新启动</li>
+</ul>
+<p>===============================</p>
+<p>init 0 关机 poweroff halt    shutdown -h now</p>
+<p>init 6 重新启动   reboot   shutdown -r now</p>
+<p>init  3 进入字符界面</p>
+<p>runlevel   查看当前运行jibie</p>
+<p>​        1     s       1代表开机进入的运行模式   s   代表当前的运行级别</p>
+<p>​    s     3     说明是从单用户切换到运行级别3</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="营救模式（rescue-mode"><a href="#营救模式（rescue-mode" class="headerlink" title="营救模式（rescue mode)"></a>营救模式（rescue mode)</h3><ul>
+<li><h4 id="1-什么是营救模式"><a href="#1-什么是营救模式" class="headerlink" title="1.什么是营救模式"></a>1.什么是营救模式</h4><ul>
+<li>系统进入无法正常启动进入，卡在某个位置等情况下。我们需要拷贝原来磁盘里的数据或者对原来的系统进行修复，这个时候就需要进入营救模式，进行紧急救援。</li>
+</ul>
+</li>
+<li><h4 id="2-模拟破坏系统模式"><a href="#2-模拟破坏系统模式" class="headerlink" title="2.模拟破坏系统模式"></a>2.模拟破坏系统模式</h4><ul>
+<li><p>删除/etc/passwd文件，通过原来的备份文件进行恢复</p>
+</li>
+<li><p>步骤</p>
+<ul>
+<li><p>2.1备份到win机器或者其他机器里</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- [root@localhost ~]# yum install -y lrzsz</span><br><span class="line">- [root@localhost ~]# sz /etc/passwd</span><br><span class="line">  [root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>2.2 本地也做了备份</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# mkdir /backup</span><br><span class="line">mkdir: 无法创建目录&quot;/backup&quot;: 文件已存在</span><br><span class="line">[root@localhost ~]# cp /etc/passwd /backup/passwd</span><br><span class="line">[root@localhost ~]# cd /backup/</span><br><span class="line">[root@localhost backup]# ls</span><br><span class="line">passwd  zhuwenjie_t1.sql</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>2.3删除/etc/passwd 文件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost backup]#  rm -rf /etc/passwd</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>2.4重新启动Linux系统，看是否能正常进入</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="3-如何进入营救模式"><a href="#3-如何进入营救模式" class="headerlink" title="3.如何进入营救模式"></a>3.如何进入营救模式</h4><ul>
+<li>1.使用光盘进入<ul>
+<li>步骤<ul>
+<li>1.放入系统光盘（redhat 、centos 、ubuntu都可以）</li>
+<li>2.设置引导顺序（第1启动顺序）从光盘启动<ul>
+<li>选择rescue installed system 进入营救模式</li>
+<li>rescue method —&gt;local cd /dvd</li>
+<li>chroot /mnt/sysimage  切换带=跟环境到原来本身系统里的根</li>
+<li>cp /etc/passwd- /etc/passwd</li>
+</ul>
+</li>
+<li>3.exit</li>
+<li>4.reboot</li>
+</ul>
+</li>
+<li>注<ul>
+<li>BIOS:基本输入输出系统：主板里<ul>
+<li>台式机：del</li>
+<li>笔记本：F1,F2,F8+fn</li>
+<li>服务器：</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><ul>
+<li><h4 id="Q1-用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录"><a href="#Q1-用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录" class="headerlink" title="Q1:用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录"></a>Q1:用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录</h4><ul>
+<li>ldap —–&gt;开源、 成熟的解决方案</li>
+<li>自己开发，采用数据库存储用户名和密码</li>
+<li>mysql oracle mariadb等</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h4 id="Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？"><a href="#Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？" class="headerlink" title="Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？"></a>Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？</h4></li>
+<li><h5 id="1-踢出可疑的登录用户，马上修改密码"><a href="#1-踢出可疑的登录用户，马上修改密码" class="headerlink" title="1.踢出可疑的登录用户，马上修改密码"></a>1.踢出可疑的登录用户，马上修改密码</h5></li>
+<li><p><strong>方法1</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#在root 终端中看到heike用户已经登录</span><br><span class="line">[root@localhost mail]# w</span><br><span class="line"> 16:25:05 up 1 day, 10:51,  3 users,  load average: 0.49, 0.32, 0.25</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      六22    3:40m  0.61s  0.61s -bash</span><br><span class="line">heike    pts/0    192.168.0.12     16:23    1:37   0.00s  0.00s -bash</span><br><span class="line">root     pts/3    192.168.0.12     12:44    1.00s  0.52s  0.00s w</span><br><span class="line"></span><br><span class="line">#使用ps aux|grep出 bash的进程 发现heike的进程号为17922</span><br><span class="line">[root@localhost mail]# ps aux |grep bash</span><br><span class="line">root       1578  0.0  0.1 115432  2072 tty1     Ss+  10月02   0:00 -bash</span><br><span class="line">root       7467  0.0  0.1 115616  2296 pts/3    Ss   12:44   0:00 -bash</span><br><span class="line">heike     17922  0.0  0.1 115560  2052 pts/0    Ss+  16:23   0:00 -bash</span><br><span class="line">root      24901  0.0  0.0 112724   980 pts/3    S+   16:29   0:00 grep --color=auto bash</span><br><span class="line">[root@localhost mail]# </span><br><span class="line"></span><br><span class="line">#kill -9 杀死进程</span><br><span class="line">[root@localhost mail]# kill -9 17922</span><br><span class="line">[root@localhost mail]# </span><br><span class="line"></span><br><span class="line">#再查看已经把heike账户踢出</span><br><span class="line">[root@localhost mail]# w</span><br><span class="line"> 16:30:06 up 1 day, 10:56,  2 users,  load average: 0.08, 0.17, 0.20</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      六22    3:45m  0.61s  0.61s -bash</span><br><span class="line">root     pts/3    192.168.0.12     12:44    6.00s  0.53s  0.00s w</span><br><span class="line">[root@localhost mail]#</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#黑客这边的终端已经失去连接</span><br><span class="line">[heike@localhost ~]$ w</span><br><span class="line"> 16:23:28 up 1 day, 10:49,  3 users,  load average: 0.55, 0.24, 0.21</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      六22    3:39m  0.61s  0.61s -bash</span><br><span class="line">heike    pts/0    192.168.0.12     16:23    0.00s  0.01s  0.01s w</span><br><span class="line">root     pts/3    192.168.0.12     12:44    1:04   0.47s  0.47s -bash</span><br><span class="line">[heike@localhost ~]$ Connection closing...Socket close.</span><br><span class="line"></span><br><span class="line">Connection closed by foreign host.</span><br><span class="line"></span><br><span class="line">Disconnected from remote host(heike) at 16:29:52.</span><br><span class="line"></span><br><span class="line">Type `help&apos; to learn how to use Xshell prompt.</span><br><span class="line">[G:\~]$</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>方法2：</strong></p>
+<ul>
+<li><p>使用pkill 杀死这个终端进程 </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# w</span><br><span class="line"> 16:33:16 up 1 day, 10:59,  3 users,  load average: 0.17, 0.16, 0.19</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      六22    3:48m  0.61s  0.61s -bash</span><br><span class="line">heike    pts/0    192.168.0.12     16:32    1:11   0.01s  0.01s -bash</span><br><span class="line">root     pts/1    192.168.0.12     16:33    4.00s  0.02s  0.01s w</span><br><span class="line">[root@localhost ~]# pkill -9 -t pts/0 </span><br><span class="line">[root@localhost ~]# w</span><br><span class="line"> 16:33:44 up 1 day, 11:00,  2 users,  load average: 0.18, 0.16, 0.19</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      六22    3:49m  0.61s  0.61s -bash</span><br><span class="line">root     pts/1    192.168.0.12     16:33    0.00s  0.02s  0.00s w</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使他登录不了</p>
+<ul>
+<li><p>将shell类型改成/sbin/nlogin</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- [root@localhost ~]# vim /etc/passwd</span><br><span class="line">- heike:x:8897:8897::/home/heike:/sbin/nologin</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# w</span><br><span class="line"> 16:48:29 up 1 day, 11:14,  3 users,  load average: 0.29, 0.32, 0.26</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      六22    4:04m  0.61s  0.61s -bash</span><br><span class="line">heike    pts/0    192.168.0.12     16:44    3:52   0.00s  0.00s -bash</span><br><span class="line">root     pts/1    192.168.0.12     16:33    5.00s  0.03s  0.00s w</span><br><span class="line">[root@localhost ~]# ps aux|grep bash</span><br><span class="line">root       1578  0.0  0.1 115432  2072 tty1     Ss+  10月02   0:00 -bash</span><br><span class="line">root      30096  0.0  0.1 115436  2120 pts/1    Ss   16:33   0:00 -bash</span><br><span class="line">heike     44287  0.0  0.1 115560  2056 pts/0    Ss+  16:44   0:00 -bash</span><br><span class="line">root      49419  0.0  0.0 112724   984 pts/1    S+   16:48   0:00 grep --color=auto bash</span><br><span class="line">[root@localhost ~]# kill -9 44287</span><br><span class="line">[root@localhost ~]# w</span><br><span class="line"> 16:49:12 up 1 day, 11:15,  2 users,  load average: 0.22, 0.29, 0.25</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">root     tty1                      六22    4:04m  0.61s  0.61s -bash</span><br><span class="line">root     pts/1    192.168.0.12     16:33    0.00s  0.04s  0.00s w</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="2-sshd拒绝某个IP连接"><a href="#2-sshd拒绝某个IP连接" class="headerlink" title="2.sshd拒绝某个IP连接"></a><strong>2.sshd拒绝某个IP连接</strong></h5><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#拒绝192.168.0.176主机访问过来，不管你使用的是哪个用户</span><br><span class="line">[root@localhost ~]# vim /etc/hosts.deny</span><br><span class="line">sshd: 192.168.0.176</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="Q3：shell-启动配置文件的区别"><a href="#Q3：shell-启动配置文件的区别" class="headerlink" title="Q3：shell 启动配置文件的区别"></a>Q3：shell 启动配置文件的区别</h4><ul>
+<li><p>/etc/profile :配置全局环境变量，影响所有用户</p>
+</li>
+<li><p>~/.bash_profile :配置个人环境，影响一个用户</p>
+</li>
+<li><p>/etc/bashrc:配置全局的别名或者shell选项，影响所有用户</p>
+</li>
+<li><p>~/.bashrc :配置个人别名或者shell选项，影响一个用户</p>
+</li>
+<li><p>注：</p>
+<ul>
+<li>用户登录系统—-》~/.bash_profile —–&gt;./bashrc—–&gt;/etc/bashrc</li>
+<li>用户注销系统  ——-&gt;<del>/.bash_logout 和历史命令——–&gt;</del>/.bash_history</li>
+</ul>
+</li>
+<li><p>bash的启动脚本初始化</p>
+<ul>
+<li><img src="1570103078636.png" alt="1570103078636"></li>
+</ul>
+</li>
+<li><p>修改历史命令的条数让其立即生效</p>
+<ul>
+<li><p>source /etc/profile 执行/etc/profile文件，让修改的立即生效</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vim /etc/profile ---定义了系统里很多的环境变量</span><br><span class="line">[root@localhost ~]# env |grep HISTORY</span><br><span class="line">[root@localhost ~]# env |grep HIST</span><br><span class="line">HISTSIZE=1000</span><br><span class="line">HISTCONTROL=ignoredups</span><br><span class="line">[root@localhost ~]# </span><br><span class="line">[root@localhost ~]# bash</span><br><span class="line">[root@localhost ~]# env |grep HIST</span><br><span class="line">HISTSIZE=1000</span><br><span class="line">HISTCONTROL=ignoredups</span><br><span class="line">[root@localhost ~]# source /etc/profile</span><br><span class="line">[root@localhost ~]# env |grep HIST</span><br><span class="line">HISTSIZE=2000</span><br><span class="line">HISTCONTROL=ignoredups</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>打扫行踪，不让别人知道你使用过哪些命令</p>
+<ul>
+<li>1.history -c</li>
+<li>2.删除rm -rf /root/.bash_history</li>
+<li>3.在/root/.bash_logout 文件里添加history -c </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="Q4：su-切换的时候加-号和不加的区别"><a href="#Q4：su-切换的时候加-号和不加的区别" class="headerlink" title="Q4：su 切换的时候加-号和不加的区别"></a>Q4：su 切换的时候加-号和不加的区别</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# su - cali</span><br><span class="line">su: user cali does not exist</span><br><span class="line">[root@localhost ~]# su - cali9</span><br><span class="line">[cali9@localhost ~]$ pwd</span><br><span class="line">/home/cali9</span><br><span class="line">[cali9@localhost ~]$ exit</span><br><span class="line">登出</span><br><span class="line">[root@localhost ~]# su cali</span><br><span class="line">su: user cali does not exist</span><br><span class="line">[root@localhost ~]# su cali9</span><br><span class="line">[cali9@localhost root]$ pwd</span><br><span class="line">/root</span><br><span class="line">[cali9@localhost root]$</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>区别：如果不接-号，系统会使用上一个用户的环境变量，如果接-好，相当于使用后面的用户的环境变量，跟前面的用户没有关系了</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="脚本案例"><a href="#脚本案例" class="headerlink" title="脚本案例"></a>脚本案例</h3><ul>
+<li><p>写一个脚本，新建5个用户，用户名的前缀为cali，例如：cali1 cali2,到cali5 ,5个用户的密码为123456cali ,家目录在/cali 目录下与用户同名</p>
+</li>
+<li><p>1.需求分析</p>
+<ul>
+<li>使用什么命令来实现、什么功能算法<ul>
+<li>useradd 、passwd、for </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>2.开始给脚本起名字</p>
+<ul>
+<li>create_user.sh</li>
+</ul>
+</li>
+<li><p>3.运行调试</p>
+</li>
+<li><p>4.完善功能</p>
+</li>
+</ul>
+<p>​    </p>
+
     </article>
     <!-- license  -->
     
@@ -554,7 +1248,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">September 29th 2019, 11:33:03 am</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">October 3rd 2019, 12:08:16 am</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">October 3rd 2019, 10:46:12 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -686,7 +1380,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理用户和组"><span class="toc-number">1.</span> <span class="toc-text">管理用户和组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用户和组的相关文件详解"><span class="toc-number">1.1.</span> <span class="toc-text">用户和组的相关文件详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#和账户相关的文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">和账户相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#和组相关的文件"><span class="toc-number">1.1.2.</span> <span class="toc-text">和组相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#账户宿主目录中文件来源"><span class="toc-number">1.1.3.</span> <span class="toc-text">账户宿主目录中文件来源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认账户的属性文件"><span class="toc-number">1.1.4.</span> <span class="toc-text">默认账户的属性文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户、组操作"><span class="toc-number">1.2.</span> <span class="toc-text">用户、组操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户和组账号查询"><span class="toc-number">1.3.</span> <span class="toc-text">用户和组账号查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户分类：超级用户、程序用户、普通用户"><span class="toc-number">2.</span> <span class="toc-text">用户分类：超级用户、程序用户、普通用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#etc-passwd-、-etc-shadow、-etc-group-、-etc-login-defs-、bashrc、bash-profile"><span class="toc-number">3.</span> <span class="toc-text">/etc/passwd 、/etc/shadow、/etc/group 、/etc/login.defs 、bashrc、bash_profile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><span class="toc-number">4.</span> <span class="toc-text">useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手动建立用户案例、破解root用户密码"><span class="toc-number">5.</span> <span class="toc-text">手动建立用户案例、破解root用户密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本案例"><span class="toc-number">6.</span> <span class="toc-text">脚本案例</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理用户和组"><span class="toc-number">1.</span> <span class="toc-text">管理用户和组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用户和组的相关文件详解"><span class="toc-number">1.1.</span> <span class="toc-text">用户和组的相关文件详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#和账户相关的文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">和账户相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#和组相关的文件"><span class="toc-number">1.1.2.</span> <span class="toc-text">和组相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#账户宿主目录中文件来源"><span class="toc-number">1.1.3.</span> <span class="toc-text">账户宿主目录中文件来源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认账户的属性文件"><span class="toc-number">1.1.4.</span> <span class="toc-text">默认账户的属性文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户、组操作"><span class="toc-number">1.2.</span> <span class="toc-text">用户、组操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户分类：超级用户、程序用户、普通用户"><span class="toc-number">2.</span> <span class="toc-text">用户分类：超级用户、程序用户、普通用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><span class="toc-number">3.</span> <span class="toc-text">useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手动建立用户案例、破解root用户密码、营救模式"><span class="toc-number">4.</span> <span class="toc-text">手动建立用户案例、破解root用户密码、营救模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手动新建用户"><span class="toc-number">4.1.</span> <span class="toc-text">手动新建用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#破解root用户的密码"><span class="toc-number">4.2.</span> <span class="toc-text">破解root用户的密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#营救模式（rescue-mode"><span class="toc-number">4.3.</span> <span class="toc-text">营救模式（rescue mode)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是营救模式"><span class="toc-number">4.3.1.</span> <span class="toc-text">1.什么是营救模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-模拟破坏系统模式"><span class="toc-number">4.3.2.</span> <span class="toc-text">2.模拟破坏系统模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-如何进入营救模式"><span class="toc-number">4.3.3.</span> <span class="toc-text">3.如何进入营救模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他问题"><span class="toc-number">5.</span> <span class="toc-text">其他问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Q1-用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录"><span class="toc-number">5.0.1.</span> <span class="toc-text">Q1:用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？"><span class="toc-number">5.0.2.</span> <span class="toc-text">Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-踢出可疑的登录用户，马上修改密码"><span class="toc-number">5.0.2.1.</span> <span class="toc-text">1.踢出可疑的登录用户，马上修改密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-sshd拒绝某个IP连接"><span class="toc-number">5.0.2.2.</span> <span class="toc-text">2.sshd拒绝某个IP连接</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3：shell-启动配置文件的区别"><span class="toc-number">5.0.3.</span> <span class="toc-text">Q3：shell 启动配置文件的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4：su-切换的时候加-号和不加的区别"><span class="toc-number">5.0.4.</span> <span class="toc-text">Q4：su 切换的时候加-号和不加的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本案例"><span class="toc-number">5.1.</span> <span class="toc-text">脚本案例</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -699,6 +1393,18 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -906,11 +1612,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
-    
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
@@ -957,9 +1663,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
-    
         <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
