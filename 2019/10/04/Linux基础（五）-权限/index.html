@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Linux基础（五）--权限 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux基础（五）--权限</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Linux基础（五）--权限
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">15 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/04</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="权限引入"><a href="#权限引入" class="headerlink" title="权限引入"></a>权限引入</h2><ul>
+<li><p>为什么需要权限？</p>
+<ul>
+<li>管控——》资源的分配—–》有安全保障</li>
+</ul>
+</li>
+</ul>
+<h2 id="文件-目录权限以及归属"><a href="#文件-目录权限以及归属" class="headerlink" title="文件/目录权限以及归属"></a>文件/目录权限以及归属</h2><ul>
+<li><h3 id="查看文件-目录权限及归属"><a href="#查看文件-目录权限及归属" class="headerlink" title="查看文件/目录权限及归属"></a>查看文件/目录权限及归属</h3><ul>
+<li><h4 id="访问权限"><a href="#访问权限" class="headerlink" title="访问权限"></a>访问权限</h4><ul>
+<li><p>可读（read）:允许查看文件内容、显示目录列表</p>
+<ul>
+<li><p>文件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cat create_user.sh </span><br><span class="line">#!/bin/bash</span><br><span class="line">#function:create new system user</span><br><span class="line">#author:biubiu</span><br><span class="line">#time:2019-104</span><br><span class="line">#mail:biubiu34@126.com</span><br><span class="line"></span><br><span class="line">for i in &#123;1..5&#125;</span><br><span class="line">do</span><br><span class="line">	useradd -d /cali/cali$i cali$i</span><br><span class="line">	echo &quot;123456cali&quot;|passwd cali$i --stdin &amp;&gt;/dev/null</span><br><span class="line">	echo “create cali$i ok”</span><br><span class="line">done</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>文件夹</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# ls biu/</span><br><span class="line">biubiu</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>可写（wirte）：运行修改文件内容，允许在目录中新建、移动、删除文件或是子目录</p>
+<ul>
+<li><p>对文件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# vim create_user.sh</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>对文件夹</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost biu]# ls</span><br><span class="line">biubiu  cali</span><br><span class="line">[root@localhost biu]# mv cali/ califeng</span><br><span class="line">[root@localhost biu]# ls</span><br><span class="line">biubiu  califeng</span><br><span class="line">[root@localhost biu]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>可执行（execute）：允许运行程序、切换目录</p>
+<ul>
+<li><p>对文件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# ll -a</span><br><span class="line">总用量 16</span><br><span class="line">drwxr-xr-x.  3 root root 111 10月  4 19:15 .</span><br><span class="line">dr-xr-xr-x. 19 root root 250 10月  4 18:20 ..</span><br><span class="line">drwxr-xr-x.  3 root root  36 10月  4 19:17 biu</span><br><span class="line">-rw-r--r--.  1 root root 238 10月  4 18:35 create_user.sh</span><br><span class="line">-rw-r--r--.  1 root root 342 10月  4 18:40 create_user_v2.sh</span><br><span class="line">-rw-r--r--.  1 root root 500 10月  4 18:53 create_user_v3.sh</span><br><span class="line">-rw-r--r--.  1 root root  57 10月  4 18:18 delete_user.sh</span><br><span class="line">[root@localhost lianxi]# chmod +x create_user.sh</span><br><span class="line">[root@localhost lianxi]# ll</span><br><span class="line">总用量 16</span><br><span class="line">drwxr-xr-x. 3 root root  36 10月  4 19:17 biu</span><br><span class="line">-rwxr-xr-x. 1 root root 238 10月  4 18:35 create_user.sh</span><br><span class="line">-rw-r--r--. 1 root root 342 10月  4 18:40 create_user_v2.sh</span><br><span class="line">-rw-r--r--. 1 root root 500 10月  4 18:53 create_user_v3.sh</span><br><span class="line">-rw-r--r--. 1 root root  57 10月  4 18:18 delete_user.sh</span><br><span class="line">[root@localhost lianxi]# ./create_user.sh </span><br><span class="line">“create cali1 ok”</span><br><span class="line">“create cali2 ok”</span><br><span class="line">“create cali3 ok”</span><br><span class="line">“create cali4 ok”</span><br><span class="line">“create cali5 ok”</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>对目录</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# cd biu/</span><br><span class="line">[root@localhost biu]# pwd</span><br><span class="line">/lianxi/biu</span><br><span class="line">[root@localhost biu]# cd ..</span><br><span class="line">[root@localhost lianxi]# chmod -x biu/</span><br><span class="line">[root@localhost lianxi]# ll</span><br><span class="line">总用量 16</span><br><span class="line">drw-r--r--. 3 root root  36 10月  4 19:17 biu</span><br><span class="line">-rwxr-xr-x. 1 root root 238 10月  4 18:35 create_user.sh</span><br><span class="line">-rw-r--r--. 1 root root 342 10月  4 18:40 create_user_v2.sh</span><br><span class="line">-rw-r--r--. 1 root root 500 10月  4 18:53 create_user_v3.sh</span><br><span class="line">-rw-r--r--. 1 root root  57 10月  4 18:18 delete_user.sh</span><br><span class="line">#因为是root用户所以还是可以切换目录</span><br><span class="line">[root@localhost lianxi]# cd biu/</span><br><span class="line">[root@localhost biu]# </span><br><span class="line"></span><br><span class="line">#切换到biubiu1普通用户之后，就没有权限进入biu文件夹了</span><br><span class="line">[biubiu1@localhost lianxi]$ ll</span><br><span class="line">总用量 16</span><br><span class="line">drw-r--r--. 3 root root  36 10月  4 19:17 biu</span><br><span class="line">-rwxr-xr-x. 1 root root 238 10月  4 18:35 create_user.sh</span><br><span class="line">-rw-r--r--. 1 root root 342 10月  4 18:40 create_user_v2.sh</span><br><span class="line">-rw-r--r--. 1 root root 500 10月  4 18:53 create_user_v3.sh</span><br><span class="line">-rw-r--r--. 1 root root  57 10月  4 18:18 delete_user.sh</span><br><span class="line">[biubiu1@localhost lianxi]$ cd biu/</span><br><span class="line">-bash: cd: biu/: 权限不够</span><br><span class="line">[biubiu1@localhost lianxi]$</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="归属（所有权）"><a href="#归属（所有权）" class="headerlink" title="归属（所有权）"></a>归属（所有权）</h4><ul>
+<li>文件拥有者（user）:拥有该文件或目录的用户账号</li>
+<li>属组（group）:拥有该文件或目录的组账号</li>
+<li>其他人（others）:除了拥有者和属组的其他人</li>
+</ul>
+</li>
+<li><h4 id="使用ll命令对文件-文件夹的解读"><a href="#使用ll命令对文件-文件夹的解读" class="headerlink" title="使用ll命令对文件/文件夹的解读"></a>使用ll命令对文件/文件夹的解读</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# ll</span><br><span class="line">total 16</span><br><span class="line">d------r--. 3 root root  36 Oct  4 19:17 biu</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字段</p>
+<ul>
+<li>字段1：文件的类型是什么<ul>
+<li>d  ,-,b ,c</li>
+</ul>
+</li>
+<li>字段2-4：文件拥有者的权限<ul>
+<li>r</li>
+<li>w</li>
+<li>x</li>
+<li>-：没有权限</li>
+</ul>
+</li>
+<li>字段5-7：属组的权限</li>
+<li>字段8-10：其他人的权限</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><img src="1570189026370.png" alt="1570189026370"></p>
+</li>
+</ul>
+</li>
+<li><h3 id="设置文件-目录的权限"><a href="#设置文件-目录的权限" class="headerlink" title="设置文件/目录的权限"></a>设置文件/目录的权限</h3><ul>
+<li><h4 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h4><ul>
+<li>格式1:chmod 【ugoa】【+-=】【rwx】文件或目录<ul>
+<li>字段<ul>
+<li>【ugoa】<ul>
+<li>u,g,o,a分别表示属主、属组、其他用户、所有用户</li>
+</ul>
+</li>
+<li>【+-=】<ul>
+<li>+.-.=分别表示增加、去除、设置权限</li>
+</ul>
+</li>
+<li>【rwx】<ul>
+<li>对应的权限字符</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>常用命令选项<ul>
+<li>-R:递归修改指定 目录下的所有文件、子目录的权限</li>
+</ul>
+</li>
+<li>格式2：chmod nnn 文件或目录…<ul>
+<li>字段:<ul>
+<li>nnn:表示3为八进制数</li>
+<li><img src="1570191176344.png" alt="1570191176344"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="设置文件-目录的归属"><a href="#设置文件-目录的归属" class="headerlink" title="设置文件/目录的归属"></a>设置文件/目录的归属</h3><ul>
+<li><h4 id="chown-（推荐使用）"><a href="#chown-（推荐使用）" class="headerlink" title="chown （推荐使用）"></a>chown （推荐使用）</h4><ul>
+<li><p><strong>必须是root才能用</strong></p>
+</li>
+<li><p>用户和组必须存在</p>
+</li>
+<li><p>格式</p>
+<ul>
+<li>chown 文件所有者 文件</li>
+<li>chown  :属组  文件</li>
+<li>chown 文件所有者:属组 文件</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# chown biubiu1 biu</span><br><span class="line">[root@localhost lianxi]# ll</span><br><span class="line">total 16</span><br><span class="line">d------r--. 3 biubiu1 root  36 Oct  4 19:17 biu</span><br><span class="line">-rwxr-xr-x. 1 root    root 238 Oct  4 18:35 create_user.sh</span><br><span class="line">-rw-r--r--. 1 root    root 342 Oct  4 18:40 create_user_v2.sh</span><br><span class="line">-rw-r--r--. 1 root    root 500 Oct  4 18:53 create_user_v3.sh</span><br><span class="line">-rw-r--r--. 1 root    root  57 Oct  4 18:18 delete_user.sh</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="chgrp"><a href="#chgrp" class="headerlink" title="chgrp"></a>chgrp</h4><ul>
+<li>格式： chgrp 属组 文件</li>
+<li><strong>必须是root 或是文件的所有者</strong></li>
+<li><strong>必须是新组的成员</strong></li>
+<li>常用选项<ul>
+<li>-R:递归修改制定目录下的所有文件、子目录的权限</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><img src="1570192099153.png" alt="1570192099153"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="默认权限"><a href="#默认权限" class="headerlink" title="默认权限"></a>默认权限</h3><ul>
+<li><p>在内核级别，文件的初始权限为666</p>
+</li>
+<li><p>在内核级别，文件夹的初始权限777</p>
+</li>
+<li><h4 id="umask"><a href="#umask" class="headerlink" title="umask"></a>umask</h4><ul>
+<li><p><strong>用umask命令控制默认权限，临时有效</strong></p>
+</li>
+<li><p><strong>不推荐修改系统默认umask</strong></p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# umask</span><br><span class="line">0022</span><br><span class="line">[root@localhost lianxi]# umask -S</span><br><span class="line">u=rwx,g=rx,o=rx</span><br><span class="line">[root@localhost lianxi]# umask 077</span><br><span class="line">[root@localhost lianxi]# umask</span><br><span class="line">0077</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# umask</span><br><span class="line">0022</span><br><span class="line">[root@localhost lianxi]# touch hu1</span><br><span class="line">[root@localhost lianxi]# mkdir biubiu1</span><br><span class="line">#root用户新建文件默认权限是644（666-022）</span><br><span class="line">[root@localhost lianxi]# ll hu1  </span><br><span class="line">-rw-r--r--. 1 root root 0 Oct  4 20:36 hu1</span><br><span class="line">#root用户新建目录默认权限是755（777-022）</span><br><span class="line">[root@localhost lianxi]# ll |grep biubiu1</span><br><span class="line">drwxr-xr-x. 2 root    root   6 Oct  4 20:36 biubiu1</span><br><span class="line">[root@localhost lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>root用户的umask是022,普通用户的umask是002</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost lianxi]# umask</span><br><span class="line">0022</span><br><span class="line">[root@localhost lianxi]# su biubiu1</span><br><span class="line">[biubiu1@localhost lianxi]$ umask</span><br><span class="line">0002</span><br><span class="line">[biubiu1@localhost lianxi]$ </span><br><span class="line"></span><br><span class="line">#在普通用户中新建文件夹，权限是775</span><br><span class="line">[biubiu1@localhost ~]$ ll   </span><br><span class="line">total 0</span><br><span class="line">drwxrwxr-x. 2 biubiu1 biubiu1 6 Oct  4 20:41 cali</span><br><span class="line">[biubiu1@localhost ~]$ </span><br><span class="line"></span><br><span class="line">#普通用户新建文件，权限是664</span><br><span class="line">[biubiu1@localhost ~]$ touch hu</span><br><span class="line">[biubiu1@localhost ~]$ ll</span><br><span class="line">total 0</span><br><span class="line">drwxrwxr-x. 2 biubiu1 biubiu1 6 Oct  4 20:41 cali</span><br><span class="line">-rw-rw-r--. 1 biubiu1 biubiu1 0 Oct  4 20:42 hu</span><br><span class="line">[biubiu1@localhost ~]$</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>在/etc/bashrc文件里规定umask的默认值</p>
+<ul>
+<li><img src="1570193090261.png" alt="1570193090261"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="文件或目录的隐藏属性"><a href="#文件或目录的隐藏属性" class="headerlink" title="文件或目录的隐藏属性"></a>文件或目录的隐藏属性</h3><ul>
+<li><h4 id="chattr-设置文件的隐藏属性"><a href="#chattr-设置文件的隐藏属性" class="headerlink" title="chattr:设置文件的隐藏属性"></a>chattr:设置文件的隐藏属性</h4><ul>
+<li><p>格式： chattr 【+-=】【ai】文件或目录</p>
+</li>
+<li><p>常见命令选项</p>
+<ul>
+<li>-R:递归修改</li>
+<li>-a:可以增加文件内容，但不能修改和删除</li>
+<li>-i:锁定保护文件</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost biu]# chattr +i /etc/passwd</span><br><span class="line">[root@localhost biu]# useradd hu</span><br><span class="line">useradd: cannot open /etc/passwd</span><br><span class="line">[root@localhost biu]# lsattr /etc/passwd</span><br><span class="line">----i----------- /etc/passwd</span><br><span class="line">[root@localhost biu]# </span><br><span class="line">[root@localhost biu]# lsattr </span><br><span class="line">---------------- ./biubiu</span><br><span class="line">---------------- ./califeng</span><br><span class="line">----i----------- ./hosts</span><br><span class="line">[root@localhost biu]# rm -rf hosts </span><br><span class="line">rm: cannot remove &apos;hosts&apos;: Operation not permitted</span><br><span class="line">[root@localhost biu]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="lsattr：查看文件的隐藏属性"><a href="#lsattr：查看文件的隐藏属性" class="headerlink" title="lsattr：查看文件的隐藏属性"></a>lsattr：查看文件的隐藏属性</h4><ul>
+<li>格式：lsattr 【Rda】文件或目录</li>
+<li>常用命令选项<ul>
+<li>-R:递归修改</li>
+<li>-d:查看目录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="特别权限（UID-SGID-Sticky）"><a href="#特别权限（UID-SGID-Sticky）" class="headerlink" title="特别权限（UID,SGID,Sticky）"></a>特别权限（UID,SGID,Sticky）</h3><ul>
+<li><p><img src="1570194514296.png" alt="1570194514296"></p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost biu]# which passwd</span><br><span class="line">/usr/bin/passwd</span><br><span class="line">[root@localhost biu]# ll /usr/bin/passwd </span><br><span class="line">-rwsr-xr-x. 1 root root 27832 Jun 10  2014 /usr/bin/passwd</span><br><span class="line">[root@localhost biu]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>操作对象</p>
+<ul>
+<li>文件<ul>
+<li>SUID：以文件属主（默认情况下，Linux几乎所有的命令都是归root用户所有）的权限执行文件<ul>
+<li>当某个命令具有SUID权限位的时候，普通用户在执行这个命令的时候，就会具有root用户的权限<ul>
+<li>比如，具有SUID权限位，普通用户修改密码的时候，是以root用户的身份去修改密码的，这样可以达到修改/etc/shadow文件里的密码的作用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SGID：以文件属组的权限执行文件</li>
+</ul>
+</li>
+<li>文件夹<ul>
+<li>Sticky：文件夹中新建的对象只有root和拥有者可以删除</li>
+<li>SGID:文件夹中新建的对象都属于文件夹的属组</li>
+</ul>
+</li>
+<li><img src="1570194810749.png" alt="1570194810749"></li>
+</ul>
+</li>
+<li><p>SET位权限</p>
+<ul>
+<li>主要用途<ul>
+<li>为可执行（有x权限的）文件设置，权限字符为“s”</li>
+<li>其他用户执行该文件时候，将拥有属主或属组用户的权限</li>
+</ul>
+</li>
+<li>SET位权限类型：<ul>
+<li>SUID:表示对属主用户增加SET位权限</li>
+<li>SGID：表示对属组内的用户增加SET位权限</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>粘滞位权限（Sticky）</p>
+<ul>
+<li>主要用途：<ul>
+<li>为公共目录（例如，权限为777的）设置，权限字符为“t”</li>
+<li>用户不能删除该目录中其他用户的文件</li>
+</ul>
+</li>
+<li>应用实例：/tmp,/var/tmp </li>
+</ul>
+</li>
+<li><p>总结：</p>
+<ul>
+<li>打狗看主人（看所在的上一个文件夹有什么权限）<ul>
+<li>如果对父目录有完全控制（读写执行）的权限，可以对目录下的文件进行删除，但是对父目录下的子目录里的文件就不能进行完全控制了，需要看权限</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>设置SET位、粘滞位权限</p>
+<ul>
+<li>使用权限字符<ul>
+<li>chmod ug+/-s 可执行文件…</li>
+<li>chmod 0+/-t 目录名</li>
+</ul>
+</li>
+<li>使用权限字<ul>
+<li>chmod mnnn 可执行文件</li>
+<li>m为4时候，对应SUID,2对应SGID,1对应粘滞位，可叠加</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="ACL的使用"><a href="#ACL的使用" class="headerlink" title="ACL的使用"></a>ACL的使用</h2><ul>
+<li>ACL:访问控制列表<ul>
+<li>一个文件/目录的访问控制列表，可以针对任意指定的用户/组分配RWX权限</li>
+</ul>
+</li>
+<li>设置ACL：setfacl指令<ul>
+<li>格式：setfacl 选项 规则 文件</li>
+<li>常用选项：<ul>
+<li>-m :新增或修改ACL中的规则</li>
+<li>-b:删除所有ACL规则</li>
+<li>-x:删除指定的ACL规则</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>查看ACL：getfacl指令<ul>
+<li>格式:getfacl 文件</li>
+</ul>
+</li>
+<li>常用规则<ul>
+<li>格式：类型:特定的用户或组:权限</li>
+<li>user:(uid/name):(perms)   指定某位使用者的权限</li>
+<li>group:(gid/name):(perms) 指定某一群组的权限</li>
+<li>other::(perms)        指定其他使用者的权限 </li>
+<li>mask::(perms)       设定有效的最大权限</li>
+</ul>
+</li>
+<li>注意<ul>
+<li>user、group、other、mask 简写为u,g,o,m</li>
+<li>perms使用rwx</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="sudo授权"><a href="#sudo授权" class="headerlink" title="sudo授权"></a>sudo授权</h2><ul>
+<li><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><ul>
+<li>Linux里root用户的权限最大<ul>
+<li>关机、重启系统、配置IP地址、格式化磁盘、mount等</li>
+</ul>
+</li>
+<li>普通用户的权限非常小</li>
+<li>如何给普通用户也具有一定的权限？<ul>
+<li>给root分忧</li>
+</ul>
+</li>
+<li>如果能授权，那么是授权给用户还是组？</li>
+</ul>
+</li>
+<li><h3 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h3><ul>
+<li><p>授权文件 ：/etc/sudoers  —&gt;授权文件</p>
+<ul>
+<li><p>Sudoers allows particular users to run various commands as<br>the root user, without needing the root password.</p>
+<p>This file must be edited with the ‘visudo’ command. </p>
+<p>​             <strong>—》直接使用visudo命令打开这个文件/etc/sudoers</strong></p>
+</li>
+</ul>
+</li>
+<li><p>授权语法：</p>
+<ul>
+<li>user    MACHINE=COMMANDS<br>用户     机器   命令<br>哪个用户在哪个机器上可以执行哪些命令</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">## Allow root to run any commands anywhere </span><br><span class="line">      </span><br><span class="line"> root    ALL=(ALL)       ALL  </span><br><span class="line">      </span><br><span class="line">## Allows people in group wheel to run all commands</span><br><span class="line">      </span><br><span class="line">   %wheel        ALL=(ALL)       ALL       </span><br><span class="line">   允许wheel组里的所有用户可以执行所有的命令</span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>案例1</p>
+<ul>
+<li><p>授权给单独的用户</p>
+<pre><code>1.授权给zhangwuji这个用户能新建用户和删除用户</code></pre></li>
+<li><p>步骤</p>
+<ul>
+<li><p>第1步：授权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@cali lianxi]# useradd zhangwuji</span><br><span class="line">[root@cali ~]# echo 123|passwd zhangwuji --stdin</span><br><span class="line">更改用户 zhangwuji 的密码 。</span><br><span class="line">passwd： 所有的身份验证令牌已经成功更新。</span><br><span class="line">[root@cali ~]# </span><br><span class="line">[root@cali lianxi]# vim /etc/sudoers</span><br><span class="line">zhangwuji  ALL=/usr/sbin/useradd   要使用命令的绝对命令</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第2步：去验证使用</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cali lianxi]# su - zhangwuji</span><br><span class="line">[zhangwuji@cali ~]$</span><br><span class="line">[zhangwuji@cali ~]$ sudo useradd linghu123  执行授权的命令</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>第3步：查看日志</p>
+<ul>
+<li>sudo 的操作Linux系统都会记录下来</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# tailf /var/log/secure</span><br><span class="line">Oct  6 16:00:42 localhost sshd[9806]: Accepted password for root from 192.168.0.14 port 1732 ssh2</span><br><span class="line">Oct  6 16:00:43 localhost sshd[9806]: pam_unix(sshd:session): session opened for user root by (uid=0)</span><br><span class="line">Oct  6 16:00:51 localhost su: pam_unix(su:session): session opened for user zhangwuji by root(uid=0)</span><br><span class="line">Oct  6 16:01:16 localhost sudo: zhangwuji : command not allowed ; TTY=pts/0 ; PWD=/root ; USER=root ; COMMAND=/sbin/useradd linghu123</span><br><span class="line">Oct  6 16:01:51 localhost su: pam_unix(su:session): session closed for user zhangwuji</span><br><span class="line">Oct  6 16:02:48 localhost su: pam_unix(su:session): session opened for user zhangwuji by root(uid=0)</span><br><span class="line">Oct  6 16:03:08 localhost sudo: zhangwuji : TTY=pts/0 ; PWD=/root ; USER=root ; COMMAND=/sbin/useradd linghu123</span><br><span class="line">Oct  6 16:03:08 localhost useradd[9884]: new group: name=linghu123, GID=1048</span><br><span class="line">Oct  6 16:03:08 localhost useradd[9884]: new user: name=linghu123, UID=1048, GID=1048, home=/home/linghu123, shell=/bin/bash</span><br><span class="line">Oct  6 16:03:47 localhost su: pam_unix(su:session): session closed for user zhangwuji</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第4步：授权可以删除用户</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zhangwuji       ALL=/usr/sbin/useradd,/usr/sbin/userdel</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>案例2</p>
+<ul>
+<li><p>授权给组，组就是linux系统里的组（/etc/group）</p>
+</li>
+<li><p>步骤</p>
+<ul>
+<li><p>第1步：新建用户和组，并将用户加入到华山组</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@cali lianxi]# groupadd huashan</span><br><span class="line">[root@cali lianxi]# useradd -g huashan linghu</span><br><span class="line">[root@cali lianxi]# useradd -g huashan pingzhi</span><br><span class="line">[root@cali lianxi]# id pingzhi</span><br><span class="line">uid=8966(pingzhi) gid=10003(huashan) 组=10003(huashan)</span><br><span class="line">[root@cali lianxi]# id linghu</span><br><span class="line">uid=8956(linghu) gid=10003(huashan) 组=10003(huashan)</span><br><span class="line">[root@cali lianxi]#</span><br><span class="line">[root@cali lianxi]# echo 123|passwd linghu --stdin</span><br><span class="line">更改用户 linghu 的密码 。</span><br><span class="line">passwd： 所有的身份验证令牌已经成功更新。</span><br><span class="line">[root@cali lianxi]# echo 123|passwd pingzhi --stdin</span><br><span class="line">更改用户 pingzhi 的密码 。</span><br><span class="line">passwd： 所有的身份验证令牌已经成功更新。</span><br><span class="line">[root@cali lianxi]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>第2步：修改/ect/pingzhi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cali lianxi]# vim /etc/sudoers  授权组huashan可以使用ip命令</span><br><span class="line">%huashan        ALL=/sbin/ip</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第3步：登录pingzhi用户去验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[root@cali lianxi]# su - pingzhi  登录去验证</span><br><span class="line">[pingzhi@cali ~]$ id</span><br><span class="line">uid=8966(pingzhi) gid=10003(huashan) 组=10003(huashan) 环境=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023</span><br><span class="line">[pingzhi@cali ~]$</span><br><span class="line">[pingzhi@cali ~]$ sudo ip add add 182.1.1.1/24 dev eth0  执行授权的命令</span><br><span class="line">[sudo] password for pingzhi: </span><br><span class="line">[pingzhi@cali ~]$</span><br><span class="line">[pingzhi@cali ~]$ ip add  查看效果</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 16436 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:bd:c3:68 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.20.29/24 brd 192.168.20.255 scope global eth0</span><br><span class="line">    inet 182.1.1.1/24 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29 ff:febd:c368/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">[pingzhi@cali ~]$</span><br><span class="line">[root@cali lianxi]# su - linghu</span><br><span class="line">[linghu@cali ~]$ sudo ip add add 193.1.1.1/24 dev eth0</span><br><span class="line">[sudo] password for linghu: </span><br><span class="line">[linghu@cali ~]$ ip add</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 16436 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:bd:c3:68 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.20.29/24 brd 192.168.20.255 scope global eth0</span><br><span class="line">    inet 182.1.1.1/24 scope global eth0</span><br><span class="line">    inet 193.1.1.1/24 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:febd:c368/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">[linghu@cali ~]$</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/04/Linux基础（五）-权限/">https://biubiu34.github.io/2019/10/04/Linux基础（五）-权限/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/04/Linux基础（五）-权限/">October 4th 2019, 6:56:23 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/04/Linux基础（五）-权限/">October 6th 2019, 4:25:15 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/09/29/Linux基础（四）-用户和组、密码/" title= "Linux基础（四）--用户和组、密码">
+                    <div class="prevTitle">Linux基础（四）--用户和组、密码</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#权限引入"><span class="toc-number">1.</span> <span class="toc-text">权限引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件-目录权限以及归属"><span class="toc-number">2.</span> <span class="toc-text">文件/目录权限以及归属</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看文件-目录权限及归属"><span class="toc-number">2.1.</span> <span class="toc-text">查看文件/目录权限及归属</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#访问权限"><span class="toc-number">2.1.1.</span> <span class="toc-text">访问权限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#归属（所有权）"><span class="toc-number">2.1.2.</span> <span class="toc-text">归属（所有权）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用ll命令对文件-文件夹的解读"><span class="toc-number">2.1.3.</span> <span class="toc-text">使用ll命令对文件/文件夹的解读</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置文件-目录的权限"><span class="toc-number">2.2.</span> <span class="toc-text">设置文件/目录的权限</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chmod"><span class="toc-number">2.2.1.</span> <span class="toc-text">chmod</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置文件-目录的归属"><span class="toc-number">2.3.</span> <span class="toc-text">设置文件/目录的归属</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chown-（推荐使用）"><span class="toc-number">2.3.1.</span> <span class="toc-text">chown （推荐使用）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#chgrp"><span class="toc-number">2.3.2.</span> <span class="toc-text">chgrp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">2.3.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#默认权限"><span class="toc-number">2.4.</span> <span class="toc-text">默认权限</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#umask"><span class="toc-number">2.4.1.</span> <span class="toc-text">umask</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件或目录的隐藏属性"><span class="toc-number">2.5.</span> <span class="toc-text">文件或目录的隐藏属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chattr-设置文件的隐藏属性"><span class="toc-number">2.5.1.</span> <span class="toc-text">chattr:设置文件的隐藏属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lsattr：查看文件的隐藏属性"><span class="toc-number">2.5.2.</span> <span class="toc-text">lsattr：查看文件的隐藏属性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特别权限（UID-SGID-Sticky）"><span class="toc-number">2.6.</span> <span class="toc-text">特别权限（UID,SGID,Sticky）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL的使用"><span class="toc-number">3.</span> <span class="toc-text">ACL的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sudo授权"><span class="toc-number">4.</span> <span class="toc-text">sudo授权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引入"><span class="toc-number">4.1.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#授权"><span class="toc-number">4.2.</span> <span class="toc-text">授权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例"><span class="toc-number">4.3.</span> <span class="toc-text">案例</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 11
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/计算机网络-ip地址/" >计算机网络(一)--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/post-name/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip`"><span class="iconfont-archer">&#xe606;</span>ip`</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
