@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>计算机网络（一）--基本介绍 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">计算机网络（一）--基本介绍</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            计算机网络（一）--基本介绍
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">4.9k</span>阅读时长: <span class="post-count reading-time">17 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/07</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="什么是计算机网络"><a href="#什么是计算机网络" class="headerlink" title="什么是计算机网络"></a>什么是计算机网络</h2><p>计算机网络，是指将地理位臵不同的具有独立功能的多台计算机及其外部设备，通过通信线路连接起来，在网络操作系统，网络管理软件及网络通信协议的管理和协调下，实现资源共享和信息传递的计算机系统。</p>
+<p>简单地说，计算机网络就是通过电缆、电话线或无线通讯将两台以上的计算机互连起来的集合。</p>
+<p>网络基础名词</p>
+<ul>
+<li><p><strong>网络：network</strong></p>
+<ul>
+<li>网络是由若干<a href="https://baike.baidu.com/item/%E8%8A%82%E7%82%B9/865052" target="_blank" rel="noopener">节点</a>和连接这些节点的<a href="https://baike.baidu.com/item/%E9%93%BE%E8%B7%AF/16851859" target="_blank" rel="noopener">链路</a>构成，表示诸多对象及其相互联系。</li>
+</ul>
+</li>
+<li><p><strong>互联网：internet</strong></p>
+<ul>
+<li>是所有网络互连起来的一个巨型网络</li>
+</ul>
+</li>
+<li><p><strong>以太网：Ethernet</strong></p>
+<ul>
+<li>最常见的局域网通信协议</li>
+<li>是一种技术规范，不是一种具体的网络</li>
+</ul>
+</li>
+<li><p><strong>C/S架构软件</strong></p>
+<ul>
+<li>C/S 结构，即大家熟知的客户机和服务器结构。它是软件系统体系结构，通过它可以充分利用两端硬件环境的优势，将任务合理分配到Client端和Server端来实现，降低了系统的通讯开销</li>
+</ul>
+</li>
+<li><p><strong>B/S架构软件</strong></p>
+<ul>
+<li>B/S是基于特定通信协议(HTTP)的C/S架构，也就是说B/S包含在C/S中，是特殊的C/S架构。</li>
+</ul>
+</li>
+<li><p><strong>ISP：互联网服务提供商</strong></p>
+<ul>
+<li><p>即向广大用户综合提供互联网接入业务、信息业务、和增值业务的电信运营商</p>
+</li>
+<li><p>ISP是经国家主管部门批准的正式运营企业，享受国家法律保护。 </p>
+</li>
+<li><p>中国大陆主要的ISP ： 中国五大基础运营商（电脑上网方式和手机上网方式）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">中国电信：拨号上网、ADSL </span><br><span class="line">中国网通：拨号上网、ADSL、FTTx</span><br><span class="line">中国铁通：拨号上网、ADSL </span><br><span class="line">中国移动：GPRS及EDGE无线上网、FTTx</span><br><span class="line">中国联通：GPRS及CDMA无线上网</span><br><span class="line">电信重组之后，中国网通并入中国联通，剔除中国联通CDMA，组成新联通；</span><br><span class="line">中国联通CDMA并入中国电信组成新电信；</span><br><span class="line">中国铁通并入中国移动组成新移动；</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>IP:网络协议</strong></p>
+<ul>
+<li>全称互联网协议地址，是指IP地址，意思是分配给用户上网使用的网际协议（英语：InternetProtocol,IP）的设备的数字标签。常见的IP地址分为IPv4与IPv6两大类，但是也有其他不常用的小分类。</li>
+<li>IP地址是IP协议提供的一种统一的地址格式，它为互联网上的每一个网络和每一台主机分配一个逻辑地址，以此来屏蔽物理地址的差异。</li>
+</ul>
+</li>
+<li><p><strong>公网IP</strong></p>
+<ul>
+<li>公网、内网是计算机的两种网络接入方式，公网IP地址需要向ISP申请，企业可以申请到的公网IP非常有限，具有公网IP地址的计算机和Internet上的其他计算机可随意互相访问。</li>
+</ul>
+</li>
+<li><p><strong>内网IP</strong></p>
+<ul>
+<li>也就是局域网，最直观的就是像网吧，公司内部的电脑，用交换机，HUB，路由连起来的。</li>
+<li>内网的计算机可向外网上的其他计算机发送连接请求，但外网上的计算机无法随意访问内网的计算机。</li>
+</ul>
+</li>
+<li><p><strong>ip地址分类</strong></p>
+<ul>
+<li><p>A类地址：10.0.0.0——10.255.255.255</p>
+</li>
+<li><p>B类地址：172.16.0.0—-172.31.255.255 </p>
+</li>
+<li><p>C类地址：192.168.0.0—192.168.255.255</p>
+</li>
+<li><p>D类地址：224.0.0.0—239.255.255.255</p>
+</li>
+<li><p>E类地址：240.0.0.0—247.255.255.255</p>
+</li>
+</ul>
+</li>
+<li><p><strong>动态IP</strong></p>
+<ul>
+<li>因为IP地址资源非常短缺，通过电话拨号上网或普通宽带上网用户一般不具备固定IP地， 而是由ISP动态分配暂时的一个IP地址，每次重新接入网络时，IP地址都会发生变化。</li>
+</ul>
+</li>
+<li><p><strong>静态IP：固定IP</strong></p>
+<ul>
+<li>是长期固定分配给一台计算机（或路由器）使用的 IP 地址，一般是特殊的服务器才拥有固定 IP 地址。</li>
+</ul>
+</li>
+<li><p><strong>域名：Domain</strong></p>
+<ul>
+<li>是由一串用点分隔的字符组成的<a href="https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91" target="_blank" rel="noopener">互联网</a>上某一台<a href="https://zh.wikipedia.org/wiki/%E9%9B%BB%E5%AD%90%E8%A8%88%E7%AE%97%E6%A9%9F" target="_blank" rel="noopener">计算机</a>或计算机组的名称，用于在数据传输时标识计算机的电子方位。域名可以说是一个<a href="https://zh.wikipedia.org/wiki/IP%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">IP地址</a>的代称，目的是为了便于记忆后者。</li>
+<li>各部分之间用英文 的句号“.”来分隔， 例如下列域名： yahoo.com， sina.com.cn。</li>
+</ul>
+</li>
+<li><p><strong>域名解析：DNS</strong></p>
+<ul>
+<li>域名解析就是域名到IP地址的转换过程。域名的解析工作由<a href="https://baike.baidu.com/item/DNS%E6%9C%8D%E5%8A%A1%E5%99%A8" target="_blank" rel="noopener">DNS服务器</a>完成。</li>
+<li>域名是为了方便记忆而专门建立的一套地址转换系统，要访问一台互联网上的服务器，最终还必须通过<a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">IP地址</a>来实现，域名解析就是将域名重新转换为IP地址的过程。</li>
+<li>一个域名对应一个IP地址，一个IP地址可以对应多个域名；所以多个域名可以同时被解析到一个IP地址。域名解析需要由专门的域名解析服务器(DNS)来完成。</li>
+</ul>
+</li>
+<li><p><strong>动态域名解析：DDNS</strong></p>
+<ul>
+<li>DDNS 是将用户的动态 IP 地址映射到一个固定的域名解析服务上，用户每次连接网络的时候客户端程序就会通过信息传递把该主机的动态 IP 地址传送给位于服务商主机上的服务器程序，服务项目器程序负责提供 DNS 服务并实现动态域名解析。</li>
+</ul>
+</li>
+<li><p><strong>广域网:WAN</strong></p>
+<ul>
+<li>是连接不同地区<a href="https://baike.baidu.com/item/%E5%B1%80%E5%9F%9F%E7%BD%91" target="_blank" rel="noopener">局域网</a>或<a href="https://baike.baidu.com/item/%E5%9F%8E%E5%9F%9F%E7%BD%91" target="_blank" rel="noopener">城域网</a>计算机通信的远程网。</li>
+<li>WAN:广域网  wide  area network    —–》<strong>远距离的网络</strong></li>
+<li>WAN口：<strong>又称外网口 –》接外网–》联通、电信、移动、Internet</strong></li>
+</ul>
+</li>
+<li><p><strong>局域网：LAN</strong></p>
+<ul>
+<li>局域网自然就是局部地区形成的一个区域网络，其特点就是分布地区范围有限，可大可小，大到一栋建筑楼 与相邻建筑之间的连接，小到可以是办公室之间的联系。</li>
+<li>LAN:局域网   local  area  network  —–》用于连接较短距离内的计算机</li>
+<li>LAN口： <strong>内网接口 —–》企业网、校园网</strong></li>
+</ul>
+</li>
+<li><p><strong>无线局域网：WLAN</strong></p>
+<ul>
+<li>是不使用任何导线或传输电缆连接的<a href="https://zh.wikipedia.org/wiki/%E5%B1%80%E5%9F%9F%E7%BD%91" target="_blank" rel="noopener">局域网</a>，而使用<a href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%BA%BF%E7%94%B5%E6%B3%A2" target="_blank" rel="noopener">无线电波</a>或<a href="https://zh.wikipedia.org/w/index.php?title=%E7%94%B5%E5%9C%BA%E4%B8%8E%E7%A3%81%E5%9C%BA&action=edit&redlink=1" target="_blank" rel="noopener">电场与磁场</a>作为数据传送的媒介，传送距离一般只有几十米。</li>
+<li>WLAN: 无线局域网  wireless  local area network</li>
+<li>无线局域网用户通过一个或多个<a href="https://zh.wikipedia.org/wiki/%E7%84%A1%E7%B7%9A%E6%8E%A5%E5%8F%96%E5%99%A8" target="_blank" rel="noopener">无线接取器</a>接入无线局域网。</li>
+</ul>
+</li>
+<li><p><strong>网关：Gateway</strong></p>
+<ul>
+<li>网关是一种充当转换重任的<a href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/7210959" target="_blank" rel="noopener">计算机系统</a>或设备。</li>
+<li>使用在不同的<a href="https://baike.baidu.com/item/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/3351624" target="_blank" rel="noopener">通信协议</a>、数据格式或语言，甚至<a href="https://baike.baidu.com/item/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/8174145" target="_blank" rel="noopener">体系结构</a>完全不同的两种系统之间，网关是一个翻译器。</li>
+<li>与<a href="https://baike.baidu.com/item/%E7%BD%91%E6%A1%A5/99310" target="_blank" rel="noopener">网桥</a>只是简单地传达信息不同，网关对收到的信息要重新打包，以适应目的系统的需求。</li>
+</ul>
+</li>
+<li><p><strong>无线接入点：WAP</strong></p>
+<ul>
+<li>是<a href="https://zh.wikipedia.org/wiki/%E9%9B%BB%E8%85%A6%E7%B6%B2%E7%B5%A1" target="_blank" rel="noopener">计算机网络</a>中一种连接<a href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C" target="_blank" rel="noopener">无线网络</a>至有线网络（<a href="https://zh.wikipedia.org/wiki/%E4%BB%A5%E5%A4%AA%E7%BD%91" target="_blank" rel="noopener">以太网</a>）的设备，又称为<strong>无线基站</strong>。</li>
+<li>它通常作为一个单独设备，并通过有线网络连接到<a href="https://zh.wikipedia.org/wiki/%E8%B7%AF%E7%94%B1%E5%99%A8" target="_blank" rel="noopener">路由器</a>，也能与路由器集成在一起。</li>
+<li>无线路由器就是一个AP<ul>
+<li>AP: access  point  访问点（无线访问点） –》无线路由器就是一个AP<ul>
+<li><strong>无线速率越快越好！！！</strong> —–&gt;买设备的时候一定要看！！</li>
+<li>WAN口(网线接入口)：–》千兆网口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>​                    100M  1000Mbps</p>
+</li>
+<li><p><strong>虚拟专用网：VPN</strong></p>
+<ul>
+<li>在<a href="https://baike.baidu.com/item/%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C/12752077" target="_blank" rel="noopener">公用网络</a>上建立<a href="https://baike.baidu.com/item/%E4%B8%93%E7%94%A8%E7%BD%91%E7%BB%9C/795899" target="_blank" rel="noopener">专用网络</a>，进行<a href="https://baike.baidu.com/item/%E5%8A%A0%E5%AF%86/752748" target="_blank" rel="noopener">加密</a>通讯。在<a href="https://baike.baidu.com/item/%E4%BC%81%E4%B8%9A%E7%BD%91%E7%BB%9C/2119389" target="_blank" rel="noopener">企业网络</a>中有广泛应用。</li>
+<li><a href="https://baike.baidu.com/item/VPN" target="_blank" rel="noopener">VPN</a>网关通过对<a href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%8C%85/489739" target="_blank" rel="noopener">数据包</a>的加密和数据包目标地址的转换实现<a href="https://baike.baidu.com/item/%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/3326708" target="_blank" rel="noopener">远程访问</a>。VPN可通过<a href="https://baike.baidu.com/item/%E6%9C%8D%E5%8A%A1%E5%99%A8/100571" target="_blank" rel="noopener">服务器</a>、硬件、软件等多种方式实现。</li>
+<li>特殊使用<ul>
+<li>由于<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E8%8F%AF%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9C%8B%E7%B6%B2%E7%B5%A1%E5%AF%A9%E6%9F%A5" target="_blank" rel="noopener">中国大陆境内对海外网络的限制及屏蔽</a>，中国大陆兴起以采用虚拟专用网（VPN）连接外国网络的<a href="https://zh.wikipedia.org/wiki/%E7%AA%81%E7%A0%B4%E7%BD%91%E7%BB%9C%E5%AE%A1%E6%9F%A5" target="_blank" rel="noopener">翻墙</a>方法。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>虚拟局域网：VLAN</strong></p>
+<ul>
+<li>虚拟局域网（VLAN）是一组逻辑上的设备和用户，这些设备和用户并不受物理位置的限制，可以根据功能、部门及应用等因素将它们组织起来，相互之间的通信就好像它们在<a href="https://baike.baidu.com/item/%E5%90%8C%E4%B8%80%E4%B8%AA%E7%BD%91%E6%AE%B5/10612240" target="_blank" rel="noopener">同一个网段</a>中一样，由此得名虚拟局域网。</li>
+</ul>
+</li>
+<li><p><strong>Wi-Fi：无线热点</strong></p>
+<ul>
+<li>由AP和无线网卡组成的无线网络</li>
+</ul>
+</li>
+<li><p><strong>子网：subnet</strong></p>
+<ul>
+<li>为了确定网络区域，分开主机和路由器的每个接口，从而产生了若干个分离的网络岛，接口端连接了这些独立网络的端点。这些独立的网络岛叫做<strong>子网(subnet)。</strong></li>
+</ul>
+</li>
+<li><p><strong>分布式系统：distributed system</strong></p>
+<ul>
+<li>存在着一个能为用户自动管理资源的网络操作系统，由它来自动调用完成用户任务所需的资源，正网络系统对于用户来说就像一个大的计算机系统一样。</li>
+</ul>
+</li>
+<li><p><strong>网络地址转换：NAT</strong></p>
+<ul>
+<li>又称<strong>网络掩蔽</strong>、<strong>IP掩蔽</strong>）在<a href="https://zh.wikipedia.org/wiki/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B6%B2%E7%B5%A1" target="_blank" rel="noopener">计算机网络</a>中是一种在IP数据包通过<a href="https://zh.wikipedia.org/wiki/%E8%B7%AF%E7%94%B1%E5%99%A8" target="_blank" rel="noopener">路由器</a>或<a href="https://zh.wikipedia.org/wiki/%E9%98%B2%E7%81%AB%E5%A2%99" target="_blank" rel="noopener">防火墙</a>时重写来源<a href="https://zh.wikipedia.org/wiki/IP%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">IP地址</a>或目的IP地址的技术。</li>
+<li>这种技术被普遍使用在有多台主机但只通过一个公有IP地址访问<a href="https://zh.wikipedia.org/wiki/%E5%9B%A0%E7%89%B9%E7%B6%B2" target="_blank" rel="noopener">因特网</a>的私有网络中</li>
+</ul>
+</li>
+<li><p><strong>协议：protocol —–用来统一标准的</strong></p>
+<ul>
+<li>网络协议为<a href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/18763" target="_blank" rel="noopener">计算机网络</a>中进行数据交换而建立的规则、标准或约定的集合。</li>
+<li>协议是需要人去制定，定义了很多细节</li>
+<li>华为、腾讯等硬件和软件公司–》协议  –》使用软件去开发。</li>
+</ul>
+</li>
+<li><p><strong>拓扑图：</strong></p>
+<ul>
+<li><p><strong>描述整个网络结构的图</strong></p>
+<p><img src="clipboard.png" alt="img"></p>
+</li>
+<li><p><strong>星型拓扑：</strong></p>
+<ul>
+<li>优点：易于实现、已于网络扩展、易于故障排查、非常常见、成本低</li>
+<li>缺点：中心节点压力大、组网成本比较高</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>URL ：统一资源定位系统</strong></p>
+<ul>
+<li>对能从 Internet 上得到的资源的位置和方向方法的一种表示。</li>
+</ul>
+</li>
+<li><p><strong>无线网卡</strong></p>
+<ul>
+<li>可以让<strong>台式机</strong>使用无线网络</li>
+</ul>
+</li>
+<li><p><strong>标准：—–一系列的协议</strong></p>
+<ul>
+<li><p>协议分为很多种，每一种协议都明确的地界定了它的行为规范。</p>
+</li>
+<li><p>ISO（国际标准化组织）</p>
+</li>
+<li><p>IEEE（电气和电子工程师学会）</p>
+</li>
+<li><p>ISO制定了OSI参考模型，该模型将通信协议中的必要的功能分成了7层，每个分层负责接收由它下一层所提供的服务，并且负责向它的上一层提供服务。上下层之间进行交互是所遵循的约定叫做“接口”。同一层之间的交互所遵循的叫做“协议”。</p>
+</li>
+<li><p>网络协议</p>
+<ul>
+<li><p><strong>OSI下每一层的协议如下：</strong></p>
+<p>物理层：RJ45、CLOCK、IEEE802.3    （中继器，集线器，网关）</p>
+<p>数据链路：PPP、FR、HDLC、VLAN、MAC  （网桥，交换机）</p>
+<p>网络层：IP、ICMP、ARP、RARP、OSPF、IPX、RIP、IGRP、 （路由器）</p>
+<p>传输层：TCP、UDP、SPX</p>
+<p>会话层：NFS、SQL、NETBIOS、RPC</p>
+<p>表示层：JPEG、MPEG、ASII</p>
+<p>应用层：FTP、DNS、Telnet、SMTP、HTTP、WWW、NFS</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>网络体系结构</strong></p>
+<ul>
+<li>计算机网络层次结构模型与各层协议的集合。<ul>
+<li>OSI(Open System Interconnection,开放系统互连)的七层协议体系结构。  较复杂</li>
+<li>TCP/IP是一个四层的体系结构。</li>
+<li>五层协议<ul>
+<li><img src="1570454710896.png" alt="1570454710896"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>OSI参考模型</strong></p>
+<ul>
+<li>由国际标准化组织 ISO 指定的网络层次结构模型。</li>
+<li><img src="1570454649583.png" alt="1570454649583"></li>
+</ul>
+</li>
+</ul>
+<h2 id="常见网络协议"><a href="#常见网络协议" class="headerlink" title="常见网络协议"></a>常见网络协议</h2><ul>
+<li>HTTP:超文本传输协议</li>
+<li>HTML：超文本标记语言</li>
+<li>TCP：传输控制协议</li>
+<li>TCP/IP：传输控制协议/网间协议</li>
+<li>FTP：文件传输协议</li>
+<li>UDP ： 一种无连接的、不可靠的传输层协议。</li>
+<li>PPP 协议： 支持多种协议，不仅在拨号电话线，并且在路由器 - 路由器。</li>
+<li>SMTP ： 用于实现互联网中电子邮件传送功能的协议。</li>
+<li>NFS ： 用于网络中不同主机之间的文件共享的协议。</li>
+</ul>
+<h2 id="几种常用的网络设备"><a href="#几种常用的网络设备" class="headerlink" title="几种常用的网络设备"></a>几种常用的网络设备</h2><ul>
+<li><p><strong>中继器：RP</strong></p>
+<ul>
+<li>信号在双绞线中传输的过程中信号的功率会逐渐衰减，当信号衰减到一定程度时将造成信号失真，所以为了方便较远距离的两计算机进行通信，就在这两个计算机之间安装一个中继器，让信号能传的更远</li>
+<li>它的作用是放大信号，补偿信号<a href="https://baike.baidu.com/item/%E8%A1%B0%E5%87%8F" target="_blank" rel="noopener">衰减</a>，支持远距离的通信。</li>
+<li>中继器工作在物理层，只是起到了扩展传输距离的作用，对高层是透明的。</li>
+</ul>
+</li>
+<li><p><strong>集线器：Hub</strong></p>
+<ul>
+<li>多接口的中继器,可以连接多台设备，一般有4、8、16、24、32等数量的接口。</li>
+<li>每台计算机想与其他计算机进行通信时，计算机首先要将数据包通过双绞线送到集线器上，而集线器是用广播的方式将包同时发给8个端口，8个端口的计算机收到广播信息后对信息进行检查，是发给自己的就接收，不是的话就不理睬。</li>
+<li>同样，集线器也是工作在物理层。</li>
+</ul>
+</li>
+<li><p><strong>网桥：Bridge</strong></p>
+<ul>
+<li>网桥像是一个聪明的中继器，如前所说，中继器只是简单的连接了两个网络，任何数据都可以通过中继器发出，但网桥有所不同。网桥除了扩展网络的距离或范围，还能提高网络的性能和安全性。</li>
+<li>为了解决集线器的冲突问题，有效隔离冲突域</li>
+</ul>
+</li>
+<li><p><strong>交换机：Switch</strong></p>
+<ul>
+<li>它可以为接入交换机的任意两个<a href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9/9338583" target="_blank" rel="noopener">网络节点</a>提供独享的电信号通路。</li>
+<li>最常见的交换机是<a href="https://baike.baidu.com/item/%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA/10186103" target="_blank" rel="noopener">以太网交换机</a>。其他常见的还有电话语音交换机、<a href="https://baike.baidu.com/item/%E5%85%89%E7%BA%A4%E4%BA%A4%E6%8D%A2%E6%9C%BA/8396782" target="_blank" rel="noopener">光纤交换机</a>等</li>
+<li>多接口和转发效率提升的网桥</li>
+<li>工作在二层（数据链路层）；通过mac地址转发数据</li>
+</ul>
+</li>
+<li><p><strong>路由器：router</strong></p>
+<ul>
+<li>路由器是连接两个或多个网络的硬件设备，在网络间起<a href="https://baike.baidu.com/item/%E7%BD%91%E5%85%B3/98992" target="_blank" rel="noopener">网关</a>的作用，是读取每一个数据包中的地址然后决定如何传送的专用智能性的网络设备。</li>
+<li>连接各交换机，实现跨网络传输</li>
+<li>工作在三层（网络层）；通过ip路由表转发数据</li>
+<li>路由器的厂商：<ul>
+<li>高端：思科cisco、华为huawei</li>
+<li>中端：锐捷、H3C、中兴</li>
+<li>低端：tp_link 、小米、水星、腾达、360</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>交换机和路由器的区别</strong></p>
+<ul>
+<li><strong>交换机的作用：组建局域网</strong></li>
+<li><strong>路由器的作用：跨网段通信</strong>  </li>
+</ul>
+</li>
+<li><p><strong>无线路由器</strong>：路由器+交换机+无线功能 –》无线交换机</p>
+<ul>
+<li><strong>无线路由器带机数量：</strong><ul>
+<li>无线路由器带机数量是有限的，一般的无线路由器带机数在20-30！</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a><strong>常用软件</strong></h2><ul>
+<li><strong>ERP ： Enterprise Resource Planning  （企业资源计划）</strong><ul>
+<li>ERP 是一种主要面向制造行业进行物质资源、资金资源和信息资源集成一体化管理的企业信息管理系统。ERP 是一个以管理会计 为核心可以提供跨地区、跨部门、甚至跨公司整合实时信息的企业管理软件。针对<a href="https://baike.baidu.com/item/%E7%89%A9%E8%B5%84%E8%B5%84%E6%BA%90" target="_blank" rel="noopener">物资资源</a>管理（物流）、人力资源管理（人流）、<a href="https://baike.baidu.com/item/%E8%B4%A2%E5%8A%A1%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86" target="_blank" rel="noopener">财务资源管理</a>（财流）、<a href="https://baike.baidu.com/item/%E4%BF%A1%E6%81%AF%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86" target="_blank" rel="noopener">信息资源管理</a>（信息流）集成一体化的企业管理软件。</li>
+</ul>
+</li>
+<li><strong>CRM ： Customer Relationship Management （客户关系管理）</strong><ul>
+<li>是指企业用CRM技术来管理与客户之间的关系。</li>
+</ul>
+</li>
+<li><strong>OA ： Office Automation （办公自动化）</strong><ul>
+<li>是将<a href="https://baike.baidu.com/item/%E7%8E%B0%E4%BB%A3%E5%8C%96%E5%8A%9E%E5%85%AC" target="_blank" rel="noopener">现代化办公</a>和计算机技术结合起来的一种新型的办公方式。办公自动化没有统一的定义，凡是在传统的办公室中采用各种新技术、新机器、新设备从事办公业务，都属于办公自动化的领域</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他概念"><a href="#其他概念" class="headerlink" title="其他概念"></a>其他概念</h2><ul>
+<li><p><strong>虚拟化</strong></p>
+<ul>
+<li>将一台服务器/主机通过虚拟化软件技术，让他变成多台服务器/主机</li>
+</ul>
+</li>
+<li><p><strong>容器</strong></p>
+<ul>
+<li>缩减版的虚拟机，将虚拟机中一些不需要的功能删除，只留下必要功能，从而保持最小规格</li>
+</ul>
+</li>
+<li><p><strong>云</strong></p>
+<ul>
+<li>利用虚拟化技术，我们能够动态的调整每台虚拟机的硬件大小，如cpu核数，内存大小等</li>
+</ul>
+</li>
+<li><p><strong>单工通信</strong></p>
+<ul>
+<li>在一条通信线路（一般包含一条发送信道和一条接收信道）中信号只能向一个方向传送的方法。</li>
+</ul>
+</li>
+<li><p><strong>半双工通信</strong></p>
+<ul>
+<li>在一条通信线路中信号可以双向传送，但一个时间只能向一个方向传送的方法。</li>
+</ul>
+</li>
+<li><p><strong>全双工通信</strong></p>
+<ul>
+<li>在一条通信线路中信号可以同时双向传输数据的方法。</li>
+</ul>
+</li>
+<li><p><strong>链路</strong></p>
+<ul>
+<li>从一个结点到相邻结点的一段物理线路（有线或无线），而中间没有任何其他的交换结点。</li>
+<li>数据链路： 将实现控制数据传输的通信协议的软硬件加到链路上即是数据链路。</li>
+</ul>
+</li>
+<li><p><strong>纠错码</strong></p>
+<ul>
+<li>让每个传输的分组带上足够的冗余信息，以便在接收端能发现并自动纠正传输差错的编码方法。</li>
+</ul>
+</li>
+<li><p><strong>Browser</strong> </p>
+<ul>
+<li>用来浏览 Internet 上的主页的客户端软件。</li>
+</ul>
+</li>
+<li><p><strong>Page</strong> </p>
+<ul>
+<li>信息资源在 WWW 服务器中存储的形式。</li>
+</ul>
+</li>
+<li><p><strong>被动攻击</strong></p>
+<ul>
+<li>在不影响网络正常工作的情况下，黑客进行信息的截获、窃取、破译的攻击方式。</li>
+</ul>
+</li>
+<li><p><strong>主动攻击</strong></p>
+<ul>
+<li>黑客有选择地破坏信息的有效性和完整性的攻击方式。</li>
+</ul>
+</li>
+<li><p><strong>服务攻击</strong></p>
+<ul>
+<li>为网络提供某种服务的服务器发起攻击，造成该网络的“拒绝服务”，使得网络工作不正常的攻击方式。</li>
+</ul>
+</li>
+<li><p><strong>非服务攻击</strong></p>
+<ul>
+<li>不针对某项具体的应用服务，而是基于网络层等低层协议而进行的攻击。</li>
+</ul>
+</li>
+<li><p><strong>防抵赖</strong> </p>
+<ul>
+<li>防止信息源结点用户对其所发的信息事后不承认 ，或者是信息目的结点收到信息之后不认帐问题的出现。</li>
+</ul>
+</li>
+<li><p><strong>对称加密</strong></p>
+<ul>
+<li>对信息的加密与解密都使用相同的密钥的加密技术。</li>
+</ul>
+</li>
+<li><p><strong>非对称加密</strong></p>
+<ul>
+<li>加密的密钥可以公开，解密的密钥需要保密的加密技术。</li>
+</ul>
+</li>
+<li><p><strong>保护方式</strong></p>
+<ul>
+<li>在网络管理员发现网络存在非法入侵者时，立即采取措施制止入侵者的活动的方法。</li>
+</ul>
+</li>
+<li><p><strong>跟踪方式</strong></p>
+<ul>
+<li>在网络管理员发现网络存在非法入侵者时，不是立即制止入侵活动，而是采取跟踪入侵活动的方法。</li>
+</ul>
+</li>
+<li><p><strong>身份认证</strong></p>
+<ul>
+<li>用来确认网络中信息传输的源结点用户与目的结点用户是否真实的服务。</li>
+</ul>
+</li>
+<li><p><strong>报文</strong></p>
+<ul>
+<li>在传输层之间传输的协议数据单元。</li>
+</ul>
+</li>
+<li><p><strong>段 segment</strong> </p>
+<ul>
+<li>TCP 协议传递给 IP 的信息单元。</li>
+</ul>
+</li>
+<li><p><strong>重传计时器</strong></p>
+<ul>
+<li>为了控制丢失的或丢弃的报文段， TCP 使用了处理报文段确认的等待时间的计时器</li>
+</ul>
+</li>
+<li><p><strong>连接建立延时</strong></p>
+<ul>
+<li>传输服务用户要求建立连接到收到连接确认之间所经历的时间。</li>
+</ul>
+</li>
+<li><p><strong>连接建立失败的概率</strong></p>
+<ul>
+<li>在最大连接建立延迟时间内连接未能建立的可能性。</li>
+</ul>
+</li>
+<li><p><strong>传输延迟</strong></p>
+<ul>
+<li>从源主机传输用户发送报文开始到目的主机传输用户接收到报文为止经历的时间。</li>
+</ul>
+</li>
+<li><p><strong>残余误码率</strong></p>
+<ul>
+<li>用于测量丢失或乱序的报文数占整个发送的报文数的百分比。</li>
+</ul>
+</li>
+<li><p><strong>恢复功能</strong></p>
+<ul>
+<li>在出现内部问题或拥塞情况下，传输层本身自发终止连接的可能性。</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://blog.csdn.net/sophiaviayang/article/details/83783994" target="_blank" rel="noopener">网络基础概念</a></li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/07/计算机网络（一）-基本介绍/">https://biubiu34.github.io/2019/10/07/计算机网络（一）-基本介绍/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/07/计算机网络（一）-基本介绍/">October 7th 2019, 7:06:09 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/07/计算机网络（一）-基本介绍/">October 7th 2019, 11:34:47 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/07/linux学习-ssh原理/" title= "Linux学习-SSH原理">
+                    <div class="prevTitle">Linux学习-SSH原理</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是计算机网络"><span class="toc-number">1.</span> <span class="toc-text">什么是计算机网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见网络协议"><span class="toc-number">2.</span> <span class="toc-text">常见网络协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几种常用的网络设备"><span class="toc-number">3.</span> <span class="toc-text">几种常用的网络设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用软件"><span class="toc-number">4.</span> <span class="toc-text">常用软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他概念"><span class="toc-number">5.</span> <span class="toc-text">其他概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">6.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 15
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/Linux学习-selinux/" >Linux学习--SElinux安全系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/redis基础（一）/" >redis基础（一）--redis简介和基本操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/post-name/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络知识"><span class="iconfont-archer">&#xe60a;</span>计算机网络知识</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
