@@ -22,7 +22,7 @@
     <meta name="description" content="个人博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>biubiu&#39;s website</title>
+    <title>Linux学习--ftp命令 · biubiu&#39;s website</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux学习--ftp命令</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Welcome to biubiu's Blog</a>
 </header>
@@ -220,24 +231,76 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            Linux学习--ftp命令
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ftp">ftp</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/07</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,512 +401,122 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/07/linux学习-ssh原理/" >
-            
-                <span>Linux学习-SSH原理</span>
-        </a>
-        <div class="abstract-content">
-            ​       传统的网络服务程序（如ftp,telnet）在网络上使用明文传输数据，这样别有用心的人就可以非常容易的截取口令和数据，而且这些服务程序的安全验证方式其实也是有弱点的，就是很容易受到“中间人”（man-in-the-middle）方式的攻击。所谓“中间人”的攻击方式，就是“中间人”冒充真正的服务器接收你传给服务器的数据，然后再冒充你把数据传给真正的服务器。服务器和你之间的数据传送被“中间人”一转手做了手脚之后，就会出现很严重的问题。
-​      SSH是一种基于应用层的网络协议，用于计算机之间的加密登录，并且在远程的主机上执行命令。
-​       通过使用SSH，你可以...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SSH">SSH</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>​    <strong>ftp命令</strong>是用来设置文件系统相关功能，可以用于许多不同的操作系统。</p>
+<p>​    <strong>ftp在Linux中使用的FTP是vsftp</strong></p>
+<h2 id="安装FTP"><a href="#安装FTP" class="headerlink" title="安装FTP"></a>安装FTP</h2><ul>
+<li><p>yum安装</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install vsftpd -y</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="FTP命令"><a href="#FTP命令" class="headerlink" title="FTP命令"></a>FTP命令</h2><ul>
+<li><h3 id="连接ftp服务器"><a href="#连接ftp服务器" class="headerlink" title="连接ftp服务器"></a>连接ftp服务器</h3><ul>
+<li><p>ftp(参数)(主机名或IP地址)</p>
+</li>
+<li><p>参数</p>
+<ul>
+<li>-d 详细显示指令执行过程，便于排错或分析程序执行的情形。</li>
+<li>-i 关闭互动模式，不询问任何问题。</li>
+<li>-g 关闭本地主机文件名称支持特殊字符的扩充特性。</li>
+<li>-n 不使用自动登陆。</li>
+<li>-v 显示指令执行过程。</li>
+</ul>
+</li>
+<li><p>直接连接ftp服务器</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ftp 192.168.0.14</span><br><span class="line">Connected to 192.168.0.14 (192.168.0.14).</span><br><span class="line">220 (vsFTPd 3.0.2)</span><br><span class="line">Name (192.168.0.14:root): ftp    </span><br><span class="line">331 Please specify the password.</span><br><span class="line">Password:</span><br><span class="line">230 Login successful.</span><br><span class="line">Remote system type is UNIX.</span><br><span class="line">Using binary mode to transfer files.</span><br><span class="line">ftp&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>可以使用自己新建的用户名登录ftp,登录ftp服务会登录到用户的家目录，可以上传和下载文件，—–&gt;home/【用户名】</p>
+</li>
+<li><p>但是匿名用户ftp只能下载不能上传 —-&gt;/var/ftp</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#新建用户登录ftp的上传功能</span><br><span class="line">[root@localhost ftp]# cd /boot/</span><br><span class="line">[root@localhost boot]# ls</span><br><span class="line">config-3.10.0-862.el7.x86_64</span><br><span class="line">efi</span><br><span class="line">grub</span><br><span class="line">grub2</span><br><span class="line">initramfs-0-rescue-082e68f1a7084502858088d3bc215e8b.img</span><br><span class="line">initramfs-3.10.0-862.el7.x86_64.img</span><br><span class="line">symvers-3.10.0-862.el7.x86_64.gz</span><br><span class="line">System.map-3.10.0-862.el7.x86_64</span><br><span class="line">vmlinuz-0-rescue-082e68f1a7084502858088d3bc215e8b</span><br><span class="line">vmlinuz-3.10.0-862.el7.x86_64</span><br><span class="line">[root@localhost boot]# lftp -upenglong,123456 192.168.0.14</span><br><span class="line">lftp penglong@192.168.0.14:~&gt; put config-3.10.0-862.el7.x86_64 </span><br><span class="line">147819 bytes transferred                   </span><br><span class="line">lftp penglong@192.168.0.14:~&gt; ls</span><br><span class="line">-rw-r--r--    1 1052     1052       147819 Oct 07 03:48 config-3.10.0-862.el7.x86_64</span><br><span class="line">drwxr-xr-x    2 1052     1052            6 Oct 07 03:43 xiaolong</span><br><span class="line">drwxr-xr-x    2 1052     1052            6 Oct 07 03:43 xiaopeng</span><br><span class="line">lftp penglong@192.168.0.14:~&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="目录命令"><a href="#目录命令" class="headerlink" title="目录命令"></a>目录命令</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1)  </span><br><span class="line">    *1 pwd                 显示远程计算机上的当前目录</span><br><span class="line">    *2 ls/dir              列出当前远程目录的内容，可以使用该命令在Linux下的任何合法的ls选项</span><br><span class="line">    *3 cd                  移动到cd 后的目录</span><br><span class="line">    *4 cdup/cd ..          返回上一级目录</span><br><span class="line">    *5 lcd                 列出当前本地目录路径</span><br><span class="line"> 2) 必须具有权限</span><br><span class="line">    *1 mkdir               在远程系统中创建目录</span><br><span class="line">    *2 rname               重命名一个文件或目录</span><br><span class="line">    *3 redir               删除远程目录  </span><br><span class="line">    *4 delete              删除远程文件</span><br><span class="line">    *5 mdelete             删除多个远程文件</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>文件上传/下载</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*1 binary              用于二进制文件传送（图像文件等）</span><br><span class="line">*2 ascii               用于文本文件传送</span><br><span class="line">*3 get/mget            在当前远程目录下复制（一个/多个）文件到本地文件系统当前目录</span><br><span class="line">*4 put/mput            从当前目录把文件复制到当前远程目录</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>退出</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*1 !                    临时退出ftp模式，返回本地Linux Shell模式，键入exit返回</span><br><span class="line">*2 close                关闭当前连接</span><br><span class="line">*3 bye                  关闭连接并退出ftp命令模式</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>其他</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">FTP&gt;ascii: 设定以ASCII方式传送文件(缺省值)</span><br><span class="line">FTP&gt;bell: 每完成一次文件传送,报警提示.</span><br><span class="line">FTP&gt;binary: 设定以二进制方式传送文件.</span><br><span class="line">FTP&gt;bye: 终止主机FTP进程,并退出FTP管理方式.</span><br><span class="line">FTP&gt;case: 当为ON时,用MGET命令拷贝的文件名到本地机器中,全部转换为小写字母.</span><br><span class="line">FTP&gt;cd: 同UNIX的CD命令.</span><br><span class="line">FTP&gt;cdup: 返回上一级目录.</span><br><span class="line">FTP&gt;chmod: 改变远端主机的文件权限.</span><br><span class="line">FTP&gt;close: 终止远端的FTP进程,返回到FTP命令状态, 所有的宏定义都被删除.</span><br><span class="line">FTP&gt;delete: 删除远端主机中的文件.</span><br><span class="line">FTP&gt;dir [remote-directory] [local-file] 列出当前远端主机目录中的文件.如果有本地文件,就将结果写至本地文件.</span><br><span class="line">FTP&gt;get [remote-file] [local-file] 从远端主机中传送至本地主机中.</span><br><span class="line">FTP&gt;help [command] 输出命令的解释.</span><br><span class="line">FTP&gt;lcd: 改变当前本地主机的工作目录,如果缺省,就转到当前用户的HOME目录.</span><br><span class="line">FTP&gt;ls [remote-directory] [local-file] 同DIR.</span><br><span class="line">FTP&gt;macdef: 定义宏命令.</span><br><span class="line">FTP&gt;mdelete [remote-files] 删除一批文件.</span><br><span class="line">FTP&gt;mget [remote-files] 从远端主机接收一批文件至本地主机.</span><br><span class="line">FTP&gt;mkdir directory-name 在远端主机中建立目录.</span><br><span class="line">FTP&gt;mput local-files 将本地主机中一批文件传送至远端主机.</span><br><span class="line">FTP&gt;open host [port] 重新建立一个新的连接.</span><br><span class="line">FTP&gt;prompt: 交互提示模式.</span><br><span class="line">FTP&gt;put local-file [remote-file] 将本地一个文件传送至远端主机中.</span><br><span class="line">FTP&gt;pwd: 列出当前远端主机目录.</span><br><span class="line">FTP&gt;quit: 同BYE.</span><br><span class="line">FTP&gt;recv remote-file [local-file] 同GET.</span><br><span class="line">FTP&gt;rename [from] [to] 改变远端主机中的文件名.</span><br><span class="line">FTP&gt;rmdir directory-name 删除远端主机中的目录.</span><br><span class="line">FTP&gt;send local-file [remote-file] 同PUT.</span><br><span class="line">FTP&gt;status: 显示当前FTP的状态.</span><br><span class="line">FTP&gt;system: 显示远端主机系统类型.</span><br><span class="line">FTP&gt;user user-name [password] [account] 重新以别的用户名登录远端主机.</span><br><span class="line">FTP&gt;? [command]: 同HELP. [command]指定需要帮助的命令名称。如果没有指定 command，ftp 将显示全部命令的列表。</span><br><span class="line">FTP&gt;! 从 ftp 子系统退出到外壳。</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li>FTP 常用命令<a href="https://cn.opensuse.org/FTP_%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4" target="_blank" rel="noopener">https://cn.opensuse.org/FTP_%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4</a></li>
+<li>ftp命令<a href="https://man.linuxde.net/ftp" target="_blank" rel="noopener">https://man.linuxde.net/ftp</a></li>
+</ul>
+
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/07/Linux学习-ftp命令/" >
-            
-                <span>Linux学习--ftp命令</span>
-        </a>
-        <div class="abstract-content">
-            ​    ftp命令是用来设置文件系统相关功能，可以用于许多不同的操作系统。
-​    ftp在Linux中使用的FTP是vsftp
-安装FTP
-yum安装
-
-1yum install vsftpd -y
-
-
-
-
-
-FTP命令
-连接ftp服务器
-ftp(参数)(主机名或IP地址)
-
-参数
-
--d 详细显示指令执行过程，便于排错或分析程序执行的情形。
--i 关闭互动模式，不询问任何问题。
--g 关闭本地主机文件名称支持特殊字符的扩充特性。
--n 不使用自动登陆。
--v 显示指令执行过程。
-
-
-直接连接ftp服务器
-
-12345678910[root@localhost ~]# ftp 19...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/07/Linux学习-ftp命令/">https://biubiu34.github.io/2019/10/07/Linux学习-ftp命令/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/07/Linux学习-ftp命令/">October 7th 2019, 11:15:20 am</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/07/Linux学习-ftp命令/">October 7th 2019, 3:44:38 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ftp">ftp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/06/Linux学习-selinux/" >
-            
-                <span>Linux学习--SElinux安全系统</span>
-        </a>
-        <div class="abstract-content">
-            SELinux简介
-selinux主要由美国国家安全局开发，针对计算机基础结构安全开发的一个Linux安全策略。SELinux可以允许系统管理员更加灵活的来定义安全策略。
-SELinux是一个内核级别的安全机制，对于其配置文件的修改都是需要重新启动操作系统才能生效的
-
-SELinux基本概念
-SELinux 主要作用就是最大限度地减小系统中服务进程可访问的资源（最小权限原则）。
-
-操作系统的安全机制其实就是对两样东西做出限制：进程和系统资源（文件、网络套接字、系统调用等）
-
-SElinux 当中针对这两样东西定义两个基本概念：域（domin）和上下文（context）
-域就是用来对进程进...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/06</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SElinux">SElinux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/04/Linux基础（五）-权限/" >
-            
-                <span>Linux基础（五）--权限</span>
-        </a>
-        <div class="abstract-content">
-            权限引入
-为什么需要权限？
-
-管控——》资源的分配—–》有安全保障
-
-
-
-文件/目录权限以及归属
-查看文件/目录权限及归属
-访问权限
-可读（read）:允许查看文件内容、显示目录列表
-
-文件
-
-1234567891011121314[root@localhost lianxi]# cat create_user.sh #!/bin/bash#function:create new system user#author:biubiu#time:2019-104#mail:biubiu34@126.comfor i in &#123;1..5&#125;do	useradd -d /cali...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/29/Linux基础（四）-用户和组、密码/" >
-            
-                <span>Linux基础（四）--用户和组、密码</span>
-        </a>
-        <div class="abstract-content">
-            管理用户和组
-每个账号都有一个唯一的UID —》身份证
-
-每个组也有一个唯一的GID —》公司—》组织代码
-
-多个账户可以属于同一个组，一个用户可以属于多个组
-
-用户、用户组关系图
-
-任何一个用户都会属于一个组，默认情况下用户名和组名是一样的 
-​    
-
-
-root ：windows里的超级用户叫administartor
-
-linux里的超级用户是root
-
-新建的用户，没有设置密码，是否登录windows系统？ —》可以
-新建的用户，没有设置密码，是否登录Linux系统？ —》不可以
-
-
-用户和组背后的问题
-
-权限的问题、资源管控的问题
-
-
-程序  —–》服务—-》进程—–》端口...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/28/Linux基础（三）-重定向/" >
-            
-                <span>Linux基础（三）--重定向和管道操作</span>
-        </a>
-        <div class="abstract-content">
-            重定向标准输入、标准输出和标准错误​       构建了一个带有编号标记的通道（文件描述符）的进程结构来管理要打开的文件，进程连接到文件，从而到达这些文件所代表的数据内存或设备。通过用户通道0、1、2（称之为标准输入、标准输出和标准错误）的默认连接创建进程。进程使用3以上编号的通道连接 其他文件。
-
-
-标准的输入  -》键盘–》0
-标准的输出  -》显示器 —》正确的  —》1
-标准的错误输出  —》显示器  —》错误的   —-》2
-其他文件  —-》无  —》读取和/或写入 –》3+
-
-重定向（redirect）
-
-默认情况下，所有的输出都输出到屏幕上，有时候需要改变输出的方向，例如...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "重定向">重定向</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux基础-xshell/" >
-            
-                <span>Linux基础--xshell和虚拟机使用技巧（快照和挂起）</span>
-        </a>
-        <div class="abstract-content">
-            xshell的使用、虚拟机的使用技巧（快照和挂起）1.检查wins真实机器的vmnet1的ip 和Linux虚拟机的ip
-2.ping一下测试网络是否ping的通
-远程连接工具：
-​    xshell
-Xshell的使用1.填写ip地址
-
-2.输入用户密码
-3.选编码格式，建议utf-8
-虚拟机的使用技巧​    1.快照（snapshot）：创建一个Linux系统好的状态，一旦系统出现问题的时候，可以快速恢复到当时创建好的系统的状态。
-​        ——创建快照会消耗真实机器的磁盘空间
-
-挂起（suspend）:让虚拟机暂停在某个时间点    
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xshell">xshell</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VMware">VMware</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux基础（二）-Linux命令/" >
-            
-                <span>Linux基础（二）--Linux命令</span>
-        </a>
-        <div class="abstract-content">
-            linux基本命令Linux网络设置
-
-桥接bridge:本地连接（有线网卡）、无线网络，，，相当于通过一个交换机通信
-NAT：
-host-only（仅主机模式）：只和真实机器VMnet1通信，不能和其他的主机通信
-
-
-
-
-配置ip地址（临时配置ip,重新启动会使ip地址失效）
-
-ip address add 192.168.20.24/24  dev eth0    —-》不会覆盖原来的ip地址，一个网卡可以有多个ip,推荐使用
-给eth0这个网卡配置ip地址192.168.20.24，子网掩码为255.255.255.0
-
-
-ifconfig (centos7 使用yum insta...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/linux基础（一）/" >
-            
-                <span>linux基础（一）---操作系统和Linux常用命令</span>
-        </a>
-        <div class="abstract-content">
-            操作系统
-操作系统就是特殊的软件
-
-作用
-
-
-直接操作硬件
-把操作硬件的代码封装成一个又一个系统调用，供其它的成员通过系统调用间接操作操作系统的硬件
-
-
-
-没有安装操作系统的计算机，被称为裸机
-
-
-系统调用的好处
-
-
-操作系统提供了不同的系统调用就可以直接和系统调用
-
-
-操作系统吧对内存对硬盘对声卡等的操作统统都变成系统调用，避免了繁琐的0101的编码
-
-
-不同应用领域的操作系统
-
-桌面操作系统
-
-
-windows系统
-
-
-应用软件多，用户群体大
-不稳定
-
-
-macOS
-
-
-适合开发人员
-
-
-linux
-
-
-应用软件少
-用户基数少
-
-
-
-
-服务器操作系统
-
-
-服务器
-
-
-硬件层面上：所谓...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "操作系统">操作系统</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/vim编辑器/" >
-            
-                <span>VIM编辑器</span>
-        </a>
-        <div class="abstract-content">
-            目标
-
-vi 简介
-打开和新建文件
-三种工作模式
-常用命令
-分屏命令
-常用命令速查图
-
-vi 简介学习 vi 的目的
-在工作中，要对 服务器 上的文件进行 简单 的修改，可以使用 ssh 远程登录到服务器上，并且使用 vi 进行快速的编辑即可
-
-常见需要修改的文件包括：
-
-
-源程序
-配置文件，例如 ssh 的配置文件 ~/.ssh/config
-在没有图形界面的环境下，要编辑文件，vi 是最佳选择！
-每一个要使用 Linux       的程序员，都应该或多或少的学习一些 vi 的常用命令
-
-
-
-vi 和 vim
-在很多 Linux 发行版中，直接把 vi 做成 vim 的软连接
-vi ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VIM">VIM</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/07/linux学习-ssh原理/" title= "Linux学习-SSH原理">
+                    <div class="nextTitle">Linux学习-SSH原理</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/06/Linux学习-selinux/" title= "Linux学习--SElinux安全系统">
+                    <div class="prevTitle">Linux学习--SElinux安全系统</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -928,6 +601,24 @@ vi ...
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装FTP"><span class="toc-number">1.</span> <span class="toc-text">安装FTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP命令"><span class="toc-number">2.</span> <span class="toc-text">FTP命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接ftp服务器"><span class="toc-number">2.1.</span> <span class="toc-text">连接ftp服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目录命令"><span class="toc-number">2.2.</span> <span class="toc-text">目录命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1323,6 +1014,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>

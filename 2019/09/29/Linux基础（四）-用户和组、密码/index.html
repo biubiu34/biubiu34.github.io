@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">7k</span>阅读时长: <span class="post-count reading-time">33 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">7.8k</span>阅读时长: <span class="post-count reading-time">37 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -410,6 +410,7 @@ height:50vh;
 </li>
 <li><p>用户、用户组关系图</p>
 <ul>
+<li>任何一个用户都会属于一个组，默认情况下用户名和组名是一样的 </li>
 <li>​    <img src="1570022977644.png" alt="1570022977644"></li>
 </ul>
 </li>
@@ -444,11 +445,13 @@ height:50vh;
 </ul>
 <h3 id="用户和组的相关文件详解"><a href="#用户和组的相关文件详解" class="headerlink" title="用户和组的相关文件详解"></a>用户和组的相关文件详解</h3><ul>
 <li><h4 id="和账户相关的文件"><a href="#和账户相关的文件" class="headerlink" title="和账户相关的文件"></a>和账户相关的文件</h4><ul>
+<li><p><strong>新建用户和删除用户的背后就是对文件的操作</strong></p>
+</li>
 <li><p><strong>/etc/passwd</strong></p>
 <ul>
 <li><p>用于保存用户的账号基本信息</p>
 <ul>
-<li><p>passwd -备份文件</p>
+<li><p>passwd -备份文件，总是少一次操作</p>
 </li>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost home]# diff /etc/passwd /etc/passwd-</span><br><span class="line">34d33</span><br><span class="line">&lt; hushitian:x:995:993::/home/hushitian:/bin/bash</span><br><span class="line">[root@localhost home]#</span><br></pre></td></tr></table></figure>
 </li>
@@ -463,12 +466,15 @@ height:50vh;
 <li><p>字段</p>
 <ul>
 <li>字段1：用户账号的名称</li>
-<li>字段2：用户密码字串或者密码占位符“x”</li>
+<li>字段2：用户密码字串或者密码占位符“x”，没什么意义</li>
 <li>字段3：用户账号的UUID</li>
 <li>字段4 ：所属基本组账号的GID号</li>
 <li>字段5：用户描述信息</li>
 <li>字段6：家目录</li>
-<li>字段7：登录shell信息 </li>
+<li>字段7：登录shell信息 ，默认的shell是/bin/bash<ul>
+<li>/sbin/nologin   表示用户不能登录系统</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p>先有用户再有组</p>
@@ -511,7 +517,7 @@ height:50vh;
 <li>字段4：密码的最短有效天数，默认是0</li>
 <li>字段5：密码的最长有效天数，默认为99999</li>
 <li>字段6：提前多少天警告用户口令将过期，默认值是7</li>
-<li>字段7：在密码过期之后多少天禁用此用户</li>
+<li>字段7：在密码过期之后多少天禁用此用户，密码到期前给予提醒</li>
 <li>字段8：账号失效时间，默认值为空</li>
 </ul>
 </li>
@@ -523,7 +529,11 @@ height:50vh;
 </li>
 </ul>
 </li>
-<li></li>
+</ul>
+</li>
+<li><p><strong>/etc/spool/mail</strong></p>
+<ul>
+<li>用户的邮箱文件</li>
 </ul>
 </li>
 <li><p><strong>观察系统日志</strong></p>
@@ -659,7 +669,7 @@ height:50vh;
 </li>
 </ul>
 </li>
-<li><p>程序用户:实现特定的功能（开启ftp服务、http服务、关机、MySQL服务等），但是一般不能登录系统：uid在1-499 </p>
+<li><p>程序用户:实现特定的功能（开启ftp服务、http服务、关机、MySQL服务等），但是一般不能登录系统：uid在1-499 (centos6)/201-999(centos7)</p>
 <ul>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</span><br></pre></td></tr></table></figure>
 </li>
@@ -673,7 +683,7 @@ height:50vh;
 </li>
 </ul>
 </li>
-<li><p>普通用户：使用useradd命令新建的用户，一般uid从500开始，每新建一个用户，uid会自动加1 </p>
+<li><p>普通用户：使用useradd命令新建的用户，一般uid从1000（centos7）/500(centos6)开始，每新建一个用户，uid会自动加1 </p>
 <ul>
 <li><p>默认情况下普通用户的家目录在/home目录下，会和用户名同名</p>
 </li>
@@ -929,7 +939,7 @@ height:50vh;
 <ul>
 <li><p>last</p>
 <ul>
-<li><p>查询最近哪些用户登录</p>
+<li><p>查询最近哪些用户登录  —-》必须是登录过的</p>
 </li>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mail]# last</span><br><span class="line">root     pts/4        192.168.0.23     Thu Oct  3 12:58 - 13:04  (00:06)    </span><br><span class="line">root     pts/3        192.168.0.12     Thu Oct  3 12:44   still logged in   </span><br><span class="line">root     pts/2        192.168.0.12     Thu Oct  3 12:38 - 14:54  (02:15)    </span><br><span class="line">root     pts/1        192.168.0.12     Thu Oct  3 11:25 - 14:47  (03:21)    </span><br><span class="line">root     pts/0        192.168.0.12     Thu Oct  3 10:41 - 14:04  (03:23)    </span><br><span class="line">root     pts/2        192.168.8.9      Wed Oct  2 23:13 - 00:42  (01:29)    </span><br><span class="line">root     pts/0        192.168.0.67     Wed Oct  2 22:32 - 23:26  (00:53)</span><br></pre></td></tr></table></figure>
 </li>
@@ -937,7 +947,7 @@ height:50vh;
 </li>
 <li><p>lastlog </p>
 <ul>
-<li><p>查询哪些用户登陆过，哪些用户从未登陆过</p>
+<li><p>查询哪些用户登陆过，哪些用户从未登陆过  —》只要是用户</p>
 </li>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mail]# lastlog</span><br><span class="line">用户名           端口     来自             最后登陆时间</span><br><span class="line">root             pts/4    192.168.0.23     四 10月  3 12:58:06 +0800 2019</span><br><span class="line">bin                                        **从未登录过**</span><br><span class="line">daemon                                     **从未登录过**</span><br><span class="line">adm                                        **从未登录过**</span><br><span class="line">lp                                         **从未登录过**</span><br><span class="line">sync                                       **从未登录过**</span><br><span class="line">shutdown                                   **从未登录过**</span><br><span class="line">halt                                       **从未登录过**</span><br><span class="line">mail                                       **从未登录过**</span><br></pre></td></tr></table></figure>
 
@@ -1217,6 +1227,15 @@ height:50vh;
 </li>
 </ul>
 </li>
+<li><h4 id="Q5-有黑客登录到Linux系统，如何能将其踢出系统？"><a href="#Q5-有黑客登录到Linux系统，如何能将其踢出系统？" class="headerlink" title="Q5:有黑客登录到Linux系统，如何能将其踢出系统？"></a>Q5:有黑客登录到Linux系统，如何能将其踢出系统？</h4><ul>
+<li>1.马上修改root密码</li>
+<li>2.杀死他连接进入的bash进程，备份重要的文件</li>
+<li>3.查看ssh的日志，/etc/passwd</li>
+<li>4.其他的重要应用程序安全检查</li>
+<li>5.检查异常的进程  —-》木马程序</li>
+<li>6.最后可以重新安装系统</li>
+</ul>
+</li>
 </ul>
 <h3 id="脚本案例"><a href="#脚本案例" class="headerlink" title="脚本案例"></a>脚本案例</h3><ul>
 <li><p>写一个脚本，新建5个用户，用户名的前缀为cali，例如：cali1 cali2,到cali5 ,5个用户的密码为123456cali ,家目录在/cali 目录下与用户同名</p>
@@ -1239,7 +1258,67 @@ height:50vh;
 <li><p>4.完善功能</p>
 </li>
 </ul>
-<p>​    </p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><ul>
+<li><h4 id="ftp服务"><a href="#ftp服务" class="headerlink" title="ftp服务"></a>ftp服务</h4><ul>
+<li><p>安装 yum intsall vsftpd -y</p>
+</li>
+<li><p>yum install lftp ftp -y 安装ftp客户端</p>
+<ul>
+<li>lftp 是比ftp更好用的客户端工具，不需要指定用户名和密码，默认使用ftp登录</li>
+</ul>
+</li>
+<li><p>登录ftp</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ftp 192.168.0.14</span><br><span class="line">Connected to 192.168.0.14 (192.168.0.14).</span><br><span class="line">220 (vsFTPd 3.0.2)</span><br><span class="line">Name (192.168.0.14:root): ftp</span><br><span class="line">331 Please specify the password.</span><br><span class="line">Password:</span><br><span class="line">230 Login successful.</span><br><span class="line"> Remote system type is UNIX.</span><br><span class="line">Using binary mode to transfer files.</span><br><span class="line">ftp&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>ftp用户登录之后，登录到服务器的哪个文件夹里了？</p>
+<ul>
+<li>会登录到ftp的家目录</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/passwd|grep ftp</span><br><span class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">[root@localhost ~]# cd /var/ftp</span><br><span class="line">[root@localhost ftp]# ls</span><br><span class="line">iso  pub</span><br><span class="line">[root@localhost ftp]# pwd</span><br><span class="line">/var/ftp</span><br><span class="line">[root@localhost ftp]#</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/1570416305722.png" alt="1570416305722"></p>
+<ul>
+<li><h4 id="远程登录"><a href="#远程登录" class="headerlink" title="远程登录"></a>远程登录</h4><ul>
+<li><p>远程登录，使用的登录用户是penglong</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# useradd penglong</span><br><span class="line">[root@localhost ~]# passwd penglong</span><br><span class="line">更改用户 penglong 的密码 。</span><br><span class="line">新的 密码：</span><br><span class="line">无效的密码： 密码少于 8 个字符</span><br><span class="line">重新输入新的 密码：</span><br><span class="line">passwd：所有的身份验证令牌已经成功更新。</span><br><span class="line">[root@localhost ~]# ssh penglong@192.168.0.14</span><br><span class="line">The authenticity of host &apos;192.168.0.14 (192.168.0.14)&apos; can&apos;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:QOz9HLsBF+ns2l/A90tdzhm3VdoCi1ROjNNIip4jssA.</span><br><span class="line">ECDSA key fingerprint is MD5:95:b5:b6:61:b3:f4:bd:2b:1c:ee:e3:75:65:8e:53:62.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)? y</span><br><span class="line">Please type &apos;yes&apos; or &apos;no&apos;: yes</span><br><span class="line">Warning: Permanently added &apos;192.168.0.14&apos; (ECDSA) to the list of known hosts.</span><br><span class="line">penglong@192.168.0.14&apos;s password: </span><br><span class="line">[penglong@localhost ~]$ exit</span><br><span class="line">登出</span><br><span class="line">Connection to 192.168.0.14 closed.</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="SSH-和ftp的不同"><a href="#SSH-和ftp的不同" class="headerlink" title="SSH 和ftp的不同"></a>SSH 和ftp的不同</h4><ul>
+<li><img src="1570417059462.png" alt="1570417059462"></li>
+<li>[root@localhost ~]# ssh <a href="mailto:penglong@192.168.0.14" target="_blank" rel="noopener">penglong@192.168.0.14</a>  登录的是ssh服务</li>
+<li>[root@localhost ~]# ftp 192.168.0.14   登录的是ftp服务</li>
+</ul>
+</li>
+<li><h4 id="kill-l"><a href="#kill-l" class="headerlink" title="kill -l"></a>kill -l</h4><ul>
+<li><p>查看Linux里的信号类型</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost boot]# kill -l</span><br><span class="line"> 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP</span><br><span class="line"> 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1</span><br><span class="line">11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM</span><br><span class="line">16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP</span><br><span class="line">21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR</span><br><span class="line">31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1	64) SIGRTMAX	</span><br><span class="line">[root@localhost boot]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>9) SIGKILL  signal kill 告诉内存去强制杀死某个进程 —》不能被屏蔽</p>
+<ul>
+<li><img src="1570433487527.png" alt="1570433487527"></li>
+</ul>
+</li>
+<li><p>15) SIGTERM  signal terminate 内核会告诉某个进程，让这个进程自己死了   —&gt;默认的信号</p>
+</li>
+<li><p>2) SIGINT  signal  interrupt 让正在运行的程序立马停止 ctrl+c</p>
+</li>
+</ul>
+<p><strong>-9是一种信号类型，告诉内核去强制杀死</strong></p>
+</li>
+</ul>
+</li>
+</ul>
 
     </article>
     <!-- license  -->
@@ -1248,7 +1327,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">September 29th 2019, 11:33:03 am</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">October 4th 2019, 6:57:32 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/09/29/Linux基础（四）-用户和组、密码/">October 7th 2019, 3:37:30 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -1385,7 +1464,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理用户和组"><span class="toc-number">1.</span> <span class="toc-text">管理用户和组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用户和组的相关文件详解"><span class="toc-number">1.1.</span> <span class="toc-text">用户和组的相关文件详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#和账户相关的文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">和账户相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#和组相关的文件"><span class="toc-number">1.1.2.</span> <span class="toc-text">和组相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#账户宿主目录中文件来源"><span class="toc-number">1.1.3.</span> <span class="toc-text">账户宿主目录中文件来源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认账户的属性文件"><span class="toc-number">1.1.4.</span> <span class="toc-text">默认账户的属性文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户、组操作"><span class="toc-number">1.2.</span> <span class="toc-text">用户、组操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户分类：超级用户、程序用户、普通用户"><span class="toc-number">2.</span> <span class="toc-text">用户分类：超级用户、程序用户、普通用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><span class="toc-number">3.</span> <span class="toc-text">useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手动建立用户案例、破解root用户密码、营救模式"><span class="toc-number">4.</span> <span class="toc-text">手动建立用户案例、破解root用户密码、营救模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手动新建用户"><span class="toc-number">4.1.</span> <span class="toc-text">手动新建用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#破解root用户的密码"><span class="toc-number">4.2.</span> <span class="toc-text">破解root用户的密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#营救模式（rescue-mode"><span class="toc-number">4.3.</span> <span class="toc-text">营救模式（rescue mode)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是营救模式"><span class="toc-number">4.3.1.</span> <span class="toc-text">1.什么是营救模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-模拟破坏系统模式"><span class="toc-number">4.3.2.</span> <span class="toc-text">2.模拟破坏系统模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-如何进入营救模式"><span class="toc-number">4.3.3.</span> <span class="toc-text">3.如何进入营救模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他问题"><span class="toc-number">5.</span> <span class="toc-text">其他问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Q1-用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录"><span class="toc-number">5.0.1.</span> <span class="toc-text">Q1:用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？"><span class="toc-number">5.0.2.</span> <span class="toc-text">Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-踢出可疑的登录用户，马上修改密码"><span class="toc-number">5.0.2.1.</span> <span class="toc-text">1.踢出可疑的登录用户，马上修改密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-sshd拒绝某个IP连接"><span class="toc-number">5.0.2.2.</span> <span class="toc-text">2.sshd拒绝某个IP连接</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3：shell-启动配置文件的区别"><span class="toc-number">5.0.3.</span> <span class="toc-text">Q3：shell 启动配置文件的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4：su-切换的时候加-号和不加的区别"><span class="toc-number">5.0.4.</span> <span class="toc-text">Q4：su 切换的时候加-号和不加的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本案例"><span class="toc-number">5.1.</span> <span class="toc-text">脚本案例</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理用户和组"><span class="toc-number">1.</span> <span class="toc-text">管理用户和组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用户和组的相关文件详解"><span class="toc-number">1.1.</span> <span class="toc-text">用户和组的相关文件详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#和账户相关的文件"><span class="toc-number">1.1.1.</span> <span class="toc-text">和账户相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#和组相关的文件"><span class="toc-number">1.1.2.</span> <span class="toc-text">和组相关的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#账户宿主目录中文件来源"><span class="toc-number">1.1.3.</span> <span class="toc-text">账户宿主目录中文件来源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认账户的属性文件"><span class="toc-number">1.1.4.</span> <span class="toc-text">默认账户的属性文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户、组操作"><span class="toc-number">1.2.</span> <span class="toc-text">用户、组操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户分类：超级用户、程序用户、普通用户"><span class="toc-number">2.</span> <span class="toc-text">用户分类：超级用户、程序用户、普通用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#useradd、userdel、groupadd-、groupdel、usermod-、passwd、id-、w"><span class="toc-number">3.</span> <span class="toc-text">useradd、userdel、groupadd 、groupdel、usermod 、passwd、id 、w</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手动建立用户案例、破解root用户密码、营救模式"><span class="toc-number">4.</span> <span class="toc-text">手动建立用户案例、破解root用户密码、营救模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#手动新建用户"><span class="toc-number">4.1.</span> <span class="toc-text">手动新建用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#破解root用户的密码"><span class="toc-number">4.2.</span> <span class="toc-text">破解root用户的密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#营救模式（rescue-mode"><span class="toc-number">4.3.</span> <span class="toc-text">营救模式（rescue mode)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是营救模式"><span class="toc-number">4.3.1.</span> <span class="toc-text">1.什么是营救模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-模拟破坏系统模式"><span class="toc-number">4.3.2.</span> <span class="toc-text">2.模拟破坏系统模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-如何进入营救模式"><span class="toc-number">4.3.3.</span> <span class="toc-text">3.如何进入营救模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他问题"><span class="toc-number">5.</span> <span class="toc-text">其他问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Q1-用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录"><span class="toc-number">5.0.1.</span> <span class="toc-text">Q1:用户量特别多的时候？多态Linux服务器集中认证，用户可以在任何一台机器上登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？"><span class="toc-number">5.0.2.</span> <span class="toc-text">Q2：如何将已经登录系统的用户踢出系统并防止他再次登录？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-踢出可疑的登录用户，马上修改密码"><span class="toc-number">5.0.2.1.</span> <span class="toc-text">1.踢出可疑的登录用户，马上修改密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-sshd拒绝某个IP连接"><span class="toc-number">5.0.2.2.</span> <span class="toc-text">2.sshd拒绝某个IP连接</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3：shell-启动配置文件的区别"><span class="toc-number">5.0.3.</span> <span class="toc-text">Q3：shell 启动配置文件的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4：su-切换的时候加-号和不加的区别"><span class="toc-number">5.0.4.</span> <span class="toc-text">Q4：su 切换的时候加-号和不加的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q5-有黑客登录到Linux系统，如何能将其踢出系统？"><span class="toc-number">5.0.5.</span> <span class="toc-text">Q5:有黑客登录到Linux系统，如何能将其踢出系统？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本案例"><span class="toc-number">5.1.</span> <span class="toc-text">脚本案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充"><span class="toc-number">5.2.</span> <span class="toc-text">补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ftp服务"><span class="toc-number">5.2.1.</span> <span class="toc-text">ftp服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#远程登录"><span class="toc-number">5.2.2.</span> <span class="toc-text">远程登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH-和ftp的不同"><span class="toc-number">5.2.3.</span> <span class="toc-text">SSH 和ftp的不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kill-l"><span class="toc-number">5.2.4.</span> <span class="toc-text">kill -l</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1555,9 +1634,35 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 13
+        Total : 15
         </div>
         <!-- search  -->
         
@@ -1570,6 +1675,16 @@ top:50vh;
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1603,7 +1718,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux命令/" >Linux基础（二）--Linux命令</a>
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
         </li>
     
     
@@ -1647,17 +1762,21 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
         <span class="sidebar-tag-name" data-tags="ip`"><span class="iconfont-archer">&#xe606;</span>ip`</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
     
         <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
@@ -1702,9 +1821,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     

@@ -22,7 +22,7 @@
     <meta name="description" content="个人博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>biubiu&#39;s website</title>
+    <title>Linux学习-SSH原理 · biubiu&#39;s website</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux学习-SSH原理</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Welcome to biubiu's Blog</a>
 </header>
@@ -220,24 +231,76 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            Linux学习-SSH原理
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SSH">SSH</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.1k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/07</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,512 +401,146 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/07/linux学习-ssh原理/" >
-            
-                <span>Linux学习-SSH原理</span>
-        </a>
-        <div class="abstract-content">
-            ​       传统的网络服务程序（如ftp,telnet）在网络上使用明文传输数据，这样别有用心的人就可以非常容易的截取口令和数据，而且这些服务程序的安全验证方式其实也是有弱点的，就是很容易受到“中间人”（man-in-the-middle）方式的攻击。所谓“中间人”的攻击方式，就是“中间人”冒充真正的服务器接收你传给服务器的数据，然后再冒充你把数据传给真正的服务器。服务器和你之间的数据传送被“中间人”一转手做了手脚之后，就会出现很严重的问题。
-​      SSH是一种基于应用层的网络协议，用于计算机之间的加密登录，并且在远程的主机上执行命令。
-​       通过使用SSH，你可以...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SSH">SSH</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>​       传统的网络服务程序（如ftp,telnet）在网络上使用明文传输数据，这样别有用心的人就可以非常容易的截取口令和数据，而且这些服务程序的安全验证方式其实也是有弱点的，就是很容易受到“中间人”（man-in-the-middle）方式的攻击。所谓“中间人”的攻击方式，就是“中间人”冒充真正的服务器接收你传给服务器的数据，然后再冒充你把数据传给真正的服务器。服务器和你之间的数据传送被“中间人”一转手做了手脚之后，就会出现很严重的问题。</p>
+<p>​      SSH是一种基于应用层的网络协议，用于计算机之间的加密登录，并且在远程的主机上执行命令。</p>
+<p>​       通过使用SSH，你可以把所有传输的数据进行加密，这样“中间人”这种攻击方式就不可能实现了，而且也能够防止DNS和IP欺骗。还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。</p>
+<h2 id="SSH的连接原理"><a href="#SSH的连接原理" class="headerlink" title="SSH的连接原理"></a>SSH的连接原理</h2><ul>
+<li><p>ssh服务端是一个守护进程（demon）,系统后台运行并响应客户端的连接请求，ssh客户端的进程名为sshd,负责实时监听客户端的请求（IP 22端口），包括公共秘钥等交换等信息。</p>
+</li>
+<li><p>SSH的工作原理：本地客户端发送一个连接请求到远程的服务端，服务端检查申请的包和IP地址再发送密钥给SSH客户端，客户端再将密钥发回给服务端连接建立。</p>
+</li>
+<li><p><img src="1570446077777.png" alt="1570446077777"></p>
+</li>
+<li><p>启动SSH服务器后，sshd进程运行并在默认的22端口进行监听。安全验证方式：</p>
+<ul>
+<li>基于口令的安全验证（账号密码）<ul>
+<li>也有可能受到中间人攻击</li>
+</ul>
+</li>
+<li>基于密钥的安全验证<ul>
+<li>就是提供一对密钥，把公钥放在需要访问的服务器上，如果连接到SSH服务器上，客户端就会向服务器发出请求，请求用密钥进行安全验证，服务器收到请求之后，先在改服务器的主目录下寻找公钥，然后把它和发送过来的公钥进行比较。如果两个密钥一致，服务器就用公钥加密“质询”并把它发送给客户端。客户端收到“质询”之后就可以用私钥解密再把它发给服务器端。基于这种方式，相对比较安全。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="SSH的工作机制"><a href="#SSH的工作机制" class="headerlink" title="SSH的工作机制"></a>SSH的工作机制</h2><p>SSH以非对称加密方式实现安全验证，有以下两种方式：</p>
+<ul>
+<li><p><strong>基于口令的安全验证</strong></p>
+<ul>
+<li><p>基于密码的安全验证方式是一直在用的，只要你知道自己帐号和口令，就可以登录到远程主机.</p>
+</li>
+<li><p>是使用自动生成的公钥-私钥来简单的加密网络连接再使用密码认证进行登录。</p>
+</li>
+<li><p>但是不能保证连接的服务器就是你的目标服务器，可能会有“中间人”攻击。</p>
+</li>
+<li><p><img src="828019-20170104111525691-1181039165.png" alt></p>
+<ul>
+<li>SSH密码验证，主要分为以下几个步骤：<ol>
+<li>用户（客户端）使用ssh user@host命令对远程主机(服务器)发起登录请求</li>
+<li>远程主机（服务器）收到请求之后，将自己的公钥返回给请求主机（客户端）</li>
+<li>请求主机会根据服务器发来的公钥对用户输入的密码进行加密</li>
+<li>请求主机将将加密后的密码回传给远程主机</li>
+<li>远程主机使用自己的私钥对密码进行解密，如果密码正确则用户登陆成功，反之则登陆失败</li>
+</ol>
+</li>
+<li>这个过程本身是安全的，但在实际工作中，却是存在风险漏洞的。由于SSH不像https协议那样，SSH协议的公钥是没有证书中心（CA）公证的，也就是说，都是自己签发的。<ul>
+<li>这就导致如果攻击者插在用户与远程主机之间（比如在公共的wifi区域），截获了登陆请求，然后冒充远程主机，将伪造的公钥发给用户，那么用户很难辨别真伪，用户再通过伪造的公钥加密密码，再发送给冒充主机，此时冒充的主机就可以获取用户的登陆密码了，那么SSH的安全机制就荡然无存了，这也就是我们常说的中间人攻击。</li>
+<li><img src="1570445814575.png" alt="1570445814575"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>当你是第一次登陆对方主机，系统会提示下面的语句：</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">      　　$ ssh user@host</span><br><span class="line">        　　The authenticity of host &apos;host (12.18.429.21)&apos; can&apos;t be established.</span><br><span class="line">        　　RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.</span><br><span class="line">        　　Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>当远程主机的公钥被接受以后，它就会被保存在文件$HOME/.ssh/known_hosts之中。下次再连接这台主机，系统就会认出它的公钥已经保存在本地了，从而跳过警告部分，直接提示输入密码。</p>
+</li>
+<li><p>每个SSH用户都有自己的known_hosts文件，此外系统也有一个这样的文件，通常是/etc/ssh/ssh_known_hosts，保存一些对所有用户都可信赖的远程主机的公钥。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>基于密钥的登录方式（公钥放在服务器，私钥放在本地）</strong></p>
+</li>
+</ul>
+<p>​    使用密码登录，每次都必须输入密码，非常麻烦。好在SSH还提供了公钥登录，可以省去输入密码的步骤。</p>
+<p>​      客户端生成一对公钥和私钥，并将自己的公钥放在服务器上。客户端请求登陆的时候，服务器会向客户端发送一段随机字符串，客户端用自己的私钥加密之后，再发回来。服务器用实现存储的公钥进行解密，如果成功则证明用户是可行的，允许直接登录不需要再输密码，从而避免了“中间人”攻击。</p>
+<p><img src="1570445721887.png" alt="1570445721887"></p>
+<ul>
+<li>ssh免密登录的前提就要求用户自己必须要提供自己的公钥。可以使用<code>ssh-keygen -t RSA</code>生成公私秘钥对，然后通过<code>ssh-copy-id -i ~/.ssh/id_rsa.pub user@host</code>命令将公钥分发至远程主机。接下来的每次免密登陆步骤如下：<ol>
+<li>客户端发送登录请求，ssh user@hostname</li>
+<li>服务端得到客户端的请求后，会到authorized_keys中查找，如果有相应的IP和用户，就会随机生成一个字符串。</li>
+<li>服务器用公钥对字符串进行加密后传输到客户端</li>
+<li>客户端使用私钥对这个随机串进行解密，并将解密的随机串返回至服务端；</li>
+<li>服务端接受到客户端发来的解密后的字符串，与之前的进行对比</li>
+<li>如果解密成功，则证明用户的登录信息时正确的，则允许登录，反之不允许</li>
+</ol>
+</li>
+<li>通过<code>ssh-copy-id -i ~/.ssh/id_rsa.pub user@host</code>命令分发的公钥都会被保存至远程主机的<code>~/.ssh/authorized_keys</code>文件中。</li>
+</ul>
+<h2 id="SSH的加密技术"><a href="#SSH的加密技术" class="headerlink" title="SSH的加密技术"></a>SSH的加密技术</h2><p>加密技术：传输过程，数据加密。<br>1.SSH1没有对客户端的秘钥进行校验，很容易被植入恶意代码<br>2.SSH2增加了一个确认联机正确性的Diffe_Hellman机制，每次数据的传输，Server都会检查数据来源的正确性，避免黑客入侵。<br>  SSH2支持RSA和DSA密钥<br>        DSA:digital signature Algorithm  数字签名<br>        RSA:既可以数字签名又可以加密     </p>
+<h2 id="如何防止SSH登录入侵"><a href="#如何防止SSH登录入侵" class="headerlink" title="如何防止SSH登录入侵"></a>如何防止SSH登录入侵</h2><p>1.密钥登录,更改端口               </p>
+<p>2.牤牛阵法  ：解决SSH安全问题</p>
+<p>3.监听本地内网IP(ListenAddress 192.168.25.*)</p>
+<p>4.<code>防火墙</code>封闭SSH，指定源限制（局域网，信任公网）</p>
+<p>5.尽量不给服务器外网IP</p>
+<h2 id="SSH知识小结"><a href="#SSH知识小结" class="headerlink" title="SSH知识小结"></a>SSH知识小结</h2><p>   1.SSH是安全的加密协议，用于远程连接Linux服务器<br>   2.SSH的默认端口是22，安全协议版本是SSH2<br>   3.SSH服务器端主要包含2个服务功能SSH连接和SFTP服务器<br>   4.SSH客户端包含ssh连接命令和远程拷贝scp命令等</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://www.cnblogs.com/ftl1012/p/ssh.html" target="_blank" rel="noopener">Linux ssh命令详解- 小a玖拾柒- 博客园</a></li>
+<li><a href="https://blog.csdn.net/netwalk/article/details/12951031" target="_blank" rel="noopener">SSH简介及工作机制- netwalk的专栏- CSDN博客</a></li>
+<li><a href="https://www.jellythink.com/archives/555" target="_blank" rel="noopener">详解SSH原理</a></li>
+<li><a href="https://clsn.io/clsn/lx900.html" target="_blank" rel="noopener">SSH服务详解</a></li>
+<li><a href="http://www.178linux.com/63909" target="_blank" rel="noopener">SSH协议详解</a></li>
+<li><a href="https://www.jb51.net/article/145770.htm" target="_blank" rel="noopener">SSH原理及两种登录方法图文详解</a></li>
+</ul>
+
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/07/Linux学习-ftp命令/" >
-            
-                <span>Linux学习--ftp命令</span>
-        </a>
-        <div class="abstract-content">
-            ​    ftp命令是用来设置文件系统相关功能，可以用于许多不同的操作系统。
-​    ftp在Linux中使用的FTP是vsftp
-安装FTP
-yum安装
-
-1yum install vsftpd -y
-
-
-
-
-
-FTP命令
-连接ftp服务器
-ftp(参数)(主机名或IP地址)
-
-参数
-
--d 详细显示指令执行过程，便于排错或分析程序执行的情形。
--i 关闭互动模式，不询问任何问题。
--g 关闭本地主机文件名称支持特殊字符的扩充特性。
--n 不使用自动登陆。
--v 显示指令执行过程。
-
-
-直接连接ftp服务器
-
-12345678910[root@localhost ~]# ftp 19...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/07/linux学习-ssh原理/">https://biubiu34.github.io/2019/10/07/linux学习-ssh原理/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/07/linux学习-ssh原理/">October 7th 2019, 3:36:08 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/07/linux学习-ssh原理/">October 7th 2019, 7:01:50 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ftp">ftp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/06/Linux学习-selinux/" >
-            
-                <span>Linux学习--SElinux安全系统</span>
-        </a>
-        <div class="abstract-content">
-            SELinux简介
-selinux主要由美国国家安全局开发，针对计算机基础结构安全开发的一个Linux安全策略。SELinux可以允许系统管理员更加灵活的来定义安全策略。
-SELinux是一个内核级别的安全机制，对于其配置文件的修改都是需要重新启动操作系统才能生效的
-
-SELinux基本概念
-SELinux 主要作用就是最大限度地减小系统中服务进程可访问的资源（最小权限原则）。
-
-操作系统的安全机制其实就是对两样东西做出限制：进程和系统资源（文件、网络套接字、系统调用等）
-
-SElinux 当中针对这两样东西定义两个基本概念：域（domin）和上下文（context）
-域就是用来对进程进...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/06</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SElinux">SElinux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/04/Linux基础（五）-权限/" >
-            
-                <span>Linux基础（五）--权限</span>
-        </a>
-        <div class="abstract-content">
-            权限引入
-为什么需要权限？
-
-管控——》资源的分配—–》有安全保障
-
-
-
-文件/目录权限以及归属
-查看文件/目录权限及归属
-访问权限
-可读（read）:允许查看文件内容、显示目录列表
-
-文件
-
-1234567891011121314[root@localhost lianxi]# cat create_user.sh #!/bin/bash#function:create new system user#author:biubiu#time:2019-104#mail:biubiu34@126.comfor i in &#123;1..5&#125;do	useradd -d /cali...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/29/Linux基础（四）-用户和组、密码/" >
-            
-                <span>Linux基础（四）--用户和组、密码</span>
-        </a>
-        <div class="abstract-content">
-            管理用户和组
-每个账号都有一个唯一的UID —》身份证
-
-每个组也有一个唯一的GID —》公司—》组织代码
-
-多个账户可以属于同一个组，一个用户可以属于多个组
-
-用户、用户组关系图
-
-任何一个用户都会属于一个组，默认情况下用户名和组名是一样的 
-​    
-
-
-root ：windows里的超级用户叫administartor
-
-linux里的超级用户是root
-
-新建的用户，没有设置密码，是否登录windows系统？ —》可以
-新建的用户，没有设置密码，是否登录Linux系统？ —》不可以
-
-
-用户和组背后的问题
-
-权限的问题、资源管控的问题
-
-
-程序  —–》服务—-》进程—–》端口...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/28/Linux基础（三）-重定向/" >
-            
-                <span>Linux基础（三）--重定向和管道操作</span>
-        </a>
-        <div class="abstract-content">
-            重定向标准输入、标准输出和标准错误​       构建了一个带有编号标记的通道（文件描述符）的进程结构来管理要打开的文件，进程连接到文件，从而到达这些文件所代表的数据内存或设备。通过用户通道0、1、2（称之为标准输入、标准输出和标准错误）的默认连接创建进程。进程使用3以上编号的通道连接 其他文件。
-
-
-标准的输入  -》键盘–》0
-标准的输出  -》显示器 —》正确的  —》1
-标准的错误输出  —》显示器  —》错误的   —-》2
-其他文件  —-》无  —》读取和/或写入 –》3+
-
-重定向（redirect）
-
-默认情况下，所有的输出都输出到屏幕上，有时候需要改变输出的方向，例如...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "重定向">重定向</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux基础-xshell/" >
-            
-                <span>Linux基础--xshell和虚拟机使用技巧（快照和挂起）</span>
-        </a>
-        <div class="abstract-content">
-            xshell的使用、虚拟机的使用技巧（快照和挂起）1.检查wins真实机器的vmnet1的ip 和Linux虚拟机的ip
-2.ping一下测试网络是否ping的通
-远程连接工具：
-​    xshell
-Xshell的使用1.填写ip地址
-
-2.输入用户密码
-3.选编码格式，建议utf-8
-虚拟机的使用技巧​    1.快照（snapshot）：创建一个Linux系统好的状态，一旦系统出现问题的时候，可以快速恢复到当时创建好的系统的状态。
-​        ——创建快照会消耗真实机器的磁盘空间
-
-挂起（suspend）:让虚拟机暂停在某个时间点    
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xshell">xshell</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VMware">VMware</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux基础（二）-Linux命令/" >
-            
-                <span>Linux基础（二）--Linux命令</span>
-        </a>
-        <div class="abstract-content">
-            linux基本命令Linux网络设置
-
-桥接bridge:本地连接（有线网卡）、无线网络，，，相当于通过一个交换机通信
-NAT：
-host-only（仅主机模式）：只和真实机器VMnet1通信，不能和其他的主机通信
-
-
-
-
-配置ip地址（临时配置ip,重新启动会使ip地址失效）
-
-ip address add 192.168.20.24/24  dev eth0    —-》不会覆盖原来的ip地址，一个网卡可以有多个ip,推荐使用
-给eth0这个网卡配置ip地址192.168.20.24，子网掩码为255.255.255.0
-
-
-ifconfig (centos7 使用yum insta...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/linux基础（一）/" >
-            
-                <span>linux基础（一）---操作系统和Linux常用命令</span>
-        </a>
-        <div class="abstract-content">
-            操作系统
-操作系统就是特殊的软件
-
-作用
-
-
-直接操作硬件
-把操作硬件的代码封装成一个又一个系统调用，供其它的成员通过系统调用间接操作操作系统的硬件
-
-
-
-没有安装操作系统的计算机，被称为裸机
-
-
-系统调用的好处
-
-
-操作系统提供了不同的系统调用就可以直接和系统调用
-
-
-操作系统吧对内存对硬盘对声卡等的操作统统都变成系统调用，避免了繁琐的0101的编码
-
-
-不同应用领域的操作系统
-
-桌面操作系统
-
-
-windows系统
-
-
-应用软件多，用户群体大
-不稳定
-
-
-macOS
-
-
-适合开发人员
-
-
-linux
-
-
-应用软件少
-用户基数少
-
-
-
-
-服务器操作系统
-
-
-服务器
-
-
-硬件层面上：所谓...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "操作系统">操作系统</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/vim编辑器/" >
-            
-                <span>VIM编辑器</span>
-        </a>
-        <div class="abstract-content">
-            目标
-
-vi 简介
-打开和新建文件
-三种工作模式
-常用命令
-分屏命令
-常用命令速查图
-
-vi 简介学习 vi 的目的
-在工作中，要对 服务器 上的文件进行 简单 的修改，可以使用 ssh 远程登录到服务器上，并且使用 vi 进行快速的编辑即可
-
-常见需要修改的文件包括：
-
-
-源程序
-配置文件，例如 ssh 的配置文件 ~/.ssh/config
-在没有图形界面的环境下，要编辑文件，vi 是最佳选择！
-每一个要使用 Linux       的程序员，都应该或多或少的学习一些 vi 的常用命令
-
-
-
-vi 和 vim
-在很多 Linux 发行版中，直接把 vi 做成 vim 的软连接
-vi ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VIM">VIM</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/07/Linux学习-ftp命令/" title= "Linux学习--ftp命令">
+                    <div class="prevTitle">Linux学习--ftp命令</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -928,6 +625,24 @@ vi ...
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH的连接原理"><span class="toc-number">1.</span> <span class="toc-text">SSH的连接原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH的工作机制"><span class="toc-number">2.</span> <span class="toc-text">SSH的工作机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH的加密技术"><span class="toc-number">3.</span> <span class="toc-text">SSH的加密技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何防止SSH登录入侵"><span class="toc-number">4.</span> <span class="toc-text">如何防止SSH登录入侵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH知识小结"><span class="toc-number">5.</span> <span class="toc-text">SSH知识小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">6.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1323,6 +1038,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
