@@ -346,43 +346,154 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/07/计算机网络（一）-基本介绍/" >
+        <a class="abstract-title" href = "/2019/10/08/【计算机网络】-网络层协议/" >
             
-                <span>计算机网络（一）--基本介绍</span>
+                <span>【计算机网络】--网络层协议</span>
         </a>
         <div class="abstract-content">
-            什么是计算机网络计算机网络，是指将地理位臵不同的具有独立功能的多台计算机及其外部设备，通过通信线路连接起来，在网络操作系统，网络管理软件及网络通信协议的管理和协调下，实现资源共享和信息传递的计算机系统。
-简单地说，计算机网络就是通过电缆、电话线或无线通讯将两台以上的计算机互连起来的集合。
-网络基础名词
+            IP数据包
 
-网络：network
-
-网络是由若干节点和连接这些节点的链路构成，表示诸多对象及其相互联系。
-
-
-互联网：internet
-
-是所有网络互连起来的一个巨型网络
+字段
+版本（4） ：IPV4
+IPV4  —-&gt;32位
+IPV6 —-&gt;128位
 
 
-以太网：Ethernet
-
-最常见的局域网通信协议
-是一种技术规范，不是一种具体的网络
+首部长度（4）
+IP包头部长度，因为长度可变，因此需要定义
 
 
-C/S架构软件
+优先级与服务类型（8）
+优先级与服务类型，提供3层的QoS
 
-C/S 结构，...
+
+总长度（16） 
+IP数据的总长度
+
+
+标识符（16）、标志（3）、段偏移量（13）
+上层来的数据到IP层会被分片，这几个字段用来对数据包进行标识，是数据到达目的端重组的时候不会乱序
+
+
+TTL（8）—time to live
+生命周期字段，经过一个路由器值减1，为0时数据包被丢弃。为了防止一个数据包在网络中无限的循环下去
+
+
+协议号(8)
+协议字段，...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "IP地址">IP地址</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/【计算机网络】-ip地址/" >
+            
+                <span>【计算机网络】--ip地址</span>
+        </a>
+        <div class="abstract-content">
+            IP地址
+含义
+主机唯一的标识，保证主机之间的正常通信
+
+一种网络编码，用来确定网络中的一个节点
+
+IP地址由32位二进制（32bit）组成
+
+1如11010010.01001001.10001100.00000110 =210.73.140.6（十进制，便于记忆）
+
+
+
+
+
+IP地址的组成
+网络部分（network）
+主机部分（host）
+例子
+1234192.168.0. 25---------  ---    |       | 网络部分  主机部分
+
+
+
+ip地址十进制数的范围是0-255
+
+
+
+IP地址的分类
+ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
+
+公...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ip">ip</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/计算机网络（五）-网络层/" >
+            
+                <span>计算机网络（五）--网络层</span>
+        </a>
+        <div class="abstract-content">
+            网络层
+网络层介于传输层和数据链路层之间，其主要作用是实现两个网络系统之间的数据透明传送，具体包括路由选择，拥塞控制和网际互连等。网络层是网络与网络之间通信的最底层，在数据从数据链路层向传输层进行数据传输的通信中，起到构建一个中间通信子网的作用。不同网络有这不同的网络层协议和地址规范
+
+如果只是同一局域网内的各个计算机之间的通信，单靠物理层和数据链路层就可以建立通信链路完成用户间的数据通信，但要扩大应用范围，连接不同的局域子网，就需要借助网络层处理各个网络子网的协议，从而进行计算机的网络互连，所以网络层在TCP/IP协议体系中叫网际互连层。
+
+
+
+在物理层传输的是一个个比特位（bit），...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "IP地址">IP地址</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
     
@@ -675,9 +786,77 @@ C/S 结构，...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 15
+        Total : 21
         </div>
         <!-- search  -->
         
@@ -690,6 +869,36 @@ C/S 结构，...
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-网络层协议/" >【计算机网络】--网络层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（四）-数据链路层/" >计算机网络（四）--数据链路层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（三）-物理层/" >计算机网络（三）--物理层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >计算机网络（二）--OSI7层和TCP/IP5层模型</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -779,21 +988,51 @@ C/S 结构，...
     
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层次模型"><span class="iconfont-archer">&#xe606;</span>网络层次模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
     
-        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+        <span class="sidebar-tag-name" data-tags="数据链路层"><span class="iconfont-archer">&#xe606;</span>数据链路层</span>
     
-        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+        <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
+    
+        <span class="sidebar-tag-name" data-tags="VLAN"><span class="iconfont-archer">&#xe606;</span>VLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
+    
+        <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="数据帧"><span class="iconfont-archer">&#xe606;</span>数据帧</span>
+    
+        <span class="sidebar-tag-name" data-tags="交换机"><span class="iconfont-archer">&#xe606;</span>交换机</span>
+    
+        <span class="sidebar-tag-name" data-tags="网桥"><span class="iconfont-archer">&#xe606;</span>网桥</span>
     
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
     
@@ -834,13 +1073,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
-    
         <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
-        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
-        <span class="sidebar-category-name" data-categories="计算机网络知识"><span class="iconfont-archer">&#xe60a;</span>计算机网络知识</span>
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

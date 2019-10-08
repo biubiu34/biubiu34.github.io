@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>计算机网络（四）--数据链路层 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">计算机网络（四）--数据链路层</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/bg-3.jpeg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            计算机网络（四）--数据链路层
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "数据链路层">数据链路层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "以太网">以太网</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "VLAN">VLAN</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Trunk">Trunk</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "mac地址">mac地址</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "数据帧">数据帧</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "交换机">交换机</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网桥">网桥</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.7k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/08</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p>数据链路层(Data Link Layer)是OSI模型的第二层，负责建立和管理节点间的链路。</p>
+<p>在计算机网络中由于各种干扰的存在，物理链路是不可靠的（物理层的线路有传输介质与通信设备组成，比特流在传输介质上传输时一定会存在误差，）。因此，数据链路层的主要功能是在物理层提供的比特流的基础上，通过差错控制、流量控制方法，使有差错的物理线路变为无差错的数据链路，即提供可靠的通过物理介质传输数据的方法。</p>
+<h3 id="数据链路层的功能"><a href="#数据链路层的功能" class="headerlink" title="数据链路层的功能"></a>数据链路层的功能</h3><ul>
+<li><strong>链路管理</strong>：负责数据链路的建立、维持和释放，主要用于面向连接服务。</li>
+<li><strong>帧包装、帧传输、帧同步</strong>：接收方确定收到的比特流中一帧的开始位置和结束位置</li>
+<li><strong>帧的差错恢复</strong>：用于使接收方确定收到的数据就是由发送方发送的数据。</li>
+<li><strong>流量控制</strong>：发送端发送数据超过物理线路的传输能力或者超出接收端的帧接受能力时，就会发生链路阻塞。流量控制就是为了防止出现链路阻塞</li>
+<li><strong>透明传输</strong>：不论数据是什么样的比特组合，都应当能够在链路上进行传输</li>
+</ul>
+<h3 id="数据链路层基础知识"><a href="#数据链路层基础知识" class="headerlink" title="数据链路层基础知识"></a>数据链路层基础知识</h3><ul>
+<li><h4 id="以太网：Ethernet"><a href="#以太网：Ethernet" class="headerlink" title="以太网：Ethernet"></a>以太网：Ethernet</h4><ul>
+<li>以太网是一种<a href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA" target="_blank" rel="noopener">计算机</a><a href="https://baike.baidu.com/item/%E5%B1%80%E5%9F%9F%E7%BD%91" target="_blank" rel="noopener">局域网</a>技术。<a href="https://baike.baidu.com/item/IEEE" target="_blank" rel="noopener">IEEE</a>组织的<a href="https://baike.baidu.com/item/IEEE%20802.3/3684685" target="_blank" rel="noopener">IEEE 802.3</a>标准制定了以太网的技术标准，它规定了包括<a href="https://baike.baidu.com/item/%E7%89%A9%E7%90%86%E5%B1%82" target="_blank" rel="noopener">物理层</a>的连线、电子信号和介质访问层<a href="https://baike.baidu.com/item/%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">协议</a>的内容。</li>
+<li>二层封装采用Ethernet II 数据帧的网络，工作在链路层</li>
+</ul>
+</li>
+<li><h4 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h4><ul>
+<li><p>MAC（Medium/Media Access Control）地址用来表示互联网上每一个站点的标识符，采用十六进制数表示，共6个字节,<strong>通常表示为12个16进制数</strong>。其中，前3个字节是由IEEE的注册管理机构RA负责给不同厂家分配的代码，也称为“编制上唯一的标识符”，后3个字节由各厂家自行指派给生产的适配器接口，称为扩展标识符。每台主机的网卡上都有一个MAC地址，可在命令行输入“ipconfig/all”查看本机设备的MAC地址。<br><img src="20170415214715863.png" alt="img"></p>
+</li>
+<li><p>win查看mac地址</p>
+<ul>
+<li><p><img src="1570515425950.png" alt="1570515425950"></p>
+</li>
+<li><p>cmd 命令行</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\HP&gt;ipconfig /all</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><img src="1570519347204.png" alt="1570519347204"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>广播包的目的mac地址ffffffffffff</strong>（一共12个f）</p>
+<ul>
+<li><img src="1570520130970.png" alt="1570520130970"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="数据帧（Data-Frame）"><a href="#数据帧（Data-Frame）" class="headerlink" title="数据帧（Data Frame）"></a>数据帧（Data Frame）</h4><ul>
+<li><p>所谓数据帧，就是数据链路层的协议数据单元，它包括三部分：帧头，数据部分，帧尾。其中，帧头和帧尾包含一些必要的控制信息，比如同步信息、地址信息、差错控制信息等；数据部分则包含网络层传下来的数据，比如IP数据包</p>
+</li>
+<li><p>数据帧的格式</p>
+<ul>
+<li><img src="1570514514396.png" alt="1570514514396"></li>
+<li><img src="1570515486042.png" alt="1570515486042"></li>
+<li>帧的组成元素：<ul>
+<li>目的地址</li>
+<li>源地址：</li>
+<li>类型：</li>
+<li>数据校验序列：校验作用</li>
+<li>数据MTU：指的是一种通信协议的某一层上面能通过的最大数据包大小（以字节为单位）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>数据帧的大小：</p>
+<ul>
+<li>64-1518字节</li>
+</ul>
+</li>
+<li><p>数据帧得到格式谁能看懂？</p>
+<ul>
+<li>交换机</li>
+<li>电脑</li>
+<li>路由器</li>
+<li>遵循TCP/IP协议的都能看懂</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="虚拟局域网：VLAN"><a href="#虚拟局域网：VLAN" class="headerlink" title="虚拟局域网：VLAN"></a>虚拟局域网：VLAN</h4><ul>
+<li><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><ul>
+<li>VLAN（Virtual Local Area Network）即虚拟局域网，是将一个物理的LAN在逻辑上划分成多个广播域的通信技术。VLAN内的主机间可以直接通信，而VLAN间不能直接通信，从而将广播报文限制在一个VLAN内。</li>
+</ul>
+</li>
+<li><h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
+<li><strong>限制广播域</strong>：广播域被限制在一个VLAN内，节省了带宽，提高了网络处理能力。</li>
+<li><strong>增强局域网的安全性</strong>：不同VLAN内的报文在传输时是相互隔离的，即一个VLAN内的用户不能和其它VLAN内的用户直接通信。</li>
+<li><strong>提高了网络的健壮性：</strong>故障被限制在一个VLAN内，本VLAN内的故障不会影响其他VLAN的正常工作。</li>
+<li><strong>灵活构建虚拟工作组</strong>：用VLAN可以划分不同的用户到不同的工作组，同一工作组的用户也不必局限于某一固定的物理范围，网络构建和维护更方便灵活。</li>
+<li><img src="1570516582199.png" alt="1570516582199"></li>
+</ul>
+</li>
+<li><p><strong>VLAN的种类</strong></p>
+<ul>
+<li><p><strong>基于端口划分</strong>：这种方法明确指定各端口属于哪个VLAN。</p>
+<ul>
+<li>优点: 操作简单。</li>
+<li>缺点：主机较多时，重复工作量大；主机端口变动的时候，需要同时改变该端口所属的VLAN。</li>
+</ul>
+</li>
+<li><p><strong>基于MAC地址的划分</strong>：根据主机网卡的MAC地址进行划分（每个网卡都有世界上唯一的MAC地址）。通过检查并记录端口所连接的网卡的MAC地址来决定端口所属的VALN。</p>
+<ul>
+<li>优点：当用户主机物理地址改变的时候，不需要重新配置VLAN。</li>
+<li>缺点：初始化的时候需要对所有用户进行配置，当主机数很大时工作量较大；由于交换机每个端口可能需要保存多个主机的MAC地址，从而降低了交换机的执行效率。</li>
+</ul>
+</li>
+<li><p><strong>基于网络协议的划分</strong>：基于所用的网络层协议划分VLAN，可以划分为IP/IPX/DECnet/AppleTalk/Banyan等VLAN网络。这种按照网络层协议划分的方式可以使广播域跨越多个交换机，对希望针对应用和服务来组织用户的网络管理员具有很大的吸引力。</p>
+<ul>
+<li>优点：用户主机物理位置改变后，不需要重新配置所属的VLAN网络；适用于需要针对不同应用和服务来组织用户的场景。</li>
+<li>缺点：检查每一个数据包的网络层地址需要消耗处理时间，效率较低。</li>
+</ul>
+</li>
+<li><p><strong>基于IP地址划分</strong>：将任何属于同一IP广播组的主机认为属于同一VLAN。</p>
+<ul>
+<li>优点：良好的灵活性和可扩展性，可以方便的通过路由器扩展网络。</li>
+<li>缺点：不适合局域网，效率不高。</li>
+</ul>
+</li>
+<li><p><strong>基于策略的划分</strong>：一种根据不同的情况，将多种（上面提到的）划分VLAN的技术按照一定的安全策略进行综合运用的划分技术。</p>
+<ul>
+<li>优点：这种方式具有自动配置的能力，自动化程度高；可以非常方便的扩展网络规模。    </li>
+<li>缺点：对设备要求较高。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>注：</strong></p>
+<ul>
+<li><strong>不同VLAN之间的通讯必须依靠路由器或者三层交换机来实现。</strong></li>
+<li><strong>默认情况下，交换机所有的接口都属于VLAN1</strong></li>
+<li><strong>不同厂家使用的命令是不一样的</strong></li>
+<li><strong>交换机里有一个vlan 表，记录哪些接口属于哪个vlan，转发数据的时候先查看vlan，然后再帮助转发到相同的vlan接口上</strong></li>
+<li><strong>一个vlan一个网段。不同vlan的电脑，就算ip地址属于同一个网段也是不能通信的</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Trunk-实现不同交换机之间相同vlan的通信"><a href="#Trunk-实现不同交换机之间相同vlan的通信" class="headerlink" title="Trunk:实现不同交换机之间相同vlan的通信"></a>Trunk:实现不同交换机之间相同vlan的通信</h4><ul>
+<li><img src="clipboard.png" alt="img"></li>
+<li><strong>交换机会给往其他交换机的数据帧打上VLAN标识，离开交换机标记就没了</strong> </li>
+<li>Trunk的模式<ul>
+<li>接入（Access）</li>
+<li>干道(Trunk)</li>
+<li>动态企望(Dynamic desirable)</li>
+<li>动态自动(Dynamic auto)</li>
+<li>非协商(Nonegotiate)</li>
+</ul>
+</li>
+<li><strong>vlan和trunk –》两个是成对出现的，黄金搭档</strong></li>
+</ul>
+<h3 id="数据链路层设备"><a href="#数据链路层设备" class="headerlink" title="数据链路层设备"></a>数据链路层设备</h3><ul>
+<li><h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><ul>
+<li><p><img src="20170415204419088.jpg" alt="äº¤æ¢æº"></p>
+</li>
+<li><p>物理编址、网络拓扑结构、错误校验、帧序列以及流控 , 目前交换机还具备了一些新的功能，如对 VLAN （虚拟局域网）的支持、对链路汇聚的支持，甚至有的还具有防火墙的功能 。</p>
+</li>
+<li><p>作用</p>
+<ul>
+<li><p>是一种用于电信号转发的网络设备，可以把要传输的信息送到符合要求的设备上</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“交换机内部的CPU会在每个端口成功连接时，通过将MAC地址和端口对应，形成一张MAC表。在今后的通讯中，发往该MAC地址的数据包将仅送往其对应的端口，而不是所有的端口。” —— 百度百科</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="交换机的转发原理"><a href="#交换机的转发原理" class="headerlink" title="交换机的转发原理"></a>交换机的转发原理</h5><ul>
+<li><strong>源MAC地址学习</strong><ul>
+<li>看来的数据帧里的源mac地址是否在mac地址表里有</li>
+</ul>
+</li>
+<li><strong>转发数据</strong><ul>
+<li>查看mac地址表，如果有直接转发，如果没有则广播（往剩下的接口转发）</li>
+</ul>
+</li>
+<li><strong>接收方回应</strong></li>
+<li><strong>交换机实现单播通信</strong></li>
+<li><img src="1570515004365.png" alt="1570515004365"></li>
+</ul>
+</li>
+<li><p>MAC地址表</p>
+<ul>
+<li>mac地址和对应的接口编号</li>
+<li>MAC地址表示存放在内存当中的，一停电就一无所有</li>
+</ul>
+</li>
+<li><p>交换机以太网接口的模式</p>
+<ul>
+<li>单工</li>
+<li>半双工</li>
+<li>全双工</li>
+</ul>
+</li>
+<li><p>交换机与集成器的区别 。</p>
+<p>交换机 (Switch) 是一种基于 MAC （网卡的硬件地址）识别，能完成封装转发数据包功能的网络设备。交换机可以“学习” MAC 地址，并把其存放在内部地址表中，通过在数据帧的始发者和目标接收者之间建立临时的交换路径，使数据帧直接由源地址到达目的地址。现在的交换机分为：二层交换机，三层交换机或是更高层的交换机。三层交换机同样可以有路由的功能，而且比低端路由器的转发速率更快。它的主要特点是：一次路由，多次转发。  </p>
+<p>集线器 (HUB) 是计算机网络中连接多个计算机或其他设备的连接设备，是对网络进行集中管理的最小单元。英文 Hub 就是中心的意思，像树的主干一样，它是各分支的汇集点。 HUB 是一个共享设备，主要提供信号放大和中转的功能，它把一个端口接收的所有信号向所有端口分发出去。一些集线器在分发之前将弱信号加强后重新发出，一些集线器则排列信号的时序以提供所有端口间的同步数据通信。</p>
+</li>
+</ul>
+</li>
+<li><h4 id="网桥"><a href="#网桥" class="headerlink" title="网桥"></a>网桥</h4><ul>
+<li><p>作用：是实现局域网互连的存储转发设备。网桥从一个局域网接收MAC帧，拆封、校对、校验之后，按另一个局域网的格式重新组装，发往它的物理层。</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“网桥像一个聪明的中继器，它将两个相似的网络连接起来，并对网络数据的流通进行管理，不但能扩展网络的距离或范围，而且可提高网络的性能、可靠性和安全性”</span><br></pre></td></tr></table></figure>
+
+<p><img src="20170415203727272.jpg" alt="ç½æ¡¥"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://blog.csdn.net/jeffleo/article/details/53932693" target="_blank" rel="noopener">OSI参考模型——数据链路层详解</a></li>
+<li><a href="https://blog.csdn.net/qq_35120695/article/details/70187722" target="_blank" rel="noopener">OSI七层模型——数据链路层</a></li>
+<li><a href="https://www.baidu.com/link?url=57aywD0Q6WTnl7XKbIHuE7lcWGXh50Vy3z1lItKlmd4OJre3dLQnWbn8s4nBPmV1oZ8XgEph6PI1-3PJU6qOtxdJE1e50AXorwvk2D0g2t3&wd=&eqid=8d721c2d001535c8000000065d9c2b88" target="_blank" rel="noopener"><em>VLAN</em>基础知识 - 曹世宏的博客 - CSDN博客</a></li>
+<li><a href="https://blog.csdn.net/cwm_meng/article/details/49762807" target="_blank" rel="noopener">小白都能看明白的<em>VLAN</em>原理解释（超详细）</a></li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/08/计算机网络（四）-数据链路层/">https://biubiu34.github.io/2019/10/08/计算机网络（四）-数据链路层/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/08/计算机网络（四）-数据链路层/">October 8th 2019, 1:14:18 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/08/计算机网络（四）-数据链路层/">October 8th 2019, 9:36:34 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/08/计算机网络（五）-网络层/" title= "计算机网络（五）--网络层">
+                    <div class="nextTitle">计算机网络（五）--网络层</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/08/计算机网络（三）-物理层/" title= "计算机网络（三）--物理层">
+                    <div class="prevTitle">计算机网络（三）--物理层</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据链路层"><span class="toc-number">1.</span> <span class="toc-text">数据链路层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据链路层的功能"><span class="toc-number">1.1.</span> <span class="toc-text">数据链路层的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据链路层基础知识"><span class="toc-number">1.2.</span> <span class="toc-text">数据链路层基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#以太网：Ethernet"><span class="toc-number">1.2.1.</span> <span class="toc-text">以太网：Ethernet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MAC地址"><span class="toc-number">1.2.2.</span> <span class="toc-text">MAC地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据帧（Data-Frame）"><span class="toc-number">1.2.3.</span> <span class="toc-text">数据帧（Data Frame）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟局域网：VLAN"><span class="toc-number">1.2.4.</span> <span class="toc-text">虚拟局域网：VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#定义"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#作用"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">作用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Trunk-实现不同交换机之间相同vlan的通信"><span class="toc-number">1.2.5.</span> <span class="toc-text">Trunk:实现不同交换机之间相同vlan的通信</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据链路层设备"><span class="toc-number">1.3.</span> <span class="toc-text">数据链路层设备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#交换机"><span class="toc-number">1.3.1.</span> <span class="toc-text">交换机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#交换机的转发原理"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">交换机的转发原理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网桥"><span class="toc-number">1.3.2.</span> <span class="toc-text">网桥</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 21
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-网络层协议/" >【计算机网络】--网络层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（四）-数据链路层/" >计算机网络（四）--数据链路层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（三）-物理层/" >计算机网络（三）--物理层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >计算机网络（二）--OSI7层和TCP/IP5层模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/Linux学习-selinux/" >Linux学习--SElinux安全系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/redis基础（一）/" >redis基础（一）--redis简介和基本操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/post-name/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层次模型"><span class="iconfont-archer">&#xe606;</span>网络层次模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="数据链路层"><span class="iconfont-archer">&#xe606;</span>数据链路层</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
+    
+        <span class="sidebar-tag-name" data-tags="VLAN"><span class="iconfont-archer">&#xe606;</span>VLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
+    
+        <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="数据帧"><span class="iconfont-archer">&#xe606;</span>数据帧</span>
+    
+        <span class="sidebar-tag-name" data-tags="交换机"><span class="iconfont-archer">&#xe606;</span>交换机</span>
+    
+        <span class="sidebar-tag-name" data-tags="网桥"><span class="iconfont-archer">&#xe606;</span>网桥</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
