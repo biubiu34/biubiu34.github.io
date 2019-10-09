@@ -346,17 +346,30 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/08/计算机网络（四）-数据链路层/" >
+        <a class="abstract-title" href = "/2019/10/08/Linux基础-Linux常用文件及其作用/" >
             
-                <span>计算机网络（四）--数据链路层</span>
+                <span>Linux基础--Linux常用文件及其作用</span>
         </a>
         <div class="abstract-content">
-            数据链路层数据链路层(Data Link Layer)是OSI模型的第二层，负责建立和管理节点间的链路。
-在计算机网络中由于各种干扰的存在，物理链路是不可靠的（物理层的线路有传输介质与通信设备组成，比特流在传输介质上传输时一定会存在误差，）。因此，数据链路层的主要功能是在物理层提供的比特流的基础上，通过差错控制、流量控制方法，使有差错的物理线路变为无差错的数据链路，即提供可靠的通过物理介质传输数据的方法。
-数据链路层的功能
-链路管理：负责数据链路的建立、维持和释放，主要用于面向连接服务。
-帧包装、帧传输、帧同步：接收方确定收到的比特流中一帧的开始位置和结束位置
-帧的差错恢复：用于使接收方...
+            Linux常用文件夹
+/
+根目录
+一般根目录下只存放目录，不要存放文件，/etc、/bin、/dev、/lib、/sbin应该和根目录放置在一个分区中
+
+
+/bin
+存放二进制可执行文件，存放用户级的GUN工具
+
+
+/sbin
+存放超级用户（系统管理员）专用的二进制可执行文件
+/sbin:/usr/sbin:/usr/local/sbin：　　放置系统管理员使用的可执行命令，如fdisk、shutdown、mount等。与/bin不同的是，这几个目录是给系统管理员root使用的命令，一般用户只能”查看”而不能设置和使用。
+
+
+/dev
+存放设备文件，Linux在这里创建设备节点
+
+存放l...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -367,23 +380,7 @@
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "数据链路层">数据链路层</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "以太网">以太网</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VLAN">VLAN</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Trunk">Trunk</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "mac地址">mac地址</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "数据帧">数据帧</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "交换机">交换机</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "网桥">网桥</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
     
 </div>
             
@@ -742,9 +739,39 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 21
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -757,6 +784,16 @@
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/【计算机网络】-Linux实现路由功能/" >【计算机网络】--Linux实现路由功能</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/Linux基础-Linux常用文件及其作用/" >Linux基础--Linux常用文件及其作用</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -880,23 +917,21 @@
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
         <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
     
         <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
     
-        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
         <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
-    
-        <span class="sidebar-tag-name" data-tags="网络层次模型"><span class="iconfont-archer">&#xe606;</span>网络层次模型</span>
     
         <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
-    
-        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
@@ -912,15 +947,9 @@
     
         <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
     
-        <span class="sidebar-tag-name" data-tags="数据帧"><span class="iconfont-archer">&#xe606;</span>数据帧</span>
-    
-        <span class="sidebar-tag-name" data-tags="交换机"><span class="iconfont-archer">&#xe606;</span>交换机</span>
-    
-        <span class="sidebar-tag-name" data-tags="网桥"><span class="iconfont-archer">&#xe606;</span>网桥</span>
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
-    
-        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
     
@@ -966,6 +995,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
     
