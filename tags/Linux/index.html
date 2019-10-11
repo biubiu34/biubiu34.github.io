@@ -346,6 +346,57 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/12/Linux学习-iptables/" >
+            
+                <span>Linux学习--iptables</span>
+        </a>
+        <div class="abstract-content">
+            IPTABLES 防火墙Linux防火墙基础
+Linux防火墙概述
+Linux系统的防火墙功能都是由内核实现的
+
+2.0版本内核中，包过滤机制是ipfw ,管理工具是ipfwadm
+2.2版内核中，包过滤机制是ipchain，管理工具是ipchains
+2.4版以及以后的内核中，包过滤机制是netfilter，管理工具是iptables
+管理工具是往netfilter里传递策略或者指令的
+
+
+内核是一个软件 —-》真正干活的
+iptables也是一个软件—》和人打交道的
+
+
+netfilter
+
+位于Linux内核中的包过滤防火墙功能体系
+称为Linux防火墙的”内核态“
+
+
+iptab...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iptables">iptables</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/10/09/Linux基础-配置ip地址/" >
             
                 <span>Linux基础--配置ip地址</span>
@@ -770,47 +821,6 @@ linux里的超级用户是root
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/28/Linux基础（三）-重定向/" >
-            
-                <span>Linux基础（三）--重定向和管道操作</span>
-        </a>
-        <div class="abstract-content">
-            重定向标准输入、标准输出和标准错误​       构建了一个带有编号标记的通道（文件描述符）的进程结构来管理要打开的文件，进程连接到文件，从而到达这些文件所代表的数据内存或设备。通过用户通道0、1、2（称之为标准输入、标准输出和标准错误）的默认连接创建进程。进程使用3以上编号的通道连接 其他文件。
-
-
-标准的输入  -》键盘–》0
-标准的输出  -》显示器 —》正确的  —》1
-标准的错误输出  —》显示器  —》错误的   —-》2
-其他文件  —-》无  —》读取和/或写入 –》3+
-
-重定向（redirect）
-
-默认情况下，所有的输出都输出到屏幕上，有时候需要改变输出的方向，例如...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "重定向">重定向</a>
     
 </div>
             
@@ -1270,9 +1280,29 @@ linux里的超级用户是root
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 28
         </div>
         <!-- search  -->
         
@@ -1285,6 +1315,16 @@ linux里的超级用户是root
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-传输层协议/" >【计算机网络】--传输层协议</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1431,6 +1471,8 @@ linux里的超级用户是root
     
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
         <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
@@ -1441,9 +1483,11 @@ linux里的超级用户是root
     
         <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
     
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
     
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
@@ -1453,7 +1497,9 @@ linux里的超级用户是root
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
-        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
@@ -1469,9 +1515,9 @@ linux里的超级用户是root
     
         <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
     
-        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
-    
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
     

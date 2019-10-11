@@ -346,12 +346,115 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/12/Linux学习-iptables/" >
+            
+                <span>Linux学习--iptables</span>
+        </a>
+        <div class="abstract-content">
+            IPTABLES 防火墙Linux防火墙基础
+Linux防火墙概述
+Linux系统的防火墙功能都是由内核实现的
+
+2.0版本内核中，包过滤机制是ipfw ,管理工具是ipfwadm
+2.2版内核中，包过滤机制是ipchain，管理工具是ipchains
+2.4版以及以后的内核中，包过滤机制是netfilter，管理工具是iptables
+管理工具是往netfilter里传递策略或者指令的
+
+
+内核是一个软件 —-》真正干活的
+iptables也是一个软件—》和人打交道的
+
+
+netfilter
+
+位于Linux内核中的包过滤防火墙功能体系
+称为Linux防火墙的”内核态“
+
+
+iptab...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iptables">iptables</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/11/【计算机网络】-传输层协议/" >
+            
+                <span>【计算机网络】--传输层协议</span>
+        </a>
+        <div class="abstract-content">
+            传输层TCP/IP模型与OSI模型的比较相同点
+两者都是以协议栈的概念为基础
+协议栈中的协议彼此相互独立
+下层对上层提供服务
+
+不同点
+OSI是先有模型；TCP/IP是先有协议，后有模型
+OSI使用于各种协议栈，TCP/IP只适用于TCP/IP网络
+层次数量不同
+
+传输层的作用
+IP层提供点到点的连接，传输层提供端到端的连接
+一个程序会监听（占用）一个端口，如果这个端口80倍nginx占用了，别的程序就不能再占用这个端口了
+
+传输层的协议TCP（Transmission Control Protocol）
+传输控制协议
+可靠的、面向连接的协议
+传输效率低
+
+UDP(User Datagr...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "传输层">传输层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "TCP">TCP</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "UDP">UDP</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/10/11/小鸡子/" >
             
                 <span>小鸡子</span>
         </a>
         <div class="abstract-content">
-            气死我了
+            气死我了，你个小鸡子
 
     
 
@@ -394,9 +497,9 @@
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags = "传输层">传输层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
     
 </div>
             
@@ -605,9 +708,9 @@ TTL（8）—time to live
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "IP地址">IP地址</a>
     
@@ -705,91 +808,11 @@ ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
             
             <div class= abstract-tags >
     
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
         <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags = "IP地址">IP地址</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/08/计算机网络（四）-数据链路层/" >
-            
-                <span>计算机网络（四）--数据链路层</span>
-        </a>
-        <div class="abstract-content">
-            数据链路层数据链路层(Data Link Layer)是OSI模型的第二层，负责建立和管理节点间的链路。
-在计算机网络中由于各种干扰的存在，物理链路是不可靠的（物理层的线路有传输介质与通信设备组成，比特流在传输介质上传输时一定会存在误差，）。因此，数据链路层的主要功能是在物理层提供的比特流的基础上，通过差错控制、流量控制方法，使有差错的物理线路变为无差错的数据链路，即提供可靠的通过物理介质传输数据的方法。
-数据链路层的功能
-链路管理：负责数据链路的建立、维持和释放，主要用于面向连接服务。
-帧包装、帧传输、帧同步：接收方确定收到的比特流中一帧的开始位置和结束位置
-帧的差错恢复：用于使接收方...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "以太网">以太网</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VLAN">VLAN</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Trunk">Trunk</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "mac地址">mac地址</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/08/计算机网络（三）-物理层/" >
-            
-                <span>计算机网络（三）--物理层</span>
-        </a>
-        <div class="abstract-content">
-            网络传输介质：—–物理层
-物理层基本概念物理层解决如何在连接各种计算机的传输媒体上传输数据比特流，而不是指具体的传输媒体。该层次的主要任务是：确定传输媒体的接口的一些特性，包括：
-
-机械特性：接口的形状，大小，引线的数目电气特性：规定电压范围（-5V到+5V）功能特性：规定-5V代表0，+5V代表1过程特性：也称规程特性，规定建立连接时各个相关部件的工作步骤
-
-
-数据通信的基础知识
-数据通信系统的模型如图所示，一个数据通信系统可划分为三大部分，即源系统(或发送端、发送方)、传输系统(或传输网络)和目的系统(或接收端、接收方)。
-
-通信的目的是传送消息(message)。如话音、文字、图像...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "物理层">物理层</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
     
 </div>
             
@@ -1249,9 +1272,29 @@ ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 28
         </div>
         <!-- search  -->
         
@@ -1264,6 +1307,16 @@ ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-传输层协议/" >【计算机网络】--传输层协议</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1410,6 +1463,8 @@ ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
     
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
         <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
@@ -1420,9 +1475,11 @@ ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
     
         <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
     
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
     
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
@@ -1432,7 +1489,9 @@ ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
-        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
@@ -1448,9 +1507,9 @@ ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
     
         <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
     
-        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
-    
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
     
