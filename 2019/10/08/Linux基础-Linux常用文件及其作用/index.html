@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2.1k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2.6k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -474,7 +474,35 @@ height:50vh;
 </ul>
 </li>
 <li><h4 id="etc-sysconfig"><a href="#etc-sysconfig" class="headerlink" title="/etc/sysconfig"></a>/etc/sysconfig</h4><ul>
-<li>网络配置相关目录</li>
+<li><p>网络配置相关目录</p>
+</li>
+<li><h5 id="etc-sysconfig-network"><a href="#etc-sysconfig-network" class="headerlink" title="/etc/sysconfig/network"></a>/etc/sysconfig/network</h5><ul>
+<li><p>/etc/sysconfig/network设定主机名与网卡启动、网关配置</p>
+</li>
+<li><p>/etc/sysconfig/network用于设置HOSTNAME与启动NETWORKING的，主机名称在重启后生效。</p>
+<p>如果你在这里设置了网关，其它地方也重新配置网关并使其生效，则以其它地方网关为准。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>/etc/sysconfig/network-scripts/ifcfg-eth0</strong></p>
+<ul>
+<li>就相当与局部变量！</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="etc-hosts"><a href="#etc-hosts" class="headerlink" title="/etc/hosts"></a>/etc/hosts</h4><ul>
+<li>/etc/hosts设定用户IP与名字(或域名)的对应解析表。主机名和IP解析,相当于DNS工具(手动维护的)</li>
+<li>hosts文件是Linux系统上一个负责ip地址与域名快速解析的文件，以ascii格式保存在/etc/目录下。hosts文件包含了ip地址与主机名之间的映射，还包括主机的别名。在没有域名解析服务器的情况下，系统上的所有网络程序都通过查询该文件来解析对应于某个主机名的ip地址，否则就需要使用dns服务程序来解决。通过可以将常用的域名和ip地址映射加入到hosts文件中，实现快速方便的访问。</li>
+</ul>
+</li>
+<li><h4 id="etc-hostname"><a href="#etc-hostname" class="headerlink" title="/etc/hostname"></a>/etc/hostname</h4><ul>
+<li>主要是本地主机域名（本地主机名修改过后需要重启服务器才能生效）</li>
+</ul>
+</li>
+<li><h4 id="etc-resolv-conf"><a href="#etc-resolv-conf" class="headerlink" title="/etc/resolv.conf"></a>/etc/resolv.conf</h4><ul>
+<li>它是DNS客户机配置文件，用于设置DNS服务器的IP地址及DNS域名，还包含了主机的域名搜索顺序。该文件是由域名解析 器（resolver，一个根据主机名解析IP地址的库）使用的配置文件</li>
+<li><strong>刷新网络服务会在自动将ifconfig-ens37文件里的dns1的地址写到/ect/resolv.conf文件里</strong></li>
 </ul>
 </li>
 </ul>
@@ -625,9 +653,9 @@ height:50vh;
 <li>目录与/proc类似，是一个虚拟的文件系统，主要记录与系统核心相关的信息，入系统当前已经载入的模块信息等。这个目录实际不占磁盘容量。</li>
 </ul>
 </li>
-<li><h3 id="lost-found"><a href="#lost-found" class="headerlink" title="/lost+found"></a>/lost+found</h3><p>　　在ext2或ext3文件系统中，当系统意外崩溃或机器意外关机，而产生一些文件碎片放在这里。但当突然停电、或者非正常关机后，有些文件就临时存放在这里。</p>
+<li><h3 id="lost-found"><a href="#lost-found" class="headerlink" title="/lost+found"></a>/lost+found</h3><p>  在ext2或ext3文件系统中，当系统意外崩溃或机器意外关机，而产生一些文件碎片放在这里。但当突然停电、或者非正常关机后，有些文件就临时存放在这里。</p>
 </li>
-<li><h3 id="srv："><a href="#srv：" class="headerlink" title="/srv："></a>/srv：</h3><p>　　服务启动之后需要访问的数据目录，如www服务需要访问的网页数据存放在/srv/www</p>
+<li><h3 id="srv："><a href="#srv：" class="headerlink" title="/srv："></a>/srv：</h3><p>  服务启动之后需要访问的数据目录，如www服务需要访问的网页数据存放在/srv/www</p>
 </li>
 </ul>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
@@ -641,7 +669,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/08/Linux基础-Linux常用文件及其作用/">https://biubiu34.github.io/2019/10/08/Linux基础-Linux常用文件及其作用/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/08/Linux基础-Linux常用文件及其作用/">October 8th 2019, 10:52:33 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/08/Linux基础-Linux常用文件及其作用/">October 9th 2019, 1:11:46 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/08/Linux基础-Linux常用文件及其作用/">October 11th 2019, 5:10:16 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -778,7 +806,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux常用文件夹"><span class="toc-number">1.</span> <span class="toc-text">Linux常用文件夹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-number">1.1.</span> <span class="toc-text">/</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bin"><span class="toc-number">1.2.</span> <span class="toc-text">/bin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sbin"><span class="toc-number">1.3.</span> <span class="toc-text">/sbin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dev"><span class="toc-number">1.4.</span> <span class="toc-text">/dev</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-null"><span class="toc-number">1.4.1.</span> <span class="toc-text">/dev/null</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-random"><span class="toc-number">1.4.2.</span> <span class="toc-text">/dev/random</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-urandom"><span class="toc-number">1.4.3.</span> <span class="toc-text">/dev/urandom</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-zero"><span class="toc-number">1.4.4.</span> <span class="toc-text">/dev/zero</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc"><span class="toc-number">1.5.</span> <span class="toc-text">/etc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-rc或-etc-rc-d或-etc-rc-d"><span class="toc-number">1.5.1.</span> <span class="toc-text">/etc/rc或/etc/rc.d或/etc/rc?.d</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#etc-rc-d-init-d"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">/etc/rc.d/init.d</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-passwd"><span class="toc-number">1.5.2.</span> <span class="toc-text">/etc/passwd</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-shadow"><span class="toc-number">1.5.3.</span> <span class="toc-text">/etc/shadow</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-group"><span class="toc-number">1.5.4.</span> <span class="toc-text">/etc/group</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-login-defs"><span class="toc-number">1.5.5.</span> <span class="toc-text">/etc/login.defs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-shells"><span class="toc-number">1.5.6.</span> <span class="toc-text">/etc/shells</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-sysconfig"><span class="toc-number">1.5.7.</span> <span class="toc-text">/etc/sysconfig</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#home"><span class="toc-number">1.6.</span> <span class="toc-text">/home</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lib"><span class="toc-number">1.7.</span> <span class="toc-text">/lib</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lib64"><span class="toc-number">1.8.</span> <span class="toc-text">/lib64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tmp"><span class="toc-number">1.9.</span> <span class="toc-text">/tmp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#root"><span class="toc-number">1.10.</span> <span class="toc-text">/root</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mnt"><span class="toc-number">1.11.</span> <span class="toc-text">/mnt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc"><span class="toc-number">1.12.</span> <span class="toc-text">/proc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-mounts"><span class="toc-number">1.12.1.</span> <span class="toc-text">/proc/mounts</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-modules"><span class="toc-number">1.12.2.</span> <span class="toc-text">/proc/modules</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-swaps"><span class="toc-number">1.12.3.</span> <span class="toc-text">/proc/swaps</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#opt"><span class="toc-number">1.13.</span> <span class="toc-text">/opt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#var"><span class="toc-number">1.14.</span> <span class="toc-text">/var</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#var-lib"><span class="toc-number">1.14.1.</span> <span class="toc-text">/var/lib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-local"><span class="toc-number">1.14.2.</span> <span class="toc-text">/var/local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-log"><span class="toc-number">1.14.3.</span> <span class="toc-text">/var/log</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#var-log-message："><span class="toc-number">1.14.3.1.</span> <span class="toc-text">/var/log/message：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-run"><span class="toc-number">1.14.4.</span> <span class="toc-text">/var/run</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-tmp"><span class="toc-number">1.14.5.</span> <span class="toc-text">/var/tmp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-spool-mail"><span class="toc-number">1.14.6.</span> <span class="toc-text">/var/spool/mail</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#usr"><span class="toc-number">1.15.</span> <span class="toc-text">/usr</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-bin"><span class="toc-number">1.15.1.</span> <span class="toc-text">/usr/bin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-sbin"><span class="toc-number">1.15.2.</span> <span class="toc-text">/usr/sbin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-local"><span class="toc-number">1.15.3.</span> <span class="toc-text">/usr/local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-lib"><span class="toc-number">1.15.4.</span> <span class="toc-text">/usr/lib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-share-doc"><span class="toc-number">1.15.5.</span> <span class="toc-text">/usr/share/doc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-etc"><span class="toc-number">1.15.6.</span> <span class="toc-text">/usr/etc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-include"><span class="toc-number">1.15.7.</span> <span class="toc-text">/usr/include</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-share"><span class="toc-number">1.15.8.</span> <span class="toc-text">/usr/share</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-src"><span class="toc-number">1.15.9.</span> <span class="toc-text">/usr/src</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-man"><span class="toc-number">1.15.10.</span> <span class="toc-text">/usr/man</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-doc"><span class="toc-number">1.15.11.</span> <span class="toc-text">/usr/doc</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#boot"><span class="toc-number">1.16.</span> <span class="toc-text">/boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sys"><span class="toc-number">1.17.</span> <span class="toc-text">/sys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lost-found"><span class="toc-number">1.18.</span> <span class="toc-text">/lost+found</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#srv："><span class="toc-number">1.19.</span> <span class="toc-text">/srv：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux常用文件夹"><span class="toc-number">1.</span> <span class="toc-text">Linux常用文件夹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-number">1.1.</span> <span class="toc-text">/</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bin"><span class="toc-number">1.2.</span> <span class="toc-text">/bin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sbin"><span class="toc-number">1.3.</span> <span class="toc-text">/sbin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dev"><span class="toc-number">1.4.</span> <span class="toc-text">/dev</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-null"><span class="toc-number">1.4.1.</span> <span class="toc-text">/dev/null</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-random"><span class="toc-number">1.4.2.</span> <span class="toc-text">/dev/random</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-urandom"><span class="toc-number">1.4.3.</span> <span class="toc-text">/dev/urandom</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-zero"><span class="toc-number">1.4.4.</span> <span class="toc-text">/dev/zero</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc"><span class="toc-number">1.5.</span> <span class="toc-text">/etc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-rc或-etc-rc-d或-etc-rc-d"><span class="toc-number">1.5.1.</span> <span class="toc-text">/etc/rc或/etc/rc.d或/etc/rc?.d</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#etc-rc-d-init-d"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">/etc/rc.d/init.d</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-passwd"><span class="toc-number">1.5.2.</span> <span class="toc-text">/etc/passwd</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-shadow"><span class="toc-number">1.5.3.</span> <span class="toc-text">/etc/shadow</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-group"><span class="toc-number">1.5.4.</span> <span class="toc-text">/etc/group</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-login-defs"><span class="toc-number">1.5.5.</span> <span class="toc-text">/etc/login.defs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-shells"><span class="toc-number">1.5.6.</span> <span class="toc-text">/etc/shells</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-sysconfig"><span class="toc-number">1.5.7.</span> <span class="toc-text">/etc/sysconfig</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#etc-sysconfig-network"><span class="toc-number">1.5.7.1.</span> <span class="toc-text">/etc/sysconfig/network</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-hosts"><span class="toc-number">1.5.8.</span> <span class="toc-text">/etc/hosts</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-hostname"><span class="toc-number">1.5.9.</span> <span class="toc-text">/etc/hostname</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc-resolv-conf"><span class="toc-number">1.5.10.</span> <span class="toc-text">/etc/resolv.conf</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#home"><span class="toc-number">1.6.</span> <span class="toc-text">/home</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lib"><span class="toc-number">1.7.</span> <span class="toc-text">/lib</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lib64"><span class="toc-number">1.8.</span> <span class="toc-text">/lib64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tmp"><span class="toc-number">1.9.</span> <span class="toc-text">/tmp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#root"><span class="toc-number">1.10.</span> <span class="toc-text">/root</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mnt"><span class="toc-number">1.11.</span> <span class="toc-text">/mnt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc"><span class="toc-number">1.12.</span> <span class="toc-text">/proc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-mounts"><span class="toc-number">1.12.1.</span> <span class="toc-text">/proc/mounts</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-modules"><span class="toc-number">1.12.2.</span> <span class="toc-text">/proc/modules</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-swaps"><span class="toc-number">1.12.3.</span> <span class="toc-text">/proc/swaps</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#opt"><span class="toc-number">1.13.</span> <span class="toc-text">/opt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#var"><span class="toc-number">1.14.</span> <span class="toc-text">/var</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#var-lib"><span class="toc-number">1.14.1.</span> <span class="toc-text">/var/lib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-local"><span class="toc-number">1.14.2.</span> <span class="toc-text">/var/local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-log"><span class="toc-number">1.14.3.</span> <span class="toc-text">/var/log</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#var-log-message："><span class="toc-number">1.14.3.1.</span> <span class="toc-text">/var/log/message：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-run"><span class="toc-number">1.14.4.</span> <span class="toc-text">/var/run</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-tmp"><span class="toc-number">1.14.5.</span> <span class="toc-text">/var/tmp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var-spool-mail"><span class="toc-number">1.14.6.</span> <span class="toc-text">/var/spool/mail</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#usr"><span class="toc-number">1.15.</span> <span class="toc-text">/usr</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-bin"><span class="toc-number">1.15.1.</span> <span class="toc-text">/usr/bin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-sbin"><span class="toc-number">1.15.2.</span> <span class="toc-text">/usr/sbin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-local"><span class="toc-number">1.15.3.</span> <span class="toc-text">/usr/local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-lib"><span class="toc-number">1.15.4.</span> <span class="toc-text">/usr/lib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-share-doc"><span class="toc-number">1.15.5.</span> <span class="toc-text">/usr/share/doc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-etc"><span class="toc-number">1.15.6.</span> <span class="toc-text">/usr/etc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-include"><span class="toc-number">1.15.7.</span> <span class="toc-text">/usr/include</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-share"><span class="toc-number">1.15.8.</span> <span class="toc-text">/usr/share</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-src"><span class="toc-number">1.15.9.</span> <span class="toc-text">/usr/src</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-man"><span class="toc-number">1.15.10.</span> <span class="toc-text">/usr/man</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr-doc"><span class="toc-number">1.15.11.</span> <span class="toc-text">/usr/doc</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#boot"><span class="toc-number">1.16.</span> <span class="toc-text">/boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sys"><span class="toc-number">1.17.</span> <span class="toc-text">/sys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lost-found"><span class="toc-number">1.18.</span> <span class="toc-text">/lost+found</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#srv："><span class="toc-number">1.19.</span> <span class="toc-text">/srv：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1076,9 +1104,47 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 23
+        Total : 25
         </div>
         <!-- search  -->
         
@@ -1091,6 +1157,16 @@ top:50vh;
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-路由原理/" >【计算机网络】--路由原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/Linux基础-配置ip地址/" >Linux基础--配置ip地址</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1218,6 +1294,8 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
         <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
@@ -1226,13 +1304,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
         <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
-    
-        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
-    
-        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
         <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
@@ -1240,11 +1318,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
-    
-        <span class="sidebar-tag-name" data-tags="数据链路层"><span class="iconfont-archer">&#xe606;</span>数据链路层</span>
     
         <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
     

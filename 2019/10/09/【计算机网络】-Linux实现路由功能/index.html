@@ -264,9 +264,21 @@ height:50vh;
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "IP">IP</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "路由">路由</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SNAT">SNAT</a>
+    
+</div>
+                
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">0</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">993</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -395,7 +407,126 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        
+        <p>在linux环境下，使用linux里充当路由器，做路由实验</p>
+<h2 id="实验一：两台不同网段的PC机通信"><a href="#实验一：两台不同网段的PC机通信" class="headerlink" title="实验一：两台不同网段的PC机通信"></a>实验一：两台不同网段的PC机通信</h2><ul>
+<li><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3></li>
+</ul>
+<p>​    <strong>1.画拓扑图–》排除故障和思路清晰</strong></p>
+<p>​    <strong>2.规划ip地址和网段</strong></p>
+<p>​    <strong>3.准备虚拟机，准备4台虚拟机，2台虚拟机做路由器，2台做客户机（pc机）</strong></p>
+<ul>
+<li><h3 id="网络拓扑图"><a href="#网络拓扑图" class="headerlink" title="网络拓扑图"></a>网络拓扑图</h3><ul>
+<li><img src="1570620087351.png" alt="1570620087351"></li>
+</ul>
+</li>
+<li><h3 id="IP地址和网段规划"><a href="#IP地址和网段规划" class="headerlink" title="IP地址和网段规划"></a>IP地址和网段规划</h3><ul>
+<li>内网1<ul>
+<li>网段号：192.168.100.0/24</li>
+<li>PC1：192.168.100.2/24</li>
+</ul>
+</li>
+<li>路由器A<ul>
+<li>LAN内网口：ens33网卡192.168.100.1/24</li>
+<li>WAN外网口：ens37网卡192.168.0.66/24</li>
+</ul>
+</li>
+<li>公网<ul>
+<li>网段：192.168.0.0/24</li>
+</ul>
+</li>
+<li>路由器B<ul>
+<li>LAN内网口：ens33网卡192.168.16.1/24</li>
+<li>WAN外网口：ens37网卡192.168.0.50/24</li>
+</ul>
+</li>
+<li>内网2<ul>
+<li>网段号：192.168.16.0/24</li>
+<li>PC1：192.168.16.2/24</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>给路由器A和路由器B分别配置两块网卡ens33（外网口）,ens37(内网口)</p>
+</li>
+<li><p>每个网卡都有一个配置文件： 人可以去指定ip地址和子网掩码、网关、dns服务器地址</p>
+<ul>
+<li><p>1.分别配置路由器A,B的配置网卡ens33和ens37</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#配置ens33的ip地址</span><br><span class="line">[root@localhost ~]# cd /etc/sysconfig/network-scripts/</span><br><span class="line">[root@localhost network-scripts]# ls</span><br><span class="line">ifcfg-ens33  ifdown-isdn      ifdown-tunnel  ifup-isdn    ifup-Team</span><br><span class="line">ifcfg-lo     ifdown-post      ifup           ifup-plip    ifup-TeamPort</span><br><span class="line">ifdown       ifdown-ppp       ifup-aliases   ifup-plusb   ifup-tunnel</span><br><span class="line">ifdown-bnep  ifdown-routes    ifup-bnep      ifup-post    ifup-wireless</span><br><span class="line">ifdown-eth   ifdown-sit       ifup-eth       ifup-ppp     init.ipv6-global</span><br><span class="line">ifdown-ippp  ifdown-Team      ifup-ippp      ifup-routes  network-functions</span><br><span class="line">ifdown-ipv6  ifdown-TeamPort  ifup-ipv6      ifup-sit     network-functions-ipv6</span><br><span class="line">[root@localhost network-scripts]# vim ifcfg-ens33 </span><br><span class="line">BOOTPROTO=none</span><br><span class="line">NAME=ens33</span><br><span class="line">UUID=023d6e43-c618-4d18-aeb5-fc71b3d388bc</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes  </span><br><span class="line">IPADDR=192.168.100.1  ----&gt;指定路由器LAN口ip地址，即内网1的网关</span><br><span class="line">PREFIX=24</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#配置ens37的ip地址</span><br><span class="line">[root@localhost network-scripts]# cp ifcfg-ens33 ifcfg-ens37</span><br><span class="line">	BOOTPROTO=none</span><br><span class="line">    NAME=ens37</span><br><span class="line">    DEVICE=ens37</span><br><span class="line">    ONBOOT=yes</span><br><span class="line">    IPADDR=192.168.0.66</span><br><span class="line">    PREFIX=24</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>2.给PC1和PC2配置IP地址</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@PC-2 ~]# ip add</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 00:0c:29:d1:5c:e3 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.16.2/24 brd 192.168.16.255 scope global noprefixroute ens33</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::20c:29ff:fed1:5ce3/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">[root@PC-2 ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>3.查看路由表里的信息，分别开启路由器A,B的路由功能</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost network-scripts]# echo 1 &gt;/proc/sys/net/ipv4/ip_forward</span><br><span class="line">[root@localhost network-scripts]# cat  /proc/sys/net/ipv4/ip_forward</span><br><span class="line">1</span><br><span class="line">[root@localhost network-scripts]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>4.查看PC1对路由器A,PC2对路由器B是否能ping通</p>
+<ul>
+<li><img src="1570790461329.png" alt="1570790461329"></li>
+<li><img src="1570790534415.png" alt="1570790534415"></li>
+</ul>
+</li>
+<li><p>5.PC1去ping路由器B的WAN口，PC2去PING路由器A的WAN口看是否成功</p>
+<ul>
+<li><img src="1570792111997.png" alt="1570792111997"></li>
+<li><img src="1570792091030.png" alt="1570792091030"> </li>
+</ul>
+</li>
+<li><p>6.PC1能ping 通192.168.16.2，PC2能ping通192.168.100.2。证明两台设备能通信了</p>
+<ul>
+<li><img src="1570792277218.png" alt="1570792277218"></li>
+<li><img src="1570792307400.png" alt="1570792307400"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="实验二：在以上基础上使PC1和PC2能与外网通信"><a href="#实验二：在以上基础上使PC1和PC2能与外网通信" class="headerlink" title="实验二：在以上基础上使PC1和PC2能与外网通信"></a>实验二：在以上基础上使PC1和PC2能与外网通信</h2><ul>
+<li><h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3></li>
+</ul>
+<p>​    <strong>1.画拓扑图–》排除故障和思路清晰</strong></p>
+<p>​    <strong>2.规划ip地址和网段</strong></p>
+<p>​    <strong>3.准备虚拟机，准备4台虚拟机，2台虚拟机做路由器，2台做客户机（pc机），一个与外网通信的路由器</strong></p>
+<ul>
+<li><h3 id="网络拓扑图-1"><a href="#网络拓扑图-1" class="headerlink" title="网络拓扑图"></a>网络拓扑图</h3><ul>
+<li><img src="1570792452257.png" alt="1570792452257"></li>
+</ul>
+</li>
+<li><h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><ul>
+<li><p>在之前步骤上加上SNAT策略和默认路由</p>
+</li>
+<li><p>1.在两个路由器上加上默认路由</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB ~]# ip route add default via 192.168.0.1</span><br><span class="line">[root@RouterB ~]# ip route</span><br><span class="line">default via 192.168.0.1 dev ens37 </span><br><span class="line">192.168.0.0/24 dev ens37 proto kernel scope link src 192.168.0.50 metric 101 </span><br><span class="line">192.168.16.0/24 dev ens33 proto kernel scope link src 192.168.16.1 metric 100 </span><br><span class="line">192.168.100.0/24 via 192.168.0.66 dev ens37 </span><br><span class="line">[root@RouterB ~]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@RouteA ~]# ip route add default via 192.168.0.1</span><br><span class="line">[root@RouteA ~]# ip route</span><br><span class="line">default via 192.168.0.1 dev ens37 </span><br><span class="line">192.168.0.0/24 dev ens37 proto kernel scope link src 192.168.0.66 metric 101 </span><br><span class="line">192.168.16.0/24 via 192.168.0.50 dev ens37 </span><br><span class="line">192.168.100.0/24 dev ens33 proto kernel scope link src 192.168.100.1 metric 100 </span><br><span class="line">[root@RouteA ~]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><img src="1570792745662.png" alt="1570792745662"></p>
+</li>
+</ul>
+</li>
+<li><p>2.给路由器加上SNAT策略</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@RouteA ~]#  iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o ens37 -j SNAT  --to-source 192.168.0.66</span><br><span class="line"></span><br><span class="line">[root@RouteB ~]#  iptables -t nat -A POSTROUTING -s 192.168.16.0/24 -o ens37 -j SNAT  --to-source 192.168.0.50</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><img src="1570793236343.png" alt="1570793236343"></p>
+</li>
+</ul>
+</li>
+</ul>
+
     </article>
     <!-- license  -->
     
@@ -403,13 +534,18 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/09/【计算机网络】-Linux实现路由功能/">https://biubiu34.github.io/2019/10/09/【计算机网络】-Linux实现路由功能/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/09/【计算机网络】-Linux实现路由功能/">October 9th 2019, 1:25:52 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/09/【计算机网络】-Linux实现路由功能/">October 9th 2019, 1:25:52 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/09/【计算机网络】-Linux实现路由功能/">October 11th 2019, 7:27:39 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/09/Linux基础-配置ip地址/" title= "Linux基础--配置ip地址">
+                    <div class="nextTitle">Linux基础--配置ip地址</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -535,7 +671,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实验一：两台不同网段的PC机通信"><span class="toc-number">1.</span> <span class="toc-text">实验一：两台不同网段的PC机通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络拓扑图"><span class="toc-number">1.2.</span> <span class="toc-text">网络拓扑图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP地址和网段规划"><span class="toc-number">1.3.</span> <span class="toc-text">IP地址和网段规划</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验二：在以上基础上使PC1和PC2能与外网通信"><span class="toc-number">2.</span> <span class="toc-text">实验二：在以上基础上使PC1和PC2能与外网通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-1"><span class="toc-number">2.1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络拓扑图-1"><span class="toc-number">2.2.</span> <span class="toc-text">网络拓扑图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实验"><span class="toc-number">2.3.</span> <span class="toc-text">实验</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -833,9 +969,47 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 23
+        Total : 25
         </div>
         <!-- search  -->
         
@@ -848,6 +1022,16 @@ top:50vh;
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-路由原理/" >【计算机网络】--路由原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/Linux基础-配置ip地址/" >Linux基础--配置ip地址</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -975,6 +1159,8 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
         <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
@@ -983,13 +1169,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
         <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
-    
-        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
-    
-        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
         <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
@@ -997,11 +1183,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
-    
-        <span class="sidebar-tag-name" data-tags="数据链路层"><span class="iconfont-archer">&#xe606;</span>数据链路层</span>
     
         <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
     
