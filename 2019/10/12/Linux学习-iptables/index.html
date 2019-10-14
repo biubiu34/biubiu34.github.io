@@ -274,7 +274,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">415</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.7k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -442,8 +442,6 @@ height:50vh;
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><ul>
 <li>硬件防火墙<ul>
 <li>本质上还是Linux内核的netfilter+iptables+独立研发的芯片和软件。</li>
@@ -453,20 +451,194 @@ height:50vh;
 <li>软件防火墙—》iptables</li>
 </ul>
 </li>
+<li><p><img src="1570892308739.png" alt="1570892308739"></p>
+</li>
+<li><h3 id="iptables的规则表、链结构"><a href="#iptables的规则表、链结构" class="headerlink" title="iptables的规则表、链结构"></a>iptables的规则表、链结构</h3><ul>
+<li><h4 id="规则链"><a href="#规则链" class="headerlink" title="规则链"></a>规则链</h4><ul>
+<li>规则的作用在于对数据包进行过滤或处理，根据处理的时机的不同，各种规则被组织在不同的“链”中</li>
+<li>规则链式防火墙规则/策略的集合</li>
 </ul>
+</li>
+<li><h4 id="默认5种规则链"><a href="#默认5种规则链" class="headerlink" title="默认5种规则链"></a>默认5种规则链</h4><ul>
+<li>INPUT链：处理入站数据包<ul>
+<li>限制访问本机服务的</li>
+</ul>
+</li>
+<li>OUTPUT链：处理出站数据包</li>
+<li>FORWARD链：处理转发数据包<ul>
+<li>限制别人上网的（路由功能）</li>
+</ul>
+</li>
+<li>POSTROUTING链：在进行路由选择后处理数据包</li>
+<li>PREROUTING链：在进行路由选择前处理数据包</li>
+</ul>
+</li>
+<li><h4 id="规则表"><a href="#规则表" class="headerlink" title="规则表"></a>规则表</h4><ul>
+<li>具有某一类相似用途的防火墙规则，按照不同处理实际区分到不同的规则链以后，被归置到不同的“表”中</li>
+<li>规则表是规则链的集合</li>
+</ul>
+</li>
+<li><h4 id="默认的4的规则表"><a href="#默认的4的规则表" class="headerlink" title="默认的4的规则表"></a>默认的4的规则表</h4><ul>
+<li><strong>raw表</strong>:确定事都对该数据包进行状态跟踪</li>
+<li><strong>mangle表</strong>：为数据包设置标记</li>
+<li><strong>nat表</strong>：修改数据包中的源、目标IP地址或端口</li>
+<li><strong>filter表</strong>：确认是否方向该数据包（过滤）</li>
+</ul>
+</li>
+<li><p><img src="1570892957254.png" alt="1570892957254"></p>
+</li>
+</ul>
+</li>
+<li><h3 id="数据包过滤匹配流程"><a href="#数据包过滤匹配流程" class="headerlink" title="数据包过滤匹配流程"></a>数据包过滤匹配流程</h3><ul>
+<li><p><img src="1570893224608.png" alt="1570893224608"></p>
+</li>
+<li><p><img src="1571029744971.png" alt="1571029744971"></p>
 <ul>
-<li><h3 id="iptables的规则表、链结构"><a href="#iptables的规则表、链结构" class="headerlink" title="iptables的规则表、链结构"></a>iptables的规则表、链结构</h3></li>
-<li><h3 id="数据包过滤匹配流程"><a href="#数据包过滤匹配流程" class="headerlink" title="数据包过滤匹配流程"></a>数据包过滤匹配流程</h3></li>
+<li>所有的数据，包括自己访问自己都需要经过这条过滤机制</li>
+</ul>
+</li>
+<li><h4 id="规则表之间的优先顺序"><a href="#规则表之间的优先顺序" class="headerlink" title="规则表之间的优先顺序"></a>规则表之间的优先顺序</h4><ul>
+<li>依次为:raw,mangle,nat,filter</li>
+</ul>
+</li>
+<li><h4 id="规则链之间的匹配顺序"><a href="#规则链之间的匹配顺序" class="headerlink" title="规则链之间的匹配顺序"></a>规则链之间的匹配顺序</h4><ul>
+<li>入站数据：PREROUTING 、INPUT</li>
+<li>出站数据: OUTPUT、POSTROUTING</li>
+<li>转发数据:PREROUTING、FORWARD、POSTROUTING</li>
+</ul>
+</li>
+<li><h4 id="规则链内的匹配顺序"><a href="#规则链内的匹配顺序" class="headerlink" title="规则链内的匹配顺序"></a>规则链内的匹配顺序</h4><ul>
+<li>按顺序依次进行检查，找到相匹配的规则即停止（LOG策略会有例外）</li>
+<li>若在该链内找不到相匹配的规则，则按改链的默认策略处理</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="管理和设置iptables规则"><a href="#管理和设置iptables规则" class="headerlink" title="管理和设置iptables规则"></a>管理和设置iptables规则</h2><ul>
-<li><h3 id="iptables的基本语法格式"><a href="#iptables的基本语法格式" class="headerlink" title="iptables的基本语法格式"></a>iptables的基本语法格式</h3></li>
-<li><h3 id="管理iptables规则"><a href="#管理iptables规则" class="headerlink" title="管理iptables规则"></a>管理iptables规则</h3></li>
-<li><h3 id="条件匹配"><a href="#条件匹配" class="headerlink" title="条件匹配"></a>条件匹配</h3></li>
+<li><h3 id="iptables的基本语法格式"><a href="#iptables的基本语法格式" class="headerlink" title="iptables的基本语法格式"></a>iptables的基本语法格式</h3><ul>
+<li><p><strong>iptables [-t 表名] 管理选项 【链名】【条件匹配】【-j 目标动作或跳转】</strong></p>
+</li>
+<li><h4 id="几个注意事项"><a href="#几个注意事项" class="headerlink" title="几个注意事项"></a>几个注意事项</h4><ul>
+<li>不指定表明的时候，默认表示filter表</li>
+<li>不指定链名的时候，默认该表内的所有链</li>
+<li>除非设置规则链的缺省规则，否则需要指定匹配条件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="管理iptables规则"><a href="#管理iptables规则" class="headerlink" title="管理iptables规则"></a>管理iptables规则</h3><ul>
+<li><h4 id="设置规则内容"><a href="#设置规则内容" class="headerlink" title="设置规则内容"></a>设置规则内容</h4><ul>
+<li>-A:在链尾追加一条新的规则</li>
+<li>-I：在指定位置（或是）链首插入一条新的规则,没有指定默认插在链首</li>
+<li>-R：修改、替换指定位置或内容的规则</li>
+<li>-P：设置指定链的默认策略 policy</li>
+<li>-p:指定协议  protocol</li>
+</ul>
+</li>
+<li><h4 id="列表查看规则"><a href="#列表查看规则" class="headerlink" title="列表查看规则"></a>列表查看规则</h4><ul>
+<li><p>-L：列表查看各条规则信息</p>
+</li>
+<li><p>–line-numbers：查看规则信息时显示规则的行号</p>
+</li>
+<li><p>-n：以数字形式显示IP地址、端口等信息</p>
+</li>
+<li><p>-v：显示数据包个数、字节数等详细信息</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# iptables -L --line-num -n -v</span><br><span class="line">Chain INPUT (policy DROP 0 packets, 0 bytes)</span><br><span class="line">num   pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line">1       56  8241 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0           </span><br><span class="line">2        4   336 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0           </span><br><span class="line">3      765 45484 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="清除规则"><a href="#清除规则" class="headerlink" title="清除规则"></a>清除规则</h4><ul>
+<li>-D：删除指定位置或内容的规则</li>
+<li>-F：清除规则链内的所有规则 flush</li>
+</ul>
+</li>
+<li><h4 id="自定义规则链"><a href="#自定义规则链" class="headerlink" title="自定义规则链"></a>自定义规则链</h4><ul>
+<li>-N：创建一条新的规则链</li>
+<li>-X：删除自定义的规则链</li>
+</ul>
+</li>
+<li><h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ul>
+<li>-h:查看iptables命令的使用帮助</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="规则执行的顺序"><a href="#规则执行的顺序" class="headerlink" title="规则执行的顺序"></a>规则执行的顺序</h3><ol>
+<li>首先看第一条规则，如果符合要求，就执行</li>
+<li>符合第二条规则就执行相关动作（ACCEPT 或者DROP），如果还不匹配，就看第3条</li>
+<li>在都不匹配的情况下，看默认规则</li>
+</ol>
+</li>
+<li><h3 id="条件匹配"><a href="#条件匹配" class="headerlink" title="条件匹配"></a>条件匹配</h3><ul>
+<li><h4 id="通用条件匹配"><a href="#通用条件匹配" class="headerlink" title="通用条件匹配"></a>通用条件匹配</h4><ul>
+<li><p>可直接使用，不依赖于其他的条件或扩展模块</p>
+</li>
+<li><p>包括网络协议、IP地址、网络接口等匹配方式</p>
+</li>
+<li><h5 id="协议匹配"><a href="#协议匹配" class="headerlink" title="协议匹配"></a>协议匹配</h5><ul>
+<li>使用“-p 协议名”的形式</li>
+<li>协议名可使用在“/etc/protocols”文件中定义的名称</li>
+<li>常用的协议包括tcp、udp、icmp等</li>
+</ul>
+</li>
+<li><h5 id="地址匹配"><a href="#地址匹配" class="headerlink" title="地址匹配"></a>地址匹配</h5><ul>
+<li>使用”-s 源地址”、”-d 目标地址”的形式</li>
+<li>地址可以是单个IP地址、网络地址（带掩码长度）</li>
+</ul>
+</li>
+<li><h5 id="接口匹配"><a href="#接口匹配" class="headerlink" title="接口匹配"></a>接口匹配</h5><ul>
+<li>使用“-i 网络接口名”、“-o 网络接口名”的形式，分别对应接收、发送数据包的网络接口</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="隐含条件匹配"><a href="#隐含条件匹配" class="headerlink" title="隐含条件匹配"></a>隐含条件匹配</h4><ul>
+<li><p>一般需要以特定的协议匹配作为前提</p>
+</li>
+<li><p>包含端口、TCP标记、ICMP类型等匹配方式</p>
+</li>
+<li><h5 id="端口匹配"><a href="#端口匹配" class="headerlink" title="端口匹配"></a>端口匹配</h5><ul>
+<li>使用“–sport 源端口”、“-dport 目的端口”的形式</li>
+<li>采用“端口1：端口2”的形式可以指定一个范围的端口</li>
+</ul>
+</li>
+<li><h5 id="TCP标记匹配"><a href="#TCP标记匹配" class="headerlink" title="TCP标记匹配"></a>TCP标记匹配</h5><ul>
+<li>使用“–tcp-flags 检查范围 被设置的标记“的形式</li>
+<li>如“–tcp-flags SYN,RST,ACK  SYN”表示检查SYN、RST、ACK这3个标记，只要SYN为1时候满足条件</li>
+</ul>
+</li>
+<li><h5 id="ICMP类型匹配"><a href="#ICMP类型匹配" class="headerlink" title="ICMP类型匹配"></a>ICMP类型匹配</h5><ul>
+<li>使用“–icmp-type ICMP类型”的形式</li>
+<li>ICMP类型可以使用类型字符串或者对应的数值，例如Echo-Request、Echo-Reply</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="显式条件匹配"><a href="#显式条件匹配" class="headerlink" title="显式条件匹配"></a>显式条件匹配</h4><ul>
+<li>需要使用“-m 扩展模块”的形式明确匹配方式</li>
+<li>包括多端口、MAC地址、IP地址范围、数据包状态等匹配方式</li>
+<li><img src="1571033353526.png" alt="1571033353526"></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><h3 id="数据包控制"><a href="#数据包控制" class="headerlink" title="数据包控制"></a>数据包控制</h3></li>
+<li><h3 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h3><ul>
+<li><img src="1571033642848.png" alt="1571033642848"></li>
+</ul>
+</li>
 </ul>
 <h2 id="使用防火墙脚本"><a href="#使用防火墙脚本" class="headerlink" title="使用防火墙脚本"></a>使用防火墙脚本</h2><ul>
 <li><h3 id="导出、导入防火墙规则"><a href="#导出、导入防火墙规则" class="headerlink" title="导出、导入防火墙规则"></a>导出、导入防火墙规则</h3></li>
 <li><h3 id="编写防火墙脚本"><a href="#编写防火墙脚本" class="headerlink" title="编写防火墙脚本"></a>编写防火墙脚本</h3></li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="■iptables包含了哪几个规则表，各自的作用是什么"><a href="#■iptables包含了哪几个规则表，各自的作用是什么" class="headerlink" title="■iptables包含了哪几个规则表，各自的作用是什么?"></a>■iptables包含了哪几个规则表，各自的作用是什么?</h3><h3 id="■iptables使用了哪几种规则链，各自的含义是什么"><a href="#■iptables使用了哪几种规则链，各自的含义是什么" class="headerlink" title="■iptables使用了哪几种规则链，各自的含义是什么?"></a>■iptables使用了哪几种规则链，各自的含义是什么?</h3><h3 id="■iptables在转发数据包时，经过了哪几个表、哪几种链内的规则进行匹配"><a href="#■iptables在转发数据包时，经过了哪几个表、哪几种链内的规则进行匹配" class="headerlink" title="■iptables在转发数据包时，经过了哪几个表、哪几种链内的规则进行匹配?"></a>■iptables在转发数据包时，经过了哪几个表、哪几种链内的规则进行匹配?</h3><h3 id="■iptables命令的基本语法格式包括哪些组成部分"><a href="#■iptables命令的基本语法格式包括哪些组成部分" class="headerlink" title="■iptables命令的基本语法格式包括哪些组成部分?"></a>■iptables命令的基本语法格式包括哪些组成部分?</h3><h3 id="■设置iptables规则时，若未指定表名，默认对应的是哪个规则表"><a href="#■设置iptables规则时，若未指定表名，默认对应的是哪个规则表" class="headerlink" title="■设置iptables规则时，若未指定表名，默认对应的是哪个规则表?"></a>■设置iptables规则时，若未指定表名，默认对应的是哪个规则表?</h3><ul>
+<li><h3 id="平时注意："><a href="#平时注意：" class="headerlink" title="平时注意："></a>平时注意：</h3><ul>
+<li><strong>一定要注意开放ssh端口，在设置默认策略为DROP前</strong></li>
+</ul>
+</li>
 </ul>
 
     </article>
@@ -476,13 +648,18 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/12/Linux学习-iptables/">https://biubiu34.github.io/2019/10/12/Linux学习-iptables/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/12/Linux学习-iptables/">October 12th 2019, 12:02:50 am</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/12/Linux学习-iptables/">October 12th 2019, 12:58:40 am</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/12/Linux学习-iptables/">October 14th 2019, 2:14:16 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/13/【计算机网络】-SNAT实验/" title= "【计算机网络】--SNAT实验">
+                    <div class="nextTitle">【计算机网络】--SNAT实验</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -608,7 +785,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IPTABLES-防火墙"><span class="toc-number">1.</span> <span class="toc-text">IPTABLES 防火墙</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux防火墙基础"><span class="toc-number">1.1.</span> <span class="toc-text">Linux防火墙基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux防火墙概述"><span class="toc-number">1.1.1.</span> <span class="toc-text">Linux防火墙概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防火墙"><span class="toc-number">1.1.2.</span> <span class="toc-text">防火墙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iptables的规则表、链结构"><span class="toc-number">1.1.3.</span> <span class="toc-text">iptables的规则表、链结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据包过滤匹配流程"><span class="toc-number">1.1.4.</span> <span class="toc-text">数据包过滤匹配流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管理和设置iptables规则"><span class="toc-number">1.2.</span> <span class="toc-text">管理和设置iptables规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iptables的基本语法格式"><span class="toc-number">1.2.1.</span> <span class="toc-text">iptables的基本语法格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管理iptables规则"><span class="toc-number">1.2.2.</span> <span class="toc-text">管理iptables规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件匹配"><span class="toc-number">1.2.3.</span> <span class="toc-text">条件匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据包控制"><span class="toc-number">1.2.4.</span> <span class="toc-text">数据包控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用防火墙脚本"><span class="toc-number">1.3.</span> <span class="toc-text">使用防火墙脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#导出、导入防火墙规则"><span class="toc-number">1.3.1.</span> <span class="toc-text">导出、导入防火墙规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写防火墙脚本"><span class="toc-number">1.3.2.</span> <span class="toc-text">编写防火墙脚本</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IPTABLES-防火墙"><span class="toc-number">1.</span> <span class="toc-text">IPTABLES 防火墙</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux防火墙基础"><span class="toc-number">1.1.</span> <span class="toc-text">Linux防火墙基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux防火墙概述"><span class="toc-number">1.1.1.</span> <span class="toc-text">Linux防火墙概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防火墙"><span class="toc-number">1.1.2.</span> <span class="toc-text">防火墙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iptables的规则表、链结构"><span class="toc-number">1.1.3.</span> <span class="toc-text">iptables的规则表、链结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#规则链"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">规则链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认5种规则链"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">默认5种规则链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#规则表"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">规则表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认的4的规则表"><span class="toc-number">1.1.3.4.</span> <span class="toc-text">默认的4的规则表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据包过滤匹配流程"><span class="toc-number">1.1.4.</span> <span class="toc-text">数据包过滤匹配流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#规则表之间的优先顺序"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">规则表之间的优先顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#规则链之间的匹配顺序"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">规则链之间的匹配顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#规则链内的匹配顺序"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">规则链内的匹配顺序</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管理和设置iptables规则"><span class="toc-number">1.2.</span> <span class="toc-text">管理和设置iptables规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iptables的基本语法格式"><span class="toc-number">1.2.1.</span> <span class="toc-text">iptables的基本语法格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几个注意事项"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">几个注意事项</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管理iptables规则"><span class="toc-number">1.2.2.</span> <span class="toc-text">管理iptables规则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#设置规则内容"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">设置规则内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列表查看规则"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">列表查看规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#清除规则"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">清除规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义规则链"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">自定义规则链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#规则执行的顺序"><span class="toc-number">1.2.3.</span> <span class="toc-text">规则执行的顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件匹配"><span class="toc-number">1.2.4.</span> <span class="toc-text">条件匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用条件匹配"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">通用条件匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#协议匹配"><span class="toc-number">1.2.4.1.1.</span> <span class="toc-text">协议匹配</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#地址匹配"><span class="toc-number">1.2.4.1.2.</span> <span class="toc-text">地址匹配</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#接口匹配"><span class="toc-number">1.2.4.1.3.</span> <span class="toc-text">接口匹配</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#隐含条件匹配"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">隐含条件匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#端口匹配"><span class="toc-number">1.2.4.2.1.</span> <span class="toc-text">端口匹配</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TCP标记匹配"><span class="toc-number">1.2.4.2.2.</span> <span class="toc-text">TCP标记匹配</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ICMP类型匹配"><span class="toc-number">1.2.4.2.3.</span> <span class="toc-text">ICMP类型匹配</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显式条件匹配"><span class="toc-number">1.2.4.3.</span> <span class="toc-text">显式条件匹配</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据包控制"><span class="toc-number">1.2.5.</span> <span class="toc-text">数据包控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选项"><span class="toc-number">1.2.6.</span> <span class="toc-text">选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用防火墙脚本"><span class="toc-number">1.3.</span> <span class="toc-text">使用防火墙脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#导出、导入防火墙规则"><span class="toc-number">1.3.1.</span> <span class="toc-text">导出、导入防火墙规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写防火墙脚本"><span class="toc-number">1.3.2.</span> <span class="toc-text">编写防火墙脚本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">1.4.</span> <span class="toc-text">小结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#■iptables包含了哪几个规则表，各自的作用是什么"><span class="toc-number">1.4.1.</span> <span class="toc-text">■iptables包含了哪几个规则表，各自的作用是什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#■iptables使用了哪几种规则链，各自的含义是什么"><span class="toc-number">1.4.2.</span> <span class="toc-text">■iptables使用了哪几种规则链，各自的含义是什么?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#■iptables在转发数据包时，经过了哪几个表、哪几种链内的规则进行匹配"><span class="toc-number">1.4.3.</span> <span class="toc-text">■iptables在转发数据包时，经过了哪几个表、哪几种链内的规则进行匹配?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#■iptables命令的基本语法格式包括哪些组成部分"><span class="toc-number">1.4.4.</span> <span class="toc-text">■iptables命令的基本语法格式包括哪些组成部分?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#■设置iptables规则时，若未指定表名，默认对应的是哪个规则表"><span class="toc-number">1.4.5.</span> <span class="toc-text">■设置iptables规则时，若未指定表名，默认对应的是哪个规则表?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平时注意："><span class="toc-number">1.4.6.</span> <span class="toc-text">平时注意：</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -993,9 +1170,40 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 28
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1011,6 +1219,21 @@ top:50vh;
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-SNAT实验/" >【计算机网络】--SNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
         </li>
     
@@ -1021,12 +1244,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >小鸡子</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >小鸡子</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
         </li>
     
     
@@ -1051,12 +1274,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
         </li>
     
     
@@ -1154,45 +1377,47 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
-        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
-    
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
-        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
-    
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
-        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
         <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
     
         <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
-    
-        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
-    
-        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
-    
-        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
-    
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
-    
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
@@ -1251,9 +1476,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     

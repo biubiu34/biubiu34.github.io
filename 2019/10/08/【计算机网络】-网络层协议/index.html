@@ -276,7 +276,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">3.7k</span>阅读时长: <span class="post-count reading-time">14 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">4.2k</span>阅读时长: <span class="post-count reading-time">16 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -629,7 +629,93 @@ height:50vh;
 </li>
 </ul>
 </li>
-<li><h3 id="DNAT：修改目的地址"><a href="#DNAT：修改目的地址" class="headerlink" title="DNAT：修改目的地址"></a>DNAT：修改目的地址</h3></li>
+<li><h3 id="DNAT：修改目的地址"><a href="#DNAT：修改目的地址" class="headerlink" title="DNAT：修改目的地址"></a>DNAT：修改目的地址</h3><ul>
+<li><h4 id="DNAT策略的典型应用环境"><a href="#DNAT策略的典型应用环境" class="headerlink" title="DNAT策略的典型应用环境"></a>DNAT策略的典型应用环境</h4><ul>
+<li>在internet中发布位于企业局域网内的服务器</li>
+</ul>
+</li>
+<li><h4 id="DNAT策略的原理"><a href="#DNAT策略的原理" class="headerlink" title="DNAT策略的原理"></a>DNAT策略的原理</h4><ul>
+<li>目标地址转换：Destination Network Address Translation</li>
+<li>修改数据包的目的IP地址</li>
+</ul>
+<p><img src="%5B1570952973604.png" alt="1570952973604"></p>
+</li>
+<li><h4 id="映射：map"><a href="#映射：map" class="headerlink" title="映射：map"></a>映射：map</h4><ul>
+<li>访问一个A，转到D去<ul>
+<li>A—-&gt;D</li>
+<li>B—–&gt;C</li>
+<li>E——&gt;F</li>
+</ul>
+</li>
+<li>有一个一一对应的关系，有两边的阵容，访问一边的A，会给你转到另一边的D—》映射</li>
+</ul>
+</li>
+<li><p>如何让外网的机器能访问到内网不同的服务器</p>
+<ul>
+<li>访问WAN口的80端口—-》web server</li>
+<li>访问WAN口的22端口—》ssh server</li>
+</ul>
+</li>
+<li><p><img src="1570952814973.png" alt="1570952814973"></p>
+</li>
+<li><h4 id="DNAT的原理"><a href="#DNAT的原理" class="headerlink" title="DNAT的原理"></a>DNAT的原理</h4><ul>
+<li>在网关中使用DNAT策略发布内网服务器</li>
+<li><img src="1570953179702.png" alt="1570953179702"></li>
+</ul>
+</li>
+<li><h4 id="DNAT策略的应用"><a href="#DNAT策略的应用" class="headerlink" title="DNAT策略的应用"></a>DNAT策略的应用</h4><ul>
+<li><h5 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h5><ul>
+<li>局域网的web服务器正确设置了ip地址/子网掩码</li>
+<li>局域网的web服务器正确设置了默认网关地址</li>
+</ul>
+</li>
+<li><h5 id="推荐实现步骤"><a href="#推荐实现步骤" class="headerlink" title="推荐实现步骤"></a>推荐实现步骤</h5><ol>
+<li><p>推荐已开启网关的路由转发功能</p>
+<ul>
+<li><p><strong>临时开启路由功能</strong></p>
+<p>echo 1 &gt;/proc/sys/net/ipv4/ip_forward</p>
+</li>
+<li><p><strong>永久开启路由功能</strong></p>
+<ol>
+<li>修改文件</li>
+</ol>
+<p>vim /etc/sysctl.conf</p>
+<p>net.ipv4.ip_forward=1</p>
+<p>让内核重新读取文件，配置开启路由功能</p>
+<p>sysctl -p</p>
+</li>
+</ul>
+</li>
+<li><p>添加使用DNAT策略的防火墙规则</p>
+<p>在使用之前先清空iptables</p>
+<p>​    iptables -t nat -F   —-&gt;清除nat表里的规则</p>
+<p>​    iptables -F 清除filter表里的规则</p>
+<p>​    iptables -t nat -L 查看nat表里的规则</p>
+<p>规则示范：</p>
+<p>​    iptables -t nat -A <strong>PREROUTING -i eth0 -d 218.29.30.31</strong> -p tcp</p>
+<p>–dport 80 -j DNAT –to-destination 192.168.1.6</p>
+<ul>
+<li><p>-i eth0 :指定数据进来的接口</p>
+</li>
+<li><p>-d 218.29.30.31 访问网关的目的地址是外网IP</p>
+</li>
+<li><p>–to-destination 192.168.1.6：80 ：内网中web服务器的目的IP地址，并且端口号是80</p>
+</li>
+<li><p>转发后的端口号是可以修改的，并不一定要是80，可以是其他的</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>添加SNAT策略</p>
+<ul>
+<li>iptables -t nat -A POSTROUTING -s 192.168.1.0/24  -o eth0 -j SNAT –to-source 218.29.30.31</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -891,7 +977,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/08/【计算机网络】-网络层协议/">https://biubiu34.github.io/2019/10/08/【计算机网络】-网络层协议/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/08/【计算机网络】-网络层协议/">October 8th 2019, 8:09:39 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/08/【计算机网络】-网络层协议/">October 11th 2019, 9:13:15 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/08/【计算机网络】-网络层协议/">October 13th 2019, 9:39:29 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -1028,7 +1114,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络层协议"><span class="toc-number">1.</span> <span class="toc-text">网络层协议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IP数据包"><span class="toc-number">2.</span> <span class="toc-text">IP数据包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#广播和广播域概述"><span class="toc-number">3.</span> <span class="toc-text">广播和广播域概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#广播和广播域"><span class="toc-number">3.1.</span> <span class="toc-text">广播和广播域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MAC地址广播（2层广播地址）—》帧"><span class="toc-number">3.2.</span> <span class="toc-text">MAC地址广播（2层广播地址）—》帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP地址广播（3层广播地址）—》包"><span class="toc-number">3.3.</span> <span class="toc-text">IP地址广播（3层广播地址）—》包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">3.4.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#路由概述"><span class="toc-number">4.</span> <span class="toc-text">路由概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#路由含义"><span class="toc-number">4.1.</span> <span class="toc-text">路由含义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#路由器（router）："><span class="toc-number">4.1.1.</span> <span class="toc-text">路由器（router）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由的类型"><span class="toc-number">4.1.2.</span> <span class="toc-text">路由的类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#路由器的工作原理"><span class="toc-number">4.2.</span> <span class="toc-text">路由器的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#路由表的形成"><span class="toc-number">4.3.</span> <span class="toc-text">路由表的形成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#路由表"><span class="toc-number">4.3.1.</span> <span class="toc-text">路由表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由表的形成-1"><span class="toc-number">4.3.2.</span> <span class="toc-text">路由表的形成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#路由器转发数据包的封装过程"><span class="toc-number">4.4.</span> <span class="toc-text">路由器转发数据包的封装过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NAT技术简介"><span class="toc-number">5.</span> <span class="toc-text">NAT技术简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#含义：网络地址转换"><span class="toc-number">5.1.</span> <span class="toc-text">含义：网络地址转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux下的NAT技术"><span class="toc-number">5.2.</span> <span class="toc-text">Linux下的NAT技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SNAT：修改源地址"><span class="toc-number">5.2.1.</span> <span class="toc-text">SNAT：修改源地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用环境"><span class="toc-number">5.2.1.1.</span> <span class="toc-text">应用环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">5.2.1.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#未使用SNAT策略时候的情况"><span class="toc-number">5.2.1.3.</span> <span class="toc-text">未使用SNAT策略时候的情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在网关中使用SNAT策略后"><span class="toc-number">5.2.1.4.</span> <span class="toc-text">在网关中使用SNAT策略后</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现SNAT功能"><span class="toc-number">5.2.1.5.</span> <span class="toc-text">实现SNAT功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNAT：修改目的地址"><span class="toc-number">5.2.2.</span> <span class="toc-text">DNAT：修改目的地址</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ARP协议"><span class="toc-number">6.</span> <span class="toc-text">ARP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#局域网中主机的通信"><span class="toc-number">6.1.</span> <span class="toc-text">局域网中主机的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是ARP协议"><span class="toc-number">6.2.</span> <span class="toc-text">什么是ARP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux里使用arp"><span class="toc-number">6.3.</span> <span class="toc-text">Linux里使用arp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux系统中使用ARP命令"><span class="toc-number">6.3.1.</span> <span class="toc-text">Linux系统中使用ARP命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wins系统里的arp命令"><span class="toc-number">6.4.</span> <span class="toc-text">wins系统里的arp命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#APR广播包里的内容"><span class="toc-number">6.5.</span> <span class="toc-text">APR广播包里的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARP协议的工作原理"><span class="toc-number">6.6.</span> <span class="toc-text">ARP协议的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARP病毒"><span class="toc-number">6.7.</span> <span class="toc-text">ARP病毒</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ICMP协议"><span class="toc-number">7.</span> <span class="toc-text">ICMP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#含义"><span class="toc-number">7.1.</span> <span class="toc-text">含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP数据的封装过程"><span class="toc-number">7.2.</span> <span class="toc-text">ICMP数据的封装过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP协议有两种类型的包："><span class="toc-number">7.3.</span> <span class="toc-text">ICMP协议有两种类型的包：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ping命令"><span class="toc-number">7.4.</span> <span class="toc-text">Ping命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ping命令在wins里默认就发4个包"><span class="toc-number">7.4.1.</span> <span class="toc-text">ping命令在wins里默认就发4个包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ping命令在Linux里"><span class="toc-number">7.4.2.</span> <span class="toc-text">ping命令在Linux里</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#路由追踪命令"><span class="toc-number">8.</span> <span class="toc-text">路由追踪命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux里查看网卡带宽和流量的命令"><span class="toc-number">9.</span> <span class="toc-text">Linux里查看网卡带宽和流量的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ifconfig"><span class="toc-number">9.0.1.</span> <span class="toc-text">ifconfig</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dstat"><span class="toc-number">9.0.2.</span> <span class="toc-text">dstat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ethtools"><span class="toc-number">9.0.3.</span> <span class="toc-text">ethtools</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#firewalld"><span class="toc-number">10.</span> <span class="toc-text">firewalld</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#故障排除"><span class="toc-number">11.</span> <span class="toc-text">故障排除</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-number">12.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Q1-两台直连主机的IP地址分别配置172-16-10-5-16-172-16-1-6-16-他们可以通信吗？"><span class="toc-number">12.1.</span> <span class="toc-text">Q1:两台直连主机的IP地址分别配置172.16.10.5/16,172.16.1.6/16,他们可以通信吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q2-哪些设备里有路由表？"><span class="toc-number">12.2.</span> <span class="toc-text">Q2:哪些设备里有路由表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q3：Linux怎么查路由表？"><span class="toc-number">12.3.</span> <span class="toc-text">Q3：Linux怎么查路由表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q4-刷新网络服务，会导致路由表重新生成，以前的内容都会丢失。"><span class="toc-number">12.4.</span> <span class="toc-text">Q4:刷新网络服务，会导致路由表重新生成，以前的内容都会丢失。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q5：数据在封装的时候，是先封装ip地址还是mac地址？"><span class="toc-number">12.5.</span> <span class="toc-text">Q5：数据在封装的时候，是先封装ip地址还是mac地址？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q6：哪些设备有arp表？"><span class="toc-number">12.6.</span> <span class="toc-text">Q6：哪些设备有arp表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q7：哪些设备有mac地址表？"><span class="toc-number">12.7.</span> <span class="toc-text">Q7：哪些设备有mac地址表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q8：编写一个shell脚本检测192-168-0-0-24这个子网里，哪些ip地址在使用，哪些没有在使用？"><span class="toc-number">12.8.</span> <span class="toc-text">Q8：编写一个shell脚本检测192.168.0.0/24这个子网里，哪些ip地址在使用，哪些没有在使用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q9：为什么ping之前需要用到arp广播？"><span class="toc-number">12.9.</span> <span class="toc-text">Q9：为什么ping之前需要用到arp广播？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q10-ARP协议和ICMP协议"><span class="toc-number">12.10.</span> <span class="toc-text">Q10:ARP协议和ICMP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q11-mac地址表示可以学习的，路由表是怎么样来的？"><span class="toc-number">12.11.</span> <span class="toc-text">Q11:mac地址表示可以学习的，路由表是怎么样来的？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">13.</span> <span class="toc-text">参考文章</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络层协议"><span class="toc-number">1.</span> <span class="toc-text">网络层协议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IP数据包"><span class="toc-number">2.</span> <span class="toc-text">IP数据包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#广播和广播域概述"><span class="toc-number">3.</span> <span class="toc-text">广播和广播域概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#广播和广播域"><span class="toc-number">3.1.</span> <span class="toc-text">广播和广播域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MAC地址广播（2层广播地址）—》帧"><span class="toc-number">3.2.</span> <span class="toc-text">MAC地址广播（2层广播地址）—》帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP地址广播（3层广播地址）—》包"><span class="toc-number">3.3.</span> <span class="toc-text">IP地址广播（3层广播地址）—》包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">3.4.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#路由概述"><span class="toc-number">4.</span> <span class="toc-text">路由概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#路由含义"><span class="toc-number">4.1.</span> <span class="toc-text">路由含义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#路由器（router）："><span class="toc-number">4.1.1.</span> <span class="toc-text">路由器（router）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由的类型"><span class="toc-number">4.1.2.</span> <span class="toc-text">路由的类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#路由器的工作原理"><span class="toc-number">4.2.</span> <span class="toc-text">路由器的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#路由表的形成"><span class="toc-number">4.3.</span> <span class="toc-text">路由表的形成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#路由表"><span class="toc-number">4.3.1.</span> <span class="toc-text">路由表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由表的形成-1"><span class="toc-number">4.3.2.</span> <span class="toc-text">路由表的形成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#路由器转发数据包的封装过程"><span class="toc-number">4.4.</span> <span class="toc-text">路由器转发数据包的封装过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NAT技术简介"><span class="toc-number">5.</span> <span class="toc-text">NAT技术简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#含义：网络地址转换"><span class="toc-number">5.1.</span> <span class="toc-text">含义：网络地址转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux下的NAT技术"><span class="toc-number">5.2.</span> <span class="toc-text">Linux下的NAT技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SNAT：修改源地址"><span class="toc-number">5.2.1.</span> <span class="toc-text">SNAT：修改源地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用环境"><span class="toc-number">5.2.1.1.</span> <span class="toc-text">应用环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">5.2.1.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#未使用SNAT策略时候的情况"><span class="toc-number">5.2.1.3.</span> <span class="toc-text">未使用SNAT策略时候的情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在网关中使用SNAT策略后"><span class="toc-number">5.2.1.4.</span> <span class="toc-text">在网关中使用SNAT策略后</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现SNAT功能"><span class="toc-number">5.2.1.5.</span> <span class="toc-text">实现SNAT功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNAT：修改目的地址"><span class="toc-number">5.2.2.</span> <span class="toc-text">DNAT：修改目的地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DNAT策略的典型应用环境"><span class="toc-number">5.2.2.1.</span> <span class="toc-text">DNAT策略的典型应用环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNAT策略的原理"><span class="toc-number">5.2.2.2.</span> <span class="toc-text">DNAT策略的原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#映射：map"><span class="toc-number">5.2.2.3.</span> <span class="toc-text">映射：map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNAT的原理"><span class="toc-number">5.2.2.4.</span> <span class="toc-text">DNAT的原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNAT策略的应用"><span class="toc-number">5.2.2.5.</span> <span class="toc-text">DNAT策略的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#前提条件"><span class="toc-number">5.2.2.5.1.</span> <span class="toc-text">前提条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#推荐实现步骤"><span class="toc-number">5.2.2.5.2.</span> <span class="toc-text">推荐实现步骤</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ARP协议"><span class="toc-number">6.</span> <span class="toc-text">ARP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#局域网中主机的通信"><span class="toc-number">6.1.</span> <span class="toc-text">局域网中主机的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是ARP协议"><span class="toc-number">6.2.</span> <span class="toc-text">什么是ARP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux里使用arp"><span class="toc-number">6.3.</span> <span class="toc-text">Linux里使用arp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux系统中使用ARP命令"><span class="toc-number">6.3.1.</span> <span class="toc-text">Linux系统中使用ARP命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wins系统里的arp命令"><span class="toc-number">6.4.</span> <span class="toc-text">wins系统里的arp命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#APR广播包里的内容"><span class="toc-number">6.5.</span> <span class="toc-text">APR广播包里的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARP协议的工作原理"><span class="toc-number">6.6.</span> <span class="toc-text">ARP协议的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARP病毒"><span class="toc-number">6.7.</span> <span class="toc-text">ARP病毒</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ICMP协议"><span class="toc-number">7.</span> <span class="toc-text">ICMP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#含义"><span class="toc-number">7.1.</span> <span class="toc-text">含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP数据的封装过程"><span class="toc-number">7.2.</span> <span class="toc-text">ICMP数据的封装过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP协议有两种类型的包："><span class="toc-number">7.3.</span> <span class="toc-text">ICMP协议有两种类型的包：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ping命令"><span class="toc-number">7.4.</span> <span class="toc-text">Ping命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ping命令在wins里默认就发4个包"><span class="toc-number">7.4.1.</span> <span class="toc-text">ping命令在wins里默认就发4个包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ping命令在Linux里"><span class="toc-number">7.4.2.</span> <span class="toc-text">ping命令在Linux里</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#路由追踪命令"><span class="toc-number">8.</span> <span class="toc-text">路由追踪命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux里查看网卡带宽和流量的命令"><span class="toc-number">9.</span> <span class="toc-text">Linux里查看网卡带宽和流量的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ifconfig"><span class="toc-number">9.0.1.</span> <span class="toc-text">ifconfig</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dstat"><span class="toc-number">9.0.2.</span> <span class="toc-text">dstat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ethtools"><span class="toc-number">9.0.3.</span> <span class="toc-text">ethtools</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#firewalld"><span class="toc-number">10.</span> <span class="toc-text">firewalld</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#故障排除"><span class="toc-number">11.</span> <span class="toc-text">故障排除</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-number">12.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Q1-两台直连主机的IP地址分别配置172-16-10-5-16-172-16-1-6-16-他们可以通信吗？"><span class="toc-number">12.1.</span> <span class="toc-text">Q1:两台直连主机的IP地址分别配置172.16.10.5/16,172.16.1.6/16,他们可以通信吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q2-哪些设备里有路由表？"><span class="toc-number">12.2.</span> <span class="toc-text">Q2:哪些设备里有路由表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q3：Linux怎么查路由表？"><span class="toc-number">12.3.</span> <span class="toc-text">Q3：Linux怎么查路由表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q4-刷新网络服务，会导致路由表重新生成，以前的内容都会丢失。"><span class="toc-number">12.4.</span> <span class="toc-text">Q4:刷新网络服务，会导致路由表重新生成，以前的内容都会丢失。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q5：数据在封装的时候，是先封装ip地址还是mac地址？"><span class="toc-number">12.5.</span> <span class="toc-text">Q5：数据在封装的时候，是先封装ip地址还是mac地址？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q6：哪些设备有arp表？"><span class="toc-number">12.6.</span> <span class="toc-text">Q6：哪些设备有arp表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q7：哪些设备有mac地址表？"><span class="toc-number">12.7.</span> <span class="toc-text">Q7：哪些设备有mac地址表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q8：编写一个shell脚本检测192-168-0-0-24这个子网里，哪些ip地址在使用，哪些没有在使用？"><span class="toc-number">12.8.</span> <span class="toc-text">Q8：编写一个shell脚本检测192.168.0.0/24这个子网里，哪些ip地址在使用，哪些没有在使用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q9：为什么ping之前需要用到arp广播？"><span class="toc-number">12.9.</span> <span class="toc-text">Q9：为什么ping之前需要用到arp广播？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q10-ARP协议和ICMP协议"><span class="toc-number">12.10.</span> <span class="toc-text">Q10:ARP协议和ICMP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q11-mac地址表示可以学习的，路由表是怎么样来的？"><span class="toc-number">12.11.</span> <span class="toc-text">Q11:mac地址表示可以学习的，路由表是怎么样来的？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">13.</span> <span class="toc-text">参考文章</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1413,9 +1499,40 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 28
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1431,6 +1548,21 @@ top:50vh;
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-SNAT实验/" >【计算机网络】--SNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
         </li>
     
@@ -1441,12 +1573,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >小鸡子</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >小鸡子</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
         </li>
     
     
@@ -1471,12 +1603,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
         </li>
     
     
@@ -1574,45 +1706,47 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
-        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
-    
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
-        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
-    
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
-        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
         <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
     
         <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
-    
-        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
-    
-        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
-    
-        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
-    
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
-    
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
@@ -1671,9 +1805,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
