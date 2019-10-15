@@ -22,7 +22,7 @@
     <meta name="description" content="个人博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>【计算机网络】--SNAT实验 · biubiu&#39;s website</title>
+    <title>【Git】--git入门 · biubiu&#39;s website</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -218,7 +218,7 @@
                 <a href="/" >Welcome to biubiu&#39;s Blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">【计算机网络】--SNAT实验</a>
+                <a href="#" class="post-name">【Git】--git入门</a>
             </div>
     </div>
     
@@ -248,7 +248,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            【计算机网络】--SNAT实验
+            【Git】--git入门
             <!-- 404 -->
             
         </h1>
@@ -267,20 +267,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SNAT">SNAT</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Git">Git</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">0</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.8k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/10/13</span>
+                    <span class="post-intro-time">2019/10/15</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -404,16 +402,95 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        
+        <h1 id="Git-入门"><a href="#Git-入门" class="headerlink" title="Git 入门"></a>Git 入门</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><p>Git: 版本控制领域 .已经发展了一段时间了，从古老的CVS，到SVN集中式管理，再到现在的GIT。</p>
+</li>
+<li><p>由于Git的分布式、everything is local、分支等诸多特性，让越来越多的项目开始从SVN迁移到Git进行管理。 </p>
+</li>
+</ul>
+<h2 id="Github-amp-amp-Git-中的一些重要概念"><a href="#Github-amp-amp-Git-中的一些重要概念" class="headerlink" title="Github &amp;&amp; Git 中的一些重要概念"></a>Github &amp;&amp; Git 中的一些重要概念</h2><ul>
+<li><h3 id="Repository"><a href="#Repository" class="headerlink" title="Repository"></a><strong>Repository</strong></h3><ul>
+<li>仓库，说白了，就是一个project </li>
+</ul>
+</li>
+<li><h3 id="Star"><a href="#Star" class="headerlink" title="Star"></a><strong>Star</strong></h3><ul>
+<li>我想你或多或少浏览过github上的开源项目，你可以star它们，可以理解为收藏的意思。在github上，拥有很多star，那是很牛的事情。 </li>
+</ul>
+</li>
+<li><h3 id="Fork"><a href="#Fork" class="headerlink" title="Fork"></a><strong>Fork</strong></h3><ul>
+<li>我们经常听说开源贡献，那么到底怎么去做呢？实际上，你可以fork一个开源项目，比如fork Spring，那么相当于你COPY了一份Spring到你的空间，就是一个独立的属于你的仓库，如果你发现了什么Bug，或者进行什么改进，都可以在你的仓库上进行。 </li>
+</ul>
+</li>
+<li><h3 id="Pull-Request"><a href="#Pull-Request" class="headerlink" title="Pull Request"></a><strong>Pull Request</strong></h3><ul>
+<li>上面说fork，可以进行开源贡献，但是注意的是fork了仓库后，你可以在自己的仓库上进行任何修改，但是如果你要把你的修改合并到开源项目仓库中的话，那么你就得发起一个Pull Request请求。一旦开源作者收到你的Pull Request并同意之后，那么你的代码将会同步到开源项目之中！ </li>
+</ul>
+</li>
+<li><h3 id="Watch"><a href="#Watch" class="headerlink" title="Watch"></a><strong>Watch</strong></h3><ul>
+<li>Watch一个Repository，就相当于社交的关注一样，这个仓库有什么动态，你都会收到通知。 </li>
+</ul>
+</li>
+<li><h3 id="Issue"><a href="#Issue" class="headerlink" title="Issue"></a><strong>Issue</strong></h3><ul>
+<li>简单理解，就是一个代码上的问答、讨论而已。 </li>
+</ul>
+</li>
+</ul>
+<h2 id="Git的三大区域-工作区、暂存区、本地仓库"><a href="#Git的三大区域-工作区、暂存区、本地仓库" class="headerlink" title="Git的三大区域:工作区、暂存区、本地仓库"></a>Git的三大区域:工作区、暂存区、本地仓库</h2><p><img src="1571121664924.png" alt="1571121664924"></p>
+<p> <img src="4943997-5484594ac0118c29.webp" alt="img"> </p>
+<ul>
+<li><h4 id="工作区"><a href="#工作区" class="headerlink" title="工作区"></a>工作区</h4><ul>
+<li>就是我们写代码工作的地方。</li>
+</ul>
+</li>
+<li><h4 id="暂存区"><a href="#暂存区" class="headerlink" title="暂存区"></a>暂存区</h4><ul>
+<li>如果工作区有改动，有些想提交版本，有些还不想提交，基于此，Git引入暂存区的概念，就是哪些需要提交到版本库，就先进入暂存区</li>
+</ul>
+</li>
+<li><h4 id="本地仓库"><a href="#本地仓库" class="headerlink" title="本地仓库"></a>本地仓库</h4><ul>
+<li>暂存区的内容可以提交至本地版本库（local repository），这就是所谓的everything is local。本地版本库，可以和远程仓库（remote repository）交互，实现多人协作。 </li>
+</ul>
+</li>
+</ul>
+<h2 id="Git的分支思想"><a href="#Git的分支思想" class="headerlink" title="Git的分支思想"></a>Git的分支思想</h2><ul>
+<li>git branch </li>
+</ul>
+<p>​     <img src="4943997-2fac14f04f91b223.webp" alt="img"> </p>
+<ul>
+<li><p>commit对象 </p>
+<p><img src="4943997-a6c23a1b233c6f6f.webp" alt="img"> </p>
+</li>
+</ul>
+<p>在实际开发中，我们的项目（仓库），一般有一个master分支，这个master分支的代码就是线上运行的代码。我们平时开发的话，那么先从master拉取最新的代码，并以此为基础新建一个本地开发分支，比如mybranch，然后，我们在mybranch上进行开发，然后把修改提交到mybranch的本地版本库。而这个修改，在Git中叫做commit对象。</p>
+<p>既然，可以有mybranch分支，也可以有很多的其它分支，因此存在分支间的切换、合并。HEAD可以用来表示当前所处的分支。如上图所示，其实把mybranch的改动合并到master分支上，就相当于master的指针指向commit-B即可。这种合并，在Git中就是所谓的“快速合并”。（从这里你也能感受到，其实分支的合并、切换、销毁，是非常快速的，因为指针的缘故）</p>
+<p>Git中的分支，其实本质上就是一个指向commit对象的指针，而且是可变的，每次提交，指针会自动向前移动。</p>
+<h2 id="Git在实际中的使用方式"><a href="#Git在实际中的使用方式" class="headerlink" title="Git在实际中的使用方式"></a>Git在实际中的使用方式</h2><p> Git有命令客户端Git Bash，也有图像客户端，如TortoiseGit，不过掌握Git的最佳方式依然是命令行 </p>
+<h3 id="Git的必要设置"><a href="#Git的必要设置" class="headerlink" title="Git的必要设置"></a>Git的必要设置</h3><ul>
+<li>$ git config –global user.name  xxxxx</li>
+<li>$ git config –global user.mail  <a href="mailto:xxxxxx@xx.com" target="_blank" rel="noopener">xxxxxx@xx.com</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**为什么要设置用户名、邮箱呢？**</span><br><span class="line"></span><br><span class="line">显然，你要提交代码，肯定要告诉GIT，你是哪个，这是一个标示。至于邮箱，是因为很多时候，GIT如果要进行通知的话，可以给你发邮件。而且对于GIT仓库而言，是可以根据用户来设置权限的。</span><br></pre></td></tr></table></figure>
+
+<h3 id="git-init-amp-amp-git-clone"><a href="#git-init-amp-amp-git-clone" class="headerlink" title="git init &amp;&amp; git clone"></a>git init &amp;&amp; git clone</h3><p> 很多时候，我们开发项目，只需要先利用git clone把现有的仓库代码克隆复制到本地即可。git init一般是在本地创建一个受Git管理的项目，然后推送到Git服务器，相当于是创建仓库。 </p>
+<h3 id="git命令运转"><a href="#git命令运转" class="headerlink" title="git命令运转"></a>git命令运转</h3><p> <img src="4943997-14b614bd377bac84.webp" alt="img"> </p>
+<h3 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- **git branch**</span><br><span class="line">- **git status/git status -s**</span><br><span class="line">- 接下来，明确我们要在哪个分支上开发，从master创建分支开发？</span><br><span class="line">- **git checkout -b newBranch （创建并切换）**</span><br><span class="line">- 开发完毕后，我们要切换到master上，想把newBranch合并进来：</span><br><span class="line">- **注意checkout切换分支的最佳方式是保持工作区域的干净，什么是干净呢？就是把变化的全部提交到newBranch本地版本库，否则git会提示阻止checkout。**</span><br><span class="line">- **git checkout master**</span><br><span class="line">- **git merge newBranch**</span><br><span class="line">- 假设在newBranch分支上开发的中途，突然线上有问题，我们需要切换到master进行问题修复，而此时，我们不想提交到newBranch本地版本库，那么如何完成切换呢？</span><br><span class="line">- 采用**stash**机制，说白了，就是在工作区可以先暂存状态，既不提交到本地版本库，又可以切换到其他分支上，待再次切换到newBranch后，可以**git apply**进行工作区的状态恢复。</span><br><span class="line">- **如果合并出现冲突，怎么办？**</span><br><span class="line">- **根据提示，一般采用人工解决。注意解决冲突后，再利用git add标志解决冲突即可。**</span><br><span class="line">- **注意，Git的本地性，在进行合并操作（不论是合并本地分支、还是想要合并远程分支）时，一定切记，需要先在本地完成merge，解决冲突后，在git push推送到远程仓库上。** </span><br><span class="line">- **如果Git合并没有冲突，是否就是一定没有问题？**</span><br><span class="line">- **Git很智能，它能够根据commit的树形结构，智能的帮助我们分析出最佳合并的途径，但是合并没有问题，并不能说明合并后的代码一定是正确的，还是要对合并后的代码进行测试！**</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Git常用命令总结"><a href="#Git常用命令总结" class="headerlink" title="Git常用命令总结"></a>Git常用命令总结</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">**git clone &lt;版本库的网址&gt; 会在本地主机生成一个目录，与远程主机的版本库同名****</span><br><span class="line"></span><br><span class="line">**git remote -v  参看远程主机的网址**</span><br><span class="line"></span><br><span class="line">**git fetch &lt;远程主机名&gt; &lt;分支名&gt;  将某个远程主机的特定分支的更新取回**</span><br><span class="line"></span><br><span class="line">**git branch -ar 查看所有远程分支**</span><br><span class="line"></span><br><span class="line">**git checkout-b newBrach origin/master 利用git fetch取回远程主机的更新以后，可以在它的基础上，使用git checkout命令创建一个新的分支**</span><br><span class="line"></span><br><span class="line">**git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt; git fetch+git merge的合并版本，取回远程主机某个分支的更新，再与本地的指定分支合并**</span><br><span class="line"></span><br><span class="line">**git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt; 用于将本地分支的更新，推送到远程主机**</span><br><span class="line"></span><br><span class="line">**git add**</span><br><span class="line"></span><br><span class="line">**git commit**</span><br><span class="line"></span><br><span class="line">**git branch**</span><br><span class="line"></span><br><span class="line">**git merge**</span><br><span class="line"></span><br><span class="line">**git log**</span><br><span class="line"></span><br><span class="line">**git diff**</span><br><span class="line"></span><br><span class="line">**git branch -vv 查看本地分支跟踪的远程分支信息**</span><br><span class="line"></span><br><span class="line">**git branch --set-upstream-to=origin/xxx 本地分支和远程分支进行关联**</span><br><span class="line"></span><br><span class="line">**删除远程分支：git push origin --delete 远程分支名称**</span><br><span class="line"></span><br><span class="line">**删除本地分支：git branch -d 本地分支名称**</span><br><span class="line"></span><br><span class="line">**强行删除本地分支：git branch -D 本地分支名称**</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a href="https://www.jianshu.com/p/134d257ae4df" target="_blank" rel="noopener">工程化专题之Git</a> </li>
+</ul>
+
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
-            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/13/【计算机网络】-SNAT实验/">https://biubiu34.github.io/2019/10/13/【计算机网络】-SNAT实验/</a>
-            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/13/【计算机网络】-SNAT实验/">October 13th 2019, 3:48:22 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/13/【计算机网络】-SNAT实验/">October 13th 2019, 9:39:44 pm</a>
-            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/15/【Git】-git入门/">https://biubiu34.github.io/2019/10/15/【Git】-git入门/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/15/【Git】-git入门/">October 15th 2019, 2:31:19 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/15/【Git】-git入门/">October 15th 2019, 2:52:25 pm</a>
+            <p>版权声明：</p>
         </div>
     
     <!-- paginator  -->
@@ -421,16 +498,16 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/10/13/【计算机网络】-DNAT实验/" title= "【计算机网络】--DNAT实验">
-                    <div class="nextTitle">【计算机网络】--DNAT实验</div>
+                <a href= "/2019/10/15/【web服务器】-Nginx入门/" title= "【web服务器】--Nginx入门">
+                    <div class="nextTitle">【web服务器】--Nginx入门</div>
                 </a>
             
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/10/12/Linux学习-iptables/" title= "Linux学习--iptables">
-                    <div class="prevTitle">Linux学习--iptables</div>
+                <a href= "/2019/10/15/【计算机网络】-WLAN/" title= "【计算机网络】--WLAN">
+                    <div class="prevTitle">【计算机网络】--WLAN</div>
                 </a>
             
         </li>
@@ -549,7 +626,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git-入门"><span class="toc-number">1.</span> <span class="toc-text">Git 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Github-amp-amp-Git-中的一些重要概念"><span class="toc-number">1.2.</span> <span class="toc-text">Github &amp;&amp; Git 中的一些重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Repository"><span class="toc-number">1.2.1.</span> <span class="toc-text">Repository</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Star"><span class="toc-number">1.2.2.</span> <span class="toc-text">Star</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fork"><span class="toc-number">1.2.3.</span> <span class="toc-text">Fork</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pull-Request"><span class="toc-number">1.2.4.</span> <span class="toc-text">Pull Request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Watch"><span class="toc-number">1.2.5.</span> <span class="toc-text">Watch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Issue"><span class="toc-number">1.2.6.</span> <span class="toc-text">Issue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git的三大区域-工作区、暂存区、本地仓库"><span class="toc-number">1.3.</span> <span class="toc-text">Git的三大区域:工作区、暂存区、本地仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#工作区"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">工作区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#暂存区"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">暂存区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#本地仓库"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">本地仓库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git的分支思想"><span class="toc-number">1.4.</span> <span class="toc-text">Git的分支思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git在实际中的使用方式"><span class="toc-number">1.5.</span> <span class="toc-text">Git在实际中的使用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Git的必要设置"><span class="toc-number">1.5.1.</span> <span class="toc-text">Git的必要设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-init-amp-amp-git-clone"><span class="toc-number">1.5.2.</span> <span class="toc-text">git init &amp;&amp; git clone</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git命令运转"><span class="toc-number">1.5.3.</span> <span class="toc-text">git命令运转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-status"><span class="toc-number">1.5.4.</span> <span class="toc-text">git status</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git常用命令总结"><span class="toc-number">1.6.</span> <span class="toc-text">Git常用命令总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -983,9 +1060,168 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 31
+        Total : 38
         </div>
         <!-- search  -->
         
@@ -1001,17 +1237,52 @@ top:50vh;
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【shell编程】-shell入门/" >【Shell编程】--Shell入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx配置文件详解/" >【web服务器】--Nginx配置文件详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【Git】-git入门/" >【Git】--git入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx入门/" >【web服务器】--Nginx入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【计算机网络】-WLAN/" >【计算机网络】--WLAN</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-SNAT实验/" >【计算机网络】--SNAT实验</a>
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
         </li>
     
     
@@ -1159,8 +1430,6 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
-    
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
@@ -1169,25 +1438,27 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
     
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
-    
-        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
-    
-        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
     
         <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
     
         <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
     
-        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+        <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
     
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
-    
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
     
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
@@ -1197,15 +1468,27 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
     
         <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
     
@@ -1220,6 +1503,8 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
         <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
     
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
     
@@ -1260,15 +1545,21 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
+        <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
         <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
     
         <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
     

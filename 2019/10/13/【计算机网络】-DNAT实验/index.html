@@ -265,9 +265,17 @@ height:50vh;
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "DNAT">DNAT</a>
+    
+</div>
+                
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">0</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">712</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -396,7 +404,119 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        
+        <h2 id="实验：实现DNAT策略"><a href="#实验：实现DNAT策略" class="headerlink" title="实验：实现DNAT策略"></a>实验：实现DNAT策略</h2><ul>
+<li><h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><ul>
+<li>linux centos7</li>
+</ul>
+</li>
+<li><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3></li>
+</ul>
+<p>​    <strong>1.画拓扑图–》排除故障和思路清晰</strong></p>
+<p>​    <strong>2.规划ip地址和网段</strong></p>
+<p>​    <strong>3.准备虚拟机，准备4台虚拟机，1台虚拟机做路由器（两块网卡），1台做客户机（pc机），1台虚拟机做ssh服务器,1台虚拟机做web服务器</strong></p>
+<ul>
+<li><h3 id="网络拓扑图"><a href="#网络拓扑图" class="headerlink" title="网络拓扑图"></a>网络拓扑图</h3><ul>
+<li><img src="1571047172526.png" alt="1571047172526"></li>
+</ul>
+</li>
+<li><h3 id="IP地址和网段规划"><a href="#IP地址和网段规划" class="headerlink" title="IP地址和网段规划"></a>IP地址和网段规划</h3><ul>
+<li>内网<ul>
+<li>网段号：192.168.200.0/24</li>
+<li>SSH-SERVER：192.168.200.122</li>
+<li>web-server:192.168.200.80</li>
+</ul>
+</li>
+<li>公网：<ul>
+<li>网段：192.168.0.0/24</li>
+</ul>
+</li>
+<li>防火墙<ul>
+<li>LAN内网口：ens33网卡192.168.200.1/24</li>
+<li>WAN外网口：ens37网卡192.168.0.78/24</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="配置ip地址"><a href="#配置ip地址" class="headerlink" title="配置ip地址"></a>配置ip地址</h3><ul>
+<li>……</li>
+</ul>
+</li>
+<li><h3 id="防火墙中添加DNAT策略"><a href="#防火墙中添加DNAT策略" class="headerlink" title="防火墙中添加DNAT策略"></a>防火墙中添加DNAT策略</h3><ul>
+<li><h4 id="添加web的DNAT策略"><a href="#添加web的DNAT策略" class="headerlink" title="添加web的DNAT策略"></a>添加web的DNAT策略</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -i ens37 -d 192.168.0.78 -p tcp --dport 80 -j DNAT --to-destination 192.168.200.80:80</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="添加ssh服务器的DNAT策略"><a href="#添加ssh服务器的DNAT策略" class="headerlink" title="添加ssh服务器的DNAT策略"></a>添加ssh服务器的DNAT策略</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -i ens37 -d 192.168.0.78 -p tcp --dport 22 -j DNAT --to-destination 192.168.200.122:22</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="添加SNAT策略"><a href="#添加SNAT策略" class="headerlink" title="添加SNAT策略"></a>添加SNAT策略</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables  -t  nat  -A POSTROUTING  -o  ens37  -s 192.168.200.0/24  -j SNAT --to-source 192.168.0.78</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h3 id="可以在防火墙中编写脚本实现这一系列策略的配置"><a href="#可以在防火墙中编写脚本实现这一系列策略的配置" class="headerlink" title="可以在防火墙中编写脚本实现这一系列策略的配置"></a>可以在防火墙中编写脚本实现这一系列策略的配置</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">- - vim nat.sh</span><br><span class="line"></span><br><span class="line">  - \#!/bin/bash</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    \#清除nat和filter表里的防火墙规则</span><br><span class="line"></span><br><span class="line">    iptables  -t nat -F</span><br><span class="line"></span><br><span class="line">    iptables -F</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    \#添加web 服务器的DNAT规则</span><br><span class="line"></span><br><span class="line">    iptables  -t nat  -A PREROUTING -i  ens37 -d 192.168.0.78  -p tcp --dport 80 -j DNAT --to-destination 192.168.200.80:80</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    \#添加ssh 服务器的DNAT规则</span><br><span class="line"></span><br><span class="line">    iptables  -t nat  -A PREROUTING -i  ens37  -d 192.168.0.78 -p tcp  --dport 22  -j DNAT --to-destination 192.168.200.122:22</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    \#临时开启路由功能</span><br><span class="line"></span><br><span class="line">    echo 1 &gt;/proc/sys/net/ipv4/ip_forward</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    \#添加SNAT功能的防火墙规则</span><br><span class="line"></span><br><span class="line">    iptables  -t nat -A POSTROUTING  -o  ens37  -s 192.168.200.0/24 -j SNAT --to-source 192.168.0.78</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看防火墙规则</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB ~]# iptables -t nat -L -vn</span><br><span class="line">Chain PREROUTING (policy ACCEPT 65 packets, 10651 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line">    0     0 DNAT       tcp  --  ens37  *       0.0.0.0/0            192.168.0.78         tcp dpt:80 to:192.168.200.80:80</span><br><span class="line">    1    52 DNAT       tcp  --  ens37  *       0.0.0.0/0            192.168.0.78         tcp dpt:2222 to:192.168.200.122:22</span><br><span class="line"></span><br><span class="line">Chain INPUT (policy ACCEPT 25 packets, 4892 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 7 packets, 518 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line"></span><br><span class="line">Chain POSTROUTING (policy ACCEPT 8 packets, 570 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line">   16  1211 SNAT       all  --  *      ens37   192.168.200.0/24     0.0.0.0/0            to:192.168.0.78</span><br><span class="line">[root@RouterB ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul>
+<li><h4 id="web测试"><a href="#web测试" class="headerlink" title="web测试"></a>web测试</h4></li>
+<li><p>在web server中安装nginx </p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>启动nginx</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server nginx start</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查看端口号</p>
+<ul>
+<li><p>lsof -i:80</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# lsof -i:80</span><br><span class="line">COMMAND  PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</span><br><span class="line">nginx   9993  root    6u  IPv4  69959      0t0  TCP *:http (LISTEN)</span><br><span class="line">nginx   9993  root    7u  IPv6  69960      0t0  TCP *:http (LISTEN)</span><br><span class="line">nginx   9994 nginx    6u  IPv4  69959      0t0  TCP *:http (LISTEN)</span><br><span class="line">nginx   9994 nginx    7u  IPv6  69960      0t0  TCP *:http (LISTEN)</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>打开浏览器，输入192.168.0.78</p>
+<ul>
+<li><img src="1571054208854.png" alt="1571054208854"></li>
+<li>则为成功</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="ssh-sever-测试"><a href="#ssh-sever-测试" class="headerlink" title="ssh sever 测试"></a>ssh sever 测试</h4><ul>
+<li><p>使用ssh 连接192.168.0.78</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh 192.168.0.78</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查看ip地址，发现是映射到了192.168.200.122</p>
+<ul>
+<li><img src="1571054380639.png" alt="1571054380639"></li>
+<li>则为成功</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
     </article>
     <!-- license  -->
     
@@ -404,8 +524,8 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/13/【计算机网络】-DNAT实验/">https://biubiu34.github.io/2019/10/13/【计算机网络】-DNAT实验/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/13/【计算机网络】-DNAT实验/">October 13th 2019, 3:48:35 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/13/【计算机网络】-DNAT实验/">October 13th 2019, 3:48:35 pm</a>
-            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/13/【计算机网络】-DNAT实验/">October 14th 2019, 8:00:00 pm</a>
+            <p>版权声明：</p>
         </div>
     
     <!-- paginator  -->
@@ -421,8 +541,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/10/13/【计算机网络】-SNAT实验/" title= "【计算机网络】--SNAT实验">
-                    <div class="prevTitle">【计算机网络】--SNAT实验</div>
+                <a href= "/2019/10/13/计算机网络（七）-应用层/" title= "计算机网络（七）-应用层">
+                    <div class="prevTitle">计算机网络（七）-应用层</div>
                 </a>
             
         </li>
@@ -541,7 +661,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实验：实现DNAT策略"><span class="toc-number">1.</span> <span class="toc-text">实验：实现DNAT策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境："><span class="toc-number">1.1.</span> <span class="toc-text">环境：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络拓扑图"><span class="toc-number">1.3.</span> <span class="toc-text">网络拓扑图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP地址和网段规划"><span class="toc-number">1.4.</span> <span class="toc-text">IP地址和网段规划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置ip地址"><span class="toc-number">1.5.</span> <span class="toc-text">配置ip地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防火墙中添加DNAT策略"><span class="toc-number">1.6.</span> <span class="toc-text">防火墙中添加DNAT策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加web的DNAT策略"><span class="toc-number">1.6.1.</span> <span class="toc-text">添加web的DNAT策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加ssh服务器的DNAT策略"><span class="toc-number">1.6.2.</span> <span class="toc-text">添加ssh服务器的DNAT策略</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加SNAT策略"><span class="toc-number">1.7.</span> <span class="toc-text">添加SNAT策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可以在防火墙中编写脚本实现这一系列策略的配置"><span class="toc-number">1.8.</span> <span class="toc-text">可以在防火墙中编写脚本实现这一系列策略的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试"><span class="toc-number">1.9.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#web测试"><span class="toc-number">1.9.1.</span> <span class="toc-text">web测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ssh-sever-测试"><span class="toc-number">1.9.2.</span> <span class="toc-text">ssh sever 测试</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -975,9 +1095,168 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 31
+        Total : 38
         </div>
         <!-- search  -->
         
@@ -993,17 +1272,52 @@ top:50vh;
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【shell编程】-shell入门/" >【Shell编程】--Shell入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx配置文件详解/" >【web服务器】--Nginx配置文件详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【Git】-git入门/" >【Git】--git入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx入门/" >【web服务器】--Nginx入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【计算机网络】-WLAN/" >【计算机网络】--WLAN</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-SNAT实验/" >【计算机网络】--SNAT实验</a>
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
         </li>
     
     
@@ -1151,8 +1465,6 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
-    
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
@@ -1161,25 +1473,27 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
     
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
-    
-        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
-    
-        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
     
         <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
     
         <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
     
-        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+        <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
     
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
-    
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
     
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
@@ -1189,15 +1503,27 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
     
         <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
     
@@ -1212,6 +1538,8 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
         <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
     
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
     
@@ -1252,15 +1580,21 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
+        <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
         <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
     
         <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
     

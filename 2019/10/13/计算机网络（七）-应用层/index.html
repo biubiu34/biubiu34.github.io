@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>计算机网络（七）-应用层 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">计算机网络（七）-应用层</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            计算机网络（七）-应用层
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "应用层">应用层</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">7.4k</span>阅读时长: <span class="post-count reading-time">26 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/13</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="应用层常见协议"><a href="#应用层常见协议" class="headerlink" title="应用层常见协议"></a>应用层常见协议</h1><ul>
+<li><h2 id="HTTP协议（Hyper-Text-Transfer-Protocol，超文本传输协议）"><a href="#HTTP协议（Hyper-Text-Transfer-Protocol，超文本传输协议）" class="headerlink" title="HTTP协议（Hyper Text Transfer Protocol，超文本传输协议）"></a>HTTP协议（<strong>Hyper Text Transfer Protocol，超文本传输协议</strong>）</h2><ul>
+<li><p>是一种最基本的客户机/服务器的访问协议。浏览器向服务器发送请求，而服务器回应相应的网页,用于从万维网（WWW:World Wide Web ）服务器传输超文本到本地浏览器的传送协议。</p>
+</li>
+<li><p>—HTTP协议作为TCP/IP模型中应用层的协议也不例外。HTTP协议通常承载于TCP协议之上，有时也承载于TLS或SSL协议层之上，这个时候，就成了我们常说的HTTPS。如下图：</p>
+<ul>
+<li><img src="20180416171035332.png" alt="img"></li>
+</ul>
+</li>
+<li><p>HTTP是一个应用层协议，由请求和响应构成，是一个标准的客户端服务器模型。HTTP是一个无状态的协议</p>
+</li>
+<li><p><strong>HTTP默认的端口号是80，HTTPS的端口号是443</strong></p>
+</li>
+<li><p>浏览网页是HTTP的主要应用，但这并不代表HTTP就只能用于网页的浏览。HTTP是一种协议，只要通信的双方都遵守这个协议，HTTPS就能有用武之地。比如常用的QQ，迅雷软件等，都会使用HTTP协议（还包括其他的协议）</p>
+</li>
+<li><h3 id="HTTP的特点"><a href="#HTTP的特点" class="headerlink" title="HTTP的特点"></a>HTTP的特点</h3><ul>
+<li>简单快捷<ul>
+<li>客户像服务器请求服务时，只需传送请求方法和路径。由于HTTP协议简单，使得HTTP服务器的程序规模小，因而通信速度很快。</li>
+</ul>
+</li>
+<li>灵活<ul>
+<li>HTTP允许传输任意类型的数据对象。正在传输的类型由Content-Type加以标记。</li>
+</ul>
+</li>
+<li>HTTP 0.9 和1.0 使用非持续连接（短连接）<ul>
+<li>限制每次连接只处理一个请求，服务器处理完客户的请求，并收到客户的应答后，即断开连接。<strong>HTTP 1.1使用持续连接</strong>：不必为每个web对象创建一个新的连接，一个连接可以传送多个对象，采用这种方式可以节省传输时间。</li>
+</ul>
+</li>
+<li>无状态<ul>
+<li>HTTP协议是<strong>无状态协议</strong>。<strong>无状态是指协议对于事务处理没有记忆能力</strong></li>
+</ul>
+</li>
+<li>支持B/S及C/S模式<ul>
+<li>即浏览器/服务器模式和客户端/服务端模式。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="cookie和session"><a href="#cookie和session" class="headerlink" title="cookie和session"></a>cookie和session</h3><ul>
+<li><h4 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h4><ul>
+<li>就是服务器里用来存放用户的信息的地方。</li>
+<li>Cookie翻译过来是‘ 小甜饼’，Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，实际上Cookie是服务器在<strong>本地机器</strong>上存储的一小段文本，并随着每次请求发送到服务器。 </li>
+<li><strong>Cookie技术通过请求和响应报文中写入Cookie信息来控制客户端的状态。</strong> </li>
+</ul>
+</li>
+<li><h4 id="session"><a href="#session" class="headerlink" title="session"></a>session</h4><ul>
+<li><p>就是服务器里用来存放用户的信息的地方。</p>
+</li>
+<li><p>上面我讲到服务端执行session机制时候会生成session的id值，这个id值会发送给客户端，客户端每次请求都会把这个id值放到http请求的头部发送给服务端，而这个id值在客户端会保存下来，保存的容器就是cookie，因此当我们完全禁掉浏览器的cookie的时候，服务端的session也会不能正常使用。</p>
+<p> <img src="1621f6d2880ac3ab" alt="img"> </p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="HTTP的工作流程"><a href="#HTTP的工作流程" class="headerlink" title="HTTP的工作流程"></a>HTTP的工作流程</h3><ul>
+<li>一次HTTP操作称为一个事务，其工作流程可分为4步<ul>
+<li>客户机与服务器需要建立连接。只需要单击某个超链接，HTTP的工作开始</li>
+<li>建立连接之后，客户机发送一个请求给服务器，请求方式的格式为：<ul>
+<li>统一资源标识符（URL）</li>
+<li>协议版本号</li>
+<li>后边是MIME信息包括请求修饰符</li>
+<li>客户机信息和可能的内容。</li>
+</ul>
+</li>
+<li>服务器接到请求后，给与相应的响应信息，其格式为一个状态行，包括信息的协议版本号、一个成功或错误的代码，后面是MIME信息包括服务器信息、实体信息和可能的内容。</li>
+<li>客户端接收服务器所返回的信息通过浏览器显示在用户的显示屏上，然后客户机与服务器断开连接。</li>
+</ul>
+</li>
+<li>如果在以上过程中的某一步出现错误，那么产生错误的信息将返回到客户端，有显示屏输出。对于用户来说，这些过程是由HTTP自己完成的，用户只要用鼠标点击，等待信息显示就可以了。</li>
+</ul>
+</li>
+<li><h3 id="HTTP请求消息Request"><a href="#HTTP请求消息Request" class="headerlink" title="HTTP请求消息Request"></a>HTTP请求消息Request</h3><ul>
+<li><p>客户端发送一个HTTP请求到服务器的请求消息包括以下格式：</p>
+<p><strong>请求行、请求头部、空行和请求数据四个部分组成。</strong></p>
+<ul>
+<li><p>GET请求</p>
+<ul>
+<li><img src="20180416172200200.png" alt="img"></li>
+<li>第一部分：请求行，用来说明请求类型,要访问的资源以及所使用的HTTP版本.<br>GET说明请求类型为GET，[/562f25980001b1b106000338.jpg]为要访问的资源，该行的最后一部分说明使用的是HTTP1.1版本。</li>
+</ul>
+</li>
+<li><p>第二部分：请求头部，紧接着请求行（即第一行）之后的部分，用来说明服务器要使用的附加信息从第二行起为请求头部，</p>
+<ul>
+<li>HOST将指出请求的目的地.<ul>
+<li>User-Agent,服务器端和客户端脚本都能访问它,它是浏览器类型检测逻辑的重要基础.该信息由你的浏览器来定义,并且在每个请求中自动发送等等</li>
+</ul>
+</li>
+<li>cookie：</li>
+<li>connection<ul>
+<li>Accpetc-Language</li>
+<li>第三部分：空行，请求头部后面的空行是必须的<br>即使第四部分的请求数据为空，也必须有空行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>第四部分：请求数据也叫主体，可以添加任意的其他数据。<br>  这个例子的请求数据为空。</p>
+</li>
+<li><p>POST请求</p>
+<ul>
+<li><img src="20180416172232998.png" alt="img"></li>
+<li>第一部分：请求行，第一行明了是post请求，以及http1.1版本。</li>
+<li>第二部分：请求头部，第二行至第六行。</li>
+<li>第三部分：空行，第七行的空行。</li>
+<li>第四部分：请求数据，第八行。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="HTTP请求消息Response"><a href="#HTTP请求消息Response" class="headerlink" title="HTTP请求消息Response"></a>HTTP请求消息Response</h3><ul>
+<li><p>一般情况下，服务器接收并处理客户端发过来的请求后会返回一个HTTP的响应消息。</p>
+<p><strong>HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。</strong></p>
+</li>
+<li><p><img src="20180416172408934.png" alt="img"></p>
+</li>
+<li><p>第一部分：状态行，由HTTP协议版本号， 状态码， 状态消息 三部分组成。<br>第一行为状态行，（HTTP/1.1）表明HTTP版本为1.1版本，状态码为200，状态消息为（ok）</p>
+</li>
+<li><p>第二部分：消息报头，用来说明客户端要使用的一些附加信息<br>第二行和第三行和第四行为消息报头，</p>
+</li>
+<li><p>Date:生成响应的日期和时间；</p>
+<ul>
+<li>Content-Type:指定了MIME类型的HTML(text/html),编码类型是ISO-8859-1</li>
+<li>Server:</li>
+<li>Content-Type</li>
+</ul>
+</li>
+<li><p>第三部分：空行，消息报头后面的空行是必须的</p>
+</li>
+<li><p>第四部分：响应正文，服务器返回给客户端的文本信息。<br>空行后面的html部分为响应正文。</p>
+</li>
+</ul>
+</li>
+<li><h3 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h3><ul>
+<li><p>状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:</p>
+<p>1xx：指示信息–表示请求已接收，继续处理</p>
+<p>2xx：成功–表示请求已被成功接收、理解、接受</p>
+<p>3xx：重定向–要完成请求必须进行更进一步的操作</p>
+<p>4xx：客户端错误–请求有语法错误或请求无法实现</p>
+<p>5xx：服务器端错误–服务器未能实现合法的请求</p>
+</li>
+<li><p>常见状态码</p>
+<ul>
+<li><img src="20180416172502810.png" alt="img"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="HTTP请求方法"><a href="#HTTP请求方法" class="headerlink" title="HTTP请求方法"></a>HTTP请求方法</h3><ul>
+<li><p>根据HTTP标准，HTTP请求可以使用多种请求方法。<br>HTTP1.0定义了三种请求方法： GET, POST 和 HEAD方法。</p>
+<p>HTTP1.1新增了五种请求方法：OPTIONS, PUT, DELETE, TRACE 和 CONNECT 方法。</p>
+<p><img src="2018041617253251.png" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><h3 id="HTTP工作原理"><a href="#HTTP工作原理" class="headerlink" title="HTTP工作原理"></a>HTTP工作原理</h3><ul>
+<li><p>HTTP协议定义Web客户端如何从Web服务器请求Web页面，以及服务器如何把Web页面传送给客户端。HTTP协议采用了请求/响应模型。客户端向服务器发送一个请求报文，请求报文包含请求的方法、URL、协议版本、请求头部和请求数据。服务器以一个状态行作为响应，响应的内容包括协议的版本、成功或者错误代码、服务器信息、响应头部和响应数据。</p>
+<p>以下是 HTTP 请求/响应的步骤：</p>
+<p><strong>1、客户端连接到Web服务器</strong></p>
+<p>一个HTTP客户端，通常是浏览器，与Web服务器的HTTP端口（默认为80）建立一个TCP套接字连接。</p>
+<p><strong>2、发送HTTP请求</strong></p>
+<p>通过TCP套接字，客户端向Web服务器发送一个文本的请求报文，一个请求报文由请求行、请求头部、空行和请求数据4部分组成。</p>
+<p><strong>3、服务器接受请求并返回HTTP响应</strong></p>
+<p>Web服务器解析请求，定位请求资源。服务器将资源复本写到TCP套接字，由客户端读取。一个响应由状态行、响应头部、空行和响应数据4部分组成。</p>
+<p><strong>4、释放连接TCP连接</strong></p>
+<p>若connection 模式为close，则服务器主动关闭TCP连接，客户端被动关闭连接，释放TCP连接;若connection 模式为keepalive，则该连接会保持一段时间，在该时间内可以继续接收请求;</p>
+<p><strong>5、客户端浏览器解析HTML内容</strong></p>
+<p>客户端浏览器首先解析状态行，查看表明请求是否成功的状态代码。然后解析每一个响应头，响应头告知以下为若干字节的HTML文档和文档的字符集。客户端浏览器读取响应数据HTML，根据HTML的语法对其进行格式化，并在浏览器窗口中显示。</p>
+</li>
+</ul>
+</li>
+<li><h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ul>
+<li><h4 id="Q1-谁能看懂HTTP协议？"><a href="#Q1-谁能看懂HTTP协议？" class="headerlink" title="Q1:谁能看懂HTTP协议？"></a>Q1:谁能看懂HTTP协议？</h4><ul>
+<li>提供Web服务器软件都可以看懂HTTP协议</li>
+</ul>
+</li>
+<li><p>acpach ,nginx,tomcat,IIS ,django,flask等</p>
+<ul>
+<li>firefox ,curl,requests</li>
+</ul>
+</li>
+<li><h4 id="Q2：HTTPS和HTTP协议的区别？"><a href="#Q2：HTTPS和HTTP协议的区别？" class="headerlink" title="Q2：HTTPS和HTTP协议的区别？"></a>Q2：HTTPS和HTTP协议的区别？</h4><ul>
+<li>端口号</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>http :80</p>
+<pre><code>- https:443</code></pre></li>
+<li></li>
+<li><h4 id="Q3：HTTP协议有哪两种类型的包？"><a href="#Q3：HTTP协议有哪两种类型的包？" class="headerlink" title="Q3：HTTP协议有哪两种类型的包？"></a>Q3：HTTP协议有哪两种类型的包？</h4></li>
+<li><h4 id="Q4-在输入www-baidu-com回车后，等很短的时间，浏览器里会出现百度的主页，这个过程经历了什么？"><a href="#Q4-在输入www-baidu-com回车后，等很短的时间，浏览器里会出现百度的主页，这个过程经历了什么？" class="headerlink" title="Q4:在输入www.baidu.com回车后，等很短的时间，浏览器里会出现百度的主页，这个过程经历了什么？"></a>Q4:在输入<a href="http://www.baidu.com回车后，等很短的时间，浏览器里会出现百度的主页，这个过程经历了什么？" target="_blank" rel="noopener">www.baidu.com回车后，等很短的时间，浏览器里会出现百度的主页，这个过程经历了什么？</a></h4><ul>
+<li><p><strong>从封装和解封装的角度去说：</strong></p>
+<ul>
+<li><p>去：</p>
+<pre><code>  5层协议封装的过程--》只是在你的电脑里 --》http协议封装
+路由交换 --》电信网络--》服务器的过程---》nginx</code></pre><ul>
+<li>回：<br>  5层协议封装的过程–》只是在服务器里 –》http协议封装<pre><code>路由交换 --》电信网络--》你的电脑---&gt;chrome</code></pre></li>
+</ul>
+</li>
+<li><p>浏览器和web服务器执行以下动作</p>
+<ol>
+<li>浏览器分析超链接中的URL</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li><p>浏览器想DNS请求解析<a href="http://www.baidu.com的IP地址" target="_blank" rel="noopener">www.baidu.com的IP地址</a></p>
+<ol start="3">
+<li>DNS将解析出的IP地址14.215.177.39返回浏览器</li>
+</ol>
+</li>
+<li><p>浏览器与服务器建立TCP连接（80端口）</p>
+<ol start="5">
+<li>浏览器请求文档：GRT/index.html</li>
+</ol>
+</li>
+<li><p>服务器给出响应，将文档index.html发送给浏览器</p>
+<ol start="7">
+<li>服务器主动释放TCP连接</li>
+</ol>
+</li>
+<li><p>浏览器渲染index.html的内容</p>
+<p><img src="1571062586769.png" alt="1571062586769"></p>
+</li>
+</ol>
+</li>
+<li><h4 id="Q5：长连接和短连接"><a href="#Q5：长连接和短连接" class="headerlink" title="Q5：长连接和短连接"></a>Q5：长连接和短连接</h4><ul>
+<li>长连接  ssh</li>
+<li>短连接 http</li>
+</ul>
+</li>
+<li><h4 id="Q6-http的版本？http的1-0版本和2-0版本的区别"><a href="#Q6-http的版本？http的1-0版本和2-0版本的区别" class="headerlink" title="Q6:http的版本？http的1.0版本和2.0版本的区别"></a>Q6:http的版本？http的1.0版本和2.0版本的区别</h4></li>
+<li><h4 id="Q7：GET和POST的区别"><a href="#Q7：GET和POST的区别" class="headerlink" title="Q7：GET和POST的区别"></a>Q7：GET和POST的区别</h4><ul>
+<li><table>
+<thead>
+<tr>
+<th align="left">分类</th>
+<th align="center">GET</th>
+<th align="left">POST</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">后退按钮/刷新</td>
+<td align="center">无害</td>
+<td align="left">数据会被重新提交（浏览器应该告知用户数据会被重新提交）。</td>
+</tr>
+<tr>
+<td align="left">书签</td>
+<td align="center">可收藏为书签</td>
+<td align="left">不可收藏为书签</td>
+</tr>
+<tr>
+<td align="left">缓存</td>
+<td align="center">能被缓存</td>
+<td align="left">不能缓存</td>
+</tr>
+<tr>
+<td align="left">编码类型</td>
+<td align="center">application/x-www-form-urlencoded</td>
+<td align="left">application/x-www-form-urlencoded 或 multipart/form-data。为二进制数据使用多重编码。</td>
+</tr>
+<tr>
+<td align="left">历史</td>
+<td align="center">参数保留在浏览器历史中。</td>
+<td align="left">参数不会保存在浏览器历史中。</td>
+</tr>
+<tr>
+<td align="left">对数据长度的限制</td>
+<td align="center">是的。当发送数据时，GET 方法向 URL 添加数据；URL 的长度是受限制的（URL 的最大长度是 2048 个字符）。</td>
+<td align="left">无限制。</td>
+</tr>
+<tr>
+<td align="left">对数据类型的限制</td>
+<td align="center">只允许 ASCII 字符。</td>
+<td align="left">没有限制。也允许二进制数据。</td>
+</tr>
+<tr>
+<td align="left">安全性</td>
+<td align="center">与 POST 相比，GET 的安全性较差，因为所发送的数据是 URL 的一部分。在发送密码或其他敏感信息时绝不要使用 GET ！</td>
+<td align="left">POST 比 GET 更安全，因为参数不会被保存在浏览器历史或 web 服务器日志中。</td>
+</tr>
+<tr>
+<td align="left">可见性</td>
+<td align="center">数据在 URL 中对所有人都是可见的。</td>
+<td align="left">数据不会显示在 URL 中。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="FTP协议（File-Transfer-Protocol，文件传输协议）"><a href="#FTP协议（File-Transfer-Protocol，文件传输协议）" class="headerlink" title="FTP协议（File Transfer Protocol，文件传输协议）"></a>FTP协议（File Transfer Protocol，文件传输协议）</h2><ul>
+<li><p>基于客户服务器模式，FTP协议包括两个组成部分，其一为FTP服务器，其二为FTP客户端,提供交互式的访问 面向连接 ,使用TCP/IP可靠的运输服务,主要功能:减少/消除不同操作系统下文件的不兼容性 </p>
+</li>
+<li><p>​     文件传输协议有基于TCP的FTP和基于UDP的简单文件传输协议TFTP，它们都是文件共享协议中的一大类，即复制整个文件，其特点是：若要存取一个文件，就必须先获得一个本地的文件副本。如果要修改文件，只能对文件的副本进行修改，然后再将修改后的文件传回到原节点</p>
+</li>
+<li><h3 id="FTP工作原理"><a href="#FTP工作原理" class="headerlink" title="FTP工作原理"></a>FTP工作原理</h3><ul>
+<li><p>FTP屏蔽了各计算机系统的细节，因而适合在<strong>异构网络</strong>中人以计算机之间传送文件。FTP只提供文件传送的一些基本服务，<strong>它使用TCP可靠的传输服务，FTP主要功能是减小或消除在不同系统下处理文件的不兼容性。</strong></p>
+</li>
+<li><p>FTP使用客户端-服务端模型。一个FTP服务器进程可以为多个客户进程提供服务。FTP服务器有两大部分组成：</p>
+<ul>
+<li><p>主进程</p>
+<ul>
+<li><p>负责接受新的请求</p>
+</li>
+<li><h5 id="主进程工作步骤"><a href="#主进程工作步骤" class="headerlink" title="主进程工作步骤"></a>主进程工作步骤</h5><ul>
+<li><p>打开熟知端口21，使客户进程能够连接上</p>
+</li>
+<li><p>等待客户进程发送链接请求</p>
+</li>
+<li><p>启动从属进程处理客户端进程发送的连接请求，从属进程处理完成请求后结束。从属进程在运行期间可能根据需要可创建其他一些子进程。</p>
+</li>
+<li><p>回到等待状态，继续接受其他客户进程发起的请求，主进程与从属进程的处理是并发进行的。</p>
+</li>
+<li><p><img src="20180416214419895.png" alt="img"></p>
+<ul>
+<li><p>使用两个TCP连接——</p>
+<pre><code>FTP连接在整个会话期间都保持打开，只用来发送连接/传送请求，当客户进程向服务器发送连接请求时，寻找连接服务器的熟知端口21，同时还要告诉服务器进程自己的另一个端口号码，用于建立数据传送连接。接着，服务器进程用自己传送数据的熟知端口20与客户进程所提供的端口号码建立数据传送连接，FTP使用了2两个不同的端口号，所以数据连接和控制连接不会混乱。</code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>若干从属进程</p>
+<ul>
+<li>负责处理单个请求</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="FTP数据表示"><a href="#FTP数据表示" class="headerlink" title="FTP数据表示"></a>FTP数据表示</h3><ul>
+<li>FTP协议规定了控制协议传送与存储的多种选择，在以下4个方面必须做出一个选择：<ul>
+<li>文件类型<ul>
+<li>ASCII码文件（默认的）</li>
+<li>图像文件类型（二进制的</li>
+<li>本地文件类型（用于在具有不同字节大小主机间传送二进制数据）</li>
+</ul>
+</li>
+<li>格式控制<ul>
+<li>该选项针对ASCII类型文件适用</li>
+<li>非打印（默认选择，文件中不包括垂直格式信息）</li>
+<li>远程登录格式控制。</li>
+</ul>
+</li>
+<li>结构<ul>
+<li>文件结构（默认选择，文件被认为是一个连续的字节流，不存在内部的文件结构）</li>
+<li>记录结构（用于文本文件）</li>
+</ul>
+</li>
+<li>传输方式<ul>
+<li>流方式（模式选择，文件以字节流方式传输，对于文件结构，发方在文件尾提示关闭数据连接，对于记录结构，有专用的两字节序列码记录结束和文件结束）</li>
+<li>块方式（文件以一系列块来传送，每块前面有一个或多个首部字节）</li>
+<li>压缩方式。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h3><ul>
+<li>主动模式</li>
+<li>被动模式</li>
+</ul>
+</li>
+<li><h3 id="问题：-1"><a href="#问题：-1" class="headerlink" title="问题："></a>问题：</h3><ul>
+<li><p>如何知道FTP传输一个文件结束</p>
+<ul>
+<li><p>通用传输模式是流方式，并且文件的结尾是以关闭数据连接为标志，这意味着对每一个文件传输或目录列表来说都要建立一个全新的数据连接。一般过程如下：</p>
+<pre><code>—正由于是客户发出命令要求建立数据连接，所以数据连接是在客户端的控制下建立的；
+
+—客户通常在客户端主机上为所在数据连接端选择一个临时端口号。客户从该端口号发布一个被动的打开；
+
+—客户使用PORT命令从控制连接上把端口号发向服务器；
+
+—服务器在控制连接上接受端口号，并向客户端主机上的端口发布一个主动的打开。服务器的数据连接段一直使用端口20.</code></pre></li>
+<li><p>给出了第 3步执行时的连接状态。假设客户用于控制连接的临时端口是 11 7 3，客户用于数据连接的临时端口是1174。客户发出的命令是PORT命令，其参数是6个ASCII中的十进制数字，它们之间由逗点隔开。前面 4个数字指明客户上的 I P地址，服务器将向它发出主动打开（本例中是 140.252.13.34），而后两位指明16 bit端口地址。由于16 bit端口地址是从这两个数字中得来，所以其值在本例中就是 4×256+150=1174。<br><img src="20180416220651591.png" alt="img"></p>
+</li>
+<li><p>下图给出了服务器向客户所在数据连接端发布主动打开时的连接状态。服务器的端点是端口20</p>
+<ul>
+<li><img src="20180416220715694.png" alt="img"></li>
+</ul>
+</li>
+<li><p>服务器总是执行数据连接的主动打开。通常服务器也执行数据连接的主动关闭，除非当客户向服务器发送流形式的文件时，需要客户来关闭连接。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="SMTP协议（简单邮件传送协议，用户发信到邮件网关的传输协议）"><a href="#SMTP协议（简单邮件传送协议，用户发信到邮件网关的传输协议）" class="headerlink" title="SMTP协议（简单邮件传送协议，用户发信到邮件网关的传输协议）"></a>SMTP协议（简单邮件传送协议，用户发信到邮件网关的传输协议）</h2><ul>
+<li><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>SMTP（Simple Mail Transfer Protocol）即简单邮件传输协议。它是一组用于由源地址到目的地址传送邮件的规则，由它来控制信件的中转方式。SMTP协议属于TCP/IP协议簇，它帮助每台计算机在发送或中转信件 时找到下一个目的地。通过SMTP协议所指定的服务器,就可以把E-mail寄到收信人的服务器上了，整个过程<br>只要几分钟。SMTP服务器则是遵循SMTP协议的发送邮件服务器，用来发送或中转发出的电子邮件。</li>
+<li><strong>SMTP 是一种TCP协议支持的提供可靠且有效电子邮件传输的应用层协议。</strong></li>
+</ul>
+</li>
+<li><h3 id="工作过程"><a href="#工作过程" class="headerlink" title="工作过程"></a>工作过程</h3><ul>
+<li>首先，运行在发送端邮件服务器主机上的SMTP客户，发起简历一个到运行在接收端右键服务器主机上的SMTP服务器端口号25之间的TCP连接。如果接受邮件服务器当前不在工作。SMTP客户就等待一段时间后再尝试建立该连接</li>
+</ul>
+</li>
+<li><h3 id="SMTP命令和应答"><a href="#SMTP命令和应答" class="headerlink" title="SMTP命令和应答"></a>SMTP命令和应答</h3><ul>
+<li><img src="20180416221319224.png" alt="img"></li>
+<li>SMTP主要的命令和应答<ul>
+<li><img src="20180416221353836.png" alt="img"></li>
+<li><img src="20180416221420302.png" alt="img"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="邮件报文的封装和报文形式"><a href="#邮件报文的封装和报文形式" class="headerlink" title="邮件报文的封装和报文形式"></a>邮件报文的封装和报文形式</h3><ul>
+<li><p>SMTP协议可以将互联网邮件报文封装在邮件对象中。SMTP协议的邮件对象由两个部分组成：信封和内容。</p>
+<p>信封其实是一种SMTP命令；</p>
+<p>邮件报文是邮件对象中的内容，由首部和主体两个部分。</p>
+<p><img src="20180416221614611.png" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><h3 id="邮件报文的传输过程"><a href="#邮件报文的传输过程" class="headerlink" title="邮件报文的传输过程"></a>邮件报文的传输过程</h3><ul>
+<li><p>建立连接</p>
+<ul>
+<li><p><strong>SMTP客户和SMTP服务器首先要建立TCP连接。</strong> </p>
+<ol>
+<li><p>从客户端使用熟知端口号25建立与服务器的TCP连接，SMTP服务器向该客户送回应答码220，并且还为客户端提供了服务器的域名 </p>
+</li>
+<li><p>客户端收到应答码后，发送HELO命令，启动客户端和服务器之间的SMTP会话。该客户端发送的HELO用来向服务器提供客户端的标识信息 </p>
+</li>
+<li><p>服务器端回应应答码250，通知客户端：请求建立邮件服务会话已经实现</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>报文发送</p>
+<ul>
+<li><p>在SMTP客户与SMTP服务器之间的连接建立之后，发信的用户就可以与一个或多个收信人交换邮件报文了。</p>
+<ol>
+<li><p>客户用“MAIL ＦＲＯＭ”向服务器报告发信人的邮箱与域名 </p>
+</li>
+<li><p>服务器向客户回应应答码“250”，代表请求命令完成 </p>
+</li>
+<li><p>客户用“RCPT TO”命令向服务器报告收信人的邮箱与域名 </p>
+</li>
+<li><p>服务器向客户回应应答码“250”，代表请求命令完成 </p>
+</li>
+<li><p>客户用“DTAT”命令对报文的传送进行初始化 </p>
+</li>
+<li><p>服务器回应“354”，表示可以进行邮件输入了 </p>
+</li>
+<li><p>客户用连续的行向服务器传送报文的内容，每行以两字符的行结束标识（CR与LF）终止。报文以只有一个“.”的行结束 </p>
+</li>
+<li><p>服务器向客户回应应答码“250”，代表请求命令完成</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>连接终止</p>
+<ul>
+<li><p>报文发送完毕后终止本次SMTP会话。</p>
+<p>—客户端发送QUIT命令；</p>
+<p>——服务器收到命令后，回应应答码“221”，并结束会话。</p>
+</li>
+</ul>
+</li>
+<li><p>模拟过程</p>
+<ul>
+<li><img src="2018041622221726.png" alt="img"></li>
+<li>建立连接<ul>
+<li><img src="20180416222240454.png" alt="img"></li>
+</ul>
+</li>
+<li>传输报文<ul>
+<li><img src="20170403171303028.png" alt="img"></li>
+</ul>
+</li>
+<li>终止连接<ul>
+<li><img src="20180416222405827.png" alt="img"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="DHCP协议（动态主机配置协议）"><a href="#DHCP协议（动态主机配置协议）" class="headerlink" title="DHCP协议（动态主机配置协议）"></a>DHCP协议（动态主机配置协议）</h2><ul>
+<li><p>动态主机配置协议，是一个应用层协议，使用UDP协议工作。当我们将客户主机ip地址设置为动态获取方式时，DHCP服务器就会根据DHCP协议给客户端分配IP，使得客户机能够利用这个IP上网。</p>
+</li>
+<li><p>前身是BOOTP协议，是一个局域网的网络协议，使用UDP协议工作，常用的2个端口：67(DHCP server),68(DHCP client)。DHCP通常被用于局域网环境，主要作用是集中的管理、分配IP地址，使client动态的获得IP地址、Gateway地址、DNS服务器地址等信息，并能够提升地址的使用率。简单来说，DHCP就是一个不需要账号密码登录的、自动给内网机器分配IP地址等信息的协议。</p>
+</li>
+<li><h3 id="DHCP协议中的报文"><a href="#DHCP协议中的报文" class="headerlink" title="DHCP协议中的报文"></a>DHCP协议中的报文</h3><ul>
+<li><strong>DHCP DISCOVER</strong> ：客户端开始DHCP过程发送的包，是DHCP协议的开始</li>
+<li><strong>DHCP OFFER</strong> ：服务器接收到DHCP DISCOVER之后做出的响应，它包括了给予客户端的IP（yiaddr）、客户端的MAC地址、租约过期时间、服务器的识别符以及其他信息</li>
+<li><strong>DHCP REQUEST</strong> ：客户端对于服务器发出的DHCP OFFER所做出的响应。在续约租期的时候同样会使用。</li>
+<li><strong>DHCP ACK</strong> ：服务器在接收到客户端发来的DHCP REQUEST之后发出的成功确认的报文。在建立连接的时候，客户端在接收到这个报文之后才会确认分配给它的IP和其他信息可以被允许使用。</li>
+<li><strong>DHCP NAK</strong> ：DHCP ACK的相反的报文，表示服务器拒绝了客户端的请求。</li>
+<li><strong>DHCP RELEASE</strong> ：一般出现在客户端关机、下线等状况。这个报文将会使DHCP服务器释放发出此报文的客户端的IP地址</li>
+<li><strong>DHCP INFORM</strong> ：客户端发出的向服务器请求一些信息的报文</li>
+<li><strong>DHCP DECLINE</strong> :当客户端发现服务器分配的IP地址无法使用（如IP地址冲突时），将发出此报文，通知服务器禁止<br>使用该IP地址。</li>
+</ul>
+</li>
+<li><h3 id="DHCP的工作流程"><a href="#DHCP的工作流程" class="headerlink" title="DHCP的工作流程"></a>DHCP的工作流程</h3><ul>
+<li><img src="686769-20161019110002810-907858031-1571059102385.png" alt="img"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="DNS协议（域名解析协议）"><a href="#DNS协议（域名解析协议）" class="headerlink" title="DNS协议（域名解析协议）"></a>DNS协议（域名解析协议）</h2><ul>
+<li><p>&lt;1&gt;DNS协议就是用来将域名解析到IP地址的一种协议，当然，也可以将IP地址转换为域名的一种协议。<br>&lt;2&gt;DNS协议基于UDP和TCP协议的，端口号53，用户到服务器采用UDP，DNS服务器通信采用TCP<br>&lt;3&gt;大型运营商、互联网机构等会向公众提供免费的DNS服务，例如，谷歌的8.8.8.8 8.8.4.4 阿里巴巴223.5.5.5 223.6.6.6<br>&lt;4&gt;如果DNS服务器down掉了，那么你只能通过IP地址来访问服务了。</p>
+</li>
+<li><h3 id="域名结构"><a href="#域名结构" class="headerlink" title="域名结构"></a>域名结构</h3><ul>
+<li><p>像Linux目录结构一样，现代因特网采用层次树状结构的命名方法，任何一个连接在因特网上的主机或路由器，都有一个唯一的层次结构的名字，该名字称为域名</p>
+<ul>
+<li><img src="20180105145627203.png" alt="img"></li>
+</ul>
+</li>
+<li><p>例如：xxx.yyy.zzz.com<br>从右边的com是顶级域名，到左依次是：二级域名，三级域名，四级域名</p>
+<p>域名的分级：域名可以划分为各个子域，子域还可以继续划分为子域的子域，这样就形成了顶级域、二级域、三级域等。</p>
+<p>其中顶级域名分为：国家顶级域名、通用顶级域名、反向域名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-国家顶级域名：中国:cn， 美国:us，英国uk...</span><br><span class="line">-通用顶级域名：com 公司企业  edu教育机构 gov政府部门  int国际组织 mil军事部门  net网络 org非盈利组织...</span><br><span class="line">-反向域名：只有一个arpa，用于PTR查询（IP地址转换为域名） 。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h3 id="域名服务器"><a href="#域名服务器" class="headerlink" title="域名服务器"></a>域名服务器</h3><ul>
+<li><p>域名服务器主要分为：根域名服务器、顶级域名服务器、权限域名服务器、本地域名服务器。</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当一个应用要通过DNS来查询某个主机名，比如www.google.com的ip时，粗略地说，查询过程是这样的：它先与根服务器之一联系，根服务器根据顶级域名com，会响应命名空间为com的顶级域服务器的ip；于是该应用接着向com顶级域服务器发出请求，com顶级域服务器会响应命名空间为google.com的权威DNS服务器的ip地址；最后该应用将请求命名空间为google.com的权威DNS服务器，该权威DNS服务器会响应主机名为www.google.com的ip。</span><br><span class="line"></span><br><span class="line">实际上，除了上图层次结构中所展示的DNS外，还有一类与我们接触更为密切的DNS服务器，它们是本地DNS服务器，我们经常在电脑上配置的DNS服务器通常就是此类。它们一般由某公司，某大学，或某居民区提供，比如Google提供的DNS服务器8.8.8.8；比如常被人诟病的114.114.114.114等。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根域名服务器<br>根服务器主要用来管理互联网的主目录。<br>所有根服务器均由美国政府授权的互联网域名与号码分配机构ICANN统一管理，负责全球互联网域名根服务器、域名体系和IP地址等的管理。<br>全球共有13台根服务器。1个为根服务器架构主根服务器，放置在美国。其余12个均为辅根服务器，其中9个放置在美国，欧洲2个，位于英国和瑞典，亚洲1个，位于日本。 据说，在主根服务器系统上还有一个更高级的、隐藏着的母服务器，当然也在美国，而全世界所有的顶级域名都是由这台母服务器来确定的。<br>中国还没有自己的根服务器。都是根服务器的镜像（5个）</p>
+</li>
+<li><p>顶级域名服务器<br>负责管理所有的二级域名</p>
+</li>
+<li><p>权限域名服务器<br>负责管理一个区。当一个权限域名服务器还不能给出最后的查询回答时，就会告诉查询请求的DNS客户进程，下一步应当找哪一个权限域名服务器；</p>
+</li>
+<li><p>本地域名服务器<br>可以看成是默认域名服务器，DNS客户进程收到主机发送过来的域名后，就会最初向该域名服务器发送查询请求</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="总结一下DNS查询过程"><a href="#总结一下DNS查询过程" class="headerlink" title="总结一下DNS查询过程"></a>总结一下DNS查询过程</h3><p>1）当客户机提出查询请求时，首先在本地计算机的缓存中查找，如果在本地无法查询信息，则将查询请求发给DNS服务器<br>2）首先客户机将域名查询请求发送到本地DNS服务器，当本地DNS服务器接到查询后，首先在该服务器管理的区域的记录中查找，如果找到该记录，则进行此记录进行解析，如果没有区域信息可以满足查询要求，服务器在本地缓存中查找<br>3） 如果本地服务器不能在本地找到客户机查询的信息，将客户机请求发送到根域名DNS服务器<br>4） 根域名服务器负责解析客户机请求的根域名部分，它将包含下一级域名信息的DNS服务器地址地址，返回给客户机的DNS服务器地址<br>5） 客户机的DNS服务器利用根域名服务器解析的地址访问下一级DNS服务器，得到再下一级域名的DNS服务器地址<br>6） 按照上述递归方法逐级接近查询目标，最后在有目标域名的DNS服务器上找到相应IP地址信息<br>7） 客户机的本地DNS服务器将递归查询结构返回客户机<br>8） 客户机利用从本地DNS服务器查询得到的IP访问目标主机，就完成了一个解析过程<br>9） 同时客户机本地DNS服务器更新其缓存表，客户机也更新期缓存表，方便以后查询<br>如下图所示：<br><img src="20180105153918587.png" alt="img"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://blog.csdn.net/do_best_/article/details/79963262" target="_blank" rel="noopener"><em>应用层</em>常见协议——知识点</a></li>
+<li><a href="https://www.baidu.com/link?url=Uqa6wm628Tj-ceWf9x1fUMo2dS23HmwggJ5RFcXQybei18J7w25NXGpWsrzi1EGkclfhErQ_4YKkblZki16JsKZ28RFFZrCwzPhHwwMbS8K&wd=&eqid=aa666986001a0394000000065da47425" target="_blank" rel="noopener"><em>DHCP</em> 详解 - wangzhen_csdn的博客 - CSDN博客</a></li>
+<li><a href="https://blog.csdn.net/wk_bjut_edu_cn/article/details/82887221>" target="_blank" rel="noopener">常见的应用层协议– 哆啦尼可夫</a></li>
+<li><a href="https://blog.csdn.net/jin970505/article/details/78982151" target="_blank" rel="noopener"><em>DNS<strong>协议</strong>详解</em></a></li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/13/计算机网络（七）-应用层/">https://biubiu34.github.io/2019/10/13/计算机网络（七）-应用层/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/13/计算机网络（七）-应用层/">October 13th 2019, 3:48:22 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/13/计算机网络（七）-应用层/">October 15th 2019, 12:41:28 pm</a>
+            <p>版权声明：</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/13/【计算机网络】-DNAT实验/" title= "【计算机网络】--DNAT实验">
+                    <div class="nextTitle">【计算机网络】--DNAT实验</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/12/Linux学习-iptables/" title= "Linux学习--iptables">
+                    <div class="prevTitle">Linux学习--iptables</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#应用层常见协议"><span class="toc-number">1.</span> <span class="toc-text">应用层常见协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP协议（Hyper-Text-Transfer-Protocol，超文本传输协议）"><span class="toc-number">1.1.</span> <span class="toc-text">HTTP协议（Hyper Text Transfer Protocol，超文本传输协议）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP的特点"><span class="toc-number">1.1.1.</span> <span class="toc-text">HTTP的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie和session"><span class="toc-number">1.1.2.</span> <span class="toc-text">cookie和session</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cookie"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">cookie</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#session"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">session</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP的工作流程"><span class="toc-number">1.1.3.</span> <span class="toc-text">HTTP的工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP请求消息Request"><span class="toc-number">1.1.4.</span> <span class="toc-text">HTTP请求消息Request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP请求消息Response"><span class="toc-number">1.1.5.</span> <span class="toc-text">HTTP请求消息Response</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP状态码"><span class="toc-number">1.1.6.</span> <span class="toc-text">HTTP状态码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP请求方法"><span class="toc-number">1.1.7.</span> <span class="toc-text">HTTP请求方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP工作原理"><span class="toc-number">1.1.8.</span> <span class="toc-text">HTTP工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题："><span class="toc-number">1.1.9.</span> <span class="toc-text">问题：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Q1-谁能看懂HTTP协议？"><span class="toc-number">1.1.9.1.</span> <span class="toc-text">Q1:谁能看懂HTTP协议？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q2：HTTPS和HTTP协议的区别？"><span class="toc-number">1.1.9.2.</span> <span class="toc-text">Q2：HTTPS和HTTP协议的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3：HTTP协议有哪两种类型的包？"><span class="toc-number">1.1.9.3.</span> <span class="toc-text">Q3：HTTP协议有哪两种类型的包？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4-在输入www-baidu-com回车后，等很短的时间，浏览器里会出现百度的主页，这个过程经历了什么？"><span class="toc-number">1.1.9.4.</span> <span class="toc-text">Q4:在输入www.baidu.com回车后，等很短的时间，浏览器里会出现百度的主页，这个过程经历了什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q5：长连接和短连接"><span class="toc-number">1.1.9.5.</span> <span class="toc-text">Q5：长连接和短连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q6-http的版本？http的1-0版本和2-0版本的区别"><span class="toc-number">1.1.9.6.</span> <span class="toc-text">Q6:http的版本？http的1.0版本和2.0版本的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q7：GET和POST的区别"><span class="toc-number">1.1.9.7.</span> <span class="toc-text">Q7：GET和POST的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP协议（File-Transfer-Protocol，文件传输协议）"><span class="toc-number">1.2.</span> <span class="toc-text">FTP协议（File Transfer Protocol，文件传输协议）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FTP工作原理"><span class="toc-number">1.2.1.</span> <span class="toc-text">FTP工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#主进程工作步骤"><span class="toc-number">1.2.1.0.1.</span> <span class="toc-text">主进程工作步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FTP数据表示"><span class="toc-number">1.2.2.</span> <span class="toc-text">FTP数据表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作模式"><span class="toc-number">1.2.3.</span> <span class="toc-text">工作模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题：-1"><span class="toc-number">1.2.4.</span> <span class="toc-text">问题：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SMTP协议（简单邮件传送协议，用户发信到邮件网关的传输协议）"><span class="toc-number">1.3.</span> <span class="toc-text">SMTP协议（简单邮件传送协议，用户发信到邮件网关的传输协议）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-number">1.3.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作过程"><span class="toc-number">1.3.2.</span> <span class="toc-text">工作过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMTP命令和应答"><span class="toc-number">1.3.3.</span> <span class="toc-text">SMTP命令和应答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件报文的封装和报文形式"><span class="toc-number">1.3.4.</span> <span class="toc-text">邮件报文的封装和报文形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件报文的传输过程"><span class="toc-number">1.3.5.</span> <span class="toc-text">邮件报文的传输过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DHCP协议（动态主机配置协议）"><span class="toc-number">1.4.</span> <span class="toc-text">DHCP协议（动态主机配置协议）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DHCP协议中的报文"><span class="toc-number">1.4.1.</span> <span class="toc-text">DHCP协议中的报文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DHCP的工作流程"><span class="toc-number">1.4.2.</span> <span class="toc-text">DHCP的工作流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS协议（域名解析协议）"><span class="toc-number">1.5.</span> <span class="toc-text">DNS协议（域名解析协议）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#域名结构"><span class="toc-number">1.5.1.</span> <span class="toc-text">域名结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#域名服务器"><span class="toc-number">1.5.2.</span> <span class="toc-text">域名服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结一下DNS查询过程"><span class="toc-number">1.5.3.</span> <span class="toc-text">总结一下DNS查询过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">1.6.</span> <span class="toc-text">参考文章</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 38
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【shell编程】-shell入门/" >【Shell编程】--Shell入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx配置文件详解/" >【web服务器】--Nginx配置文件详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【Git】-git入门/" >【Git】--git入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx入门/" >【web服务器】--Nginx入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【计算机网络】-WLAN/" >【计算机网络】--WLAN</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-传输层协议/" >【计算机网络】--传输层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/Linux基础-配置ip地址/" >Linux基础--配置ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/【计算机网络】-Linux实现路由功能/" >【计算机网络】--Linux实现路由功能</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/Linux基础-Linux常用文件及其作用/" >Linux基础--Linux常用文件及其作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-网络层协议/" >【计算机网络】--网络层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（四）-数据链路层/" >计算机网络（四）--数据链路层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（三）-物理层/" >计算机网络（三）--物理层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >计算机网络（二）--OSI7层和TCP/IP5层模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/Linux学习-selinux/" >Linux学习--SElinux安全系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/redis基础（一）/" >redis基础（一）--redis简介和基本操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo 插入音乐和视频/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
+    
+        <span class="sidebar-tag-name" data-tags="VLAN"><span class="iconfont-archer">&#xe606;</span>VLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
+    
+        <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
+        <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
