@@ -275,7 +275,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">955</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">962</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -412,26 +412,26 @@ height:50vh;
 
 <h3 id="3-验证免密码登录是否成功"><a href="#3-验证免密码登录是否成功" class="headerlink" title="3.验证免密码登录是否成功"></a>3.验证免密码登录是否成功</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@wudang-mysql-2 .ssh]# ssh root@192.168.0.136  使用root用户登录192.168.0.136服务器</span><br><span class="line">Last login: Fri Jun 14 10:27:23 2019 from 192.168.0.187</span><br><span class="line">[root@localhost ~]# </span><br><span class="line">说明配置成功</span><br></pre></td></tr></table></figure>
 
-<p>练习：<br>1.编写一个计划任务执行脚本backup_db.sh，每天的4点30分钟备份TENNIS库<br>2.备份mysql库里的user表<br>3.最好在另外一台机器上备份存放数据<br>4.本地也需要备份一份<br>5.存放路径/backup_db，备份文件的名字自己定义，需要包含时间精确到秒<br>6.本地和备份服务器都保存最近30天的备份数据</p>
-<p>需要分析：<br>1.需要2台linux服务器，一台是mysql服务器，一台是备份服务器<br>2.Mysql服务器和备份服务器之间需要建立免密码登录（密钥认证）<br>3.编写脚本实现</p>
-<p>[root@wudang-mysql-2 mysql]# vim  backup_db.sh</p>
-<p>远程连接到192.168.0.136服务器上执行  mkdir -p /backup_db</p>
-<p>scp远程复制文件<br>[root@wudang-mysql-2 backup_db]# scp tennis.sql <a href="mailto:root@192.168.0.136" target="_blank" rel="noopener">root@192.168.0.136</a>:/backup_db<br>[root@wudang-mysql-2 backup_db]# ssh <a href="mailto:root@192.168.0.136" target="_blank" rel="noopener">root@192.168.0.136</a>  mkdir -p /backup_db<br>scp远程复制文件夹<br>[root@wudang-mysql-2 backup_db]# scp -r /backup_db/feng/  <a href="mailto:root@192.168.0.136" target="_blank" rel="noopener">root@192.168.0.136</a>:/backup_db<br>passwd                                                                                     100%  989   263.3KB/s   00:00<br>[root@wudang-mysql-2 backup_db]# </p>
-<p>====<br>脚本内容：<br>[root@wudang-mysql-2 mysql]# cat backup_db.sh </p>
-<p>#!/bin/bash</p>
-<p>#得到时间<br>ctime=$(date +%F_%H%M%S)</p>
-<p>#在本地新建存放目录/backup_db<br>mkdir  -p  /backup_db</p>
-<p>#备份TENNIS库到/backup_db叫tennis.sql<br>mysqldump -uroot -pSanchuang1234#  TENNIS &gt;/backup_db/${ctime}_tennis.sql</p>
-<p>#备份mysql库里user表<br>mysqldump -uroot -pSanchuang1234#  mysql  user &gt;/backup_db/${ctime}_mysql_user.sql</p>
-<p>#备份服务器上新建文件夹/backup_db<br>ssh <a href="mailto:root@192.168.0.136" target="_blank" rel="noopener">root@192.168.0.136</a>  mkdir -p /backup_db</p>
-<p>#上传当天备份的文件到备份服务器里192.168.0.136<br>scp /backup_db/${ctime}*.sql  <a href="mailto:root@192.168.0.136" target="_blank" rel="noopener">root@192.168.0.136</a>:/backup_db</p>
-<p>#本地保留最近30天的备份文件<br>find  /backup_db  -mtime +30 -type f -name “*.sql” -exec rm -rf {} ;</p>
-<p>#备份服务器上也保留最近30天的文件</p>
-<p>#生成一个脚本文件<br>cat &gt;del_30days_file.sh &lt;&lt;EOF<br>find  /backup_db  -mtime +30 -type f -name “*.sql” -exec rm -rf {} ;<br>EOF</p>
-<p>#上传脚本文件到备份服务器<br>scp del_30days_file.sh <a href="mailto:root@192.168.0.136" target="_blank" rel="noopener">root@192.168.0.136</a>:/root</p>
-<p>#远程执行脚本<br>ssh <a href="mailto:root@192.168.0.136" target="_blank" rel="noopener">root@192.168.0.136</a> bash /root/del_30days_file.sh</p>
-<p>创建计划任务<br>[root@wudang-mysql-2 mysql]# crontab -e<br>30 4 * * * bash /root/mysql/backup_db.sh</p>
+<h2 id="建立了密钥认证的好处："><a href="#建立了密钥认证的好处：" class="headerlink" title="建立了密钥认证的好处："></a>建立了密钥认证的好处：</h2><p>1.连接不需要输入密码<br>2.传文件也不需要输入密码<br>    scp  可以将服务器里的文件下载到本地，也可以上传本地的文件到服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[sc@cali ~]$ scp -P 9988 feng.txt  root@192.168.0.117:/root</span><br><span class="line">feng.txt                                          100%    0     0.0KB/s   00:00    </span><br><span class="line">[sc@cali ~]$ </span><br><span class="line">[sc@cali ~]$ scp -P 9988  root@192.168.0.117:/root/keepalived.conf  .</span><br><span class="line">keepalived.conf                                   100% 3598     3.5KB/s   00:00    </span><br><span class="line">[sc@cali ~]$ ls</span><br><span class="line">feng.txt  keepalived.conf</span><br><span class="line">[sc@cali ~]$ </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[sc@cali ~]$ ssh -p &apos;9988&apos; &apos;root@192.168.0.117&apos; bash /root/mkdir.sh</span><br></pre></td></tr></table></figure>
 
+<p>3.在服务器上执行命令也不需要密码</p>
+<p>在客户机上编写脚本，实现新建一个文件夹的功能，可以写其他功能。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[sc@cali ~]$ vim mk_wt.sh</span><br><span class="line">[sc@cali ~]$ cat mk_wt.sh </span><br><span class="line">mkdir /root/wangtao</span><br><span class="line">[sc@cali ~]$</span><br></pre></td></tr></table></figure>
+
+<p>上传文件到服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[sc@cali ~]$ scp -P 9988  mk_wt.sh root@192.168.0.117:/root </span><br><span class="line">mk_wt.sh                                          100%   20     0.0KB/s   00:00    </span><br><span class="line">[sc@cali ~]$</span><br></pre></td></tr></table></figure>
+
+<p>让远程服务器执行  bash /root/mk_wt.sh 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[sc@cali ~]$ ssh -p 9988 root@192.168.0.117  bash /root/mk_wt.sh</span><br><span class="line">[sc@cali ~]$</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="是不是所有的服务器都关闭selinux？"><a href="#是不是所有的服务器都关闭selinux？" class="headerlink" title="是不是所有的服务器都关闭selinux？"></a>是不是所有的服务器都关闭selinux？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">可以理解99.9%都是关闭</span><br><span class="line">百度一下selinux的安全机制</span><br></pre></td></tr></table></figure>
+
+<h3 id="是不是所有的服务器都关闭iptables？"><a href="#是不是所有的服务器都关闭iptables？" class="headerlink" title="是不是所有的服务器都关闭iptables？"></a>是不是所有的服务器都关闭iptables？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不是，有很多服务器是开启了iptabales的</span><br></pre></td></tr></table></figure>
+
+<h3 id="su-命令的差别"><a href="#su-命令的差别" class="headerlink" title="su 命令的差别"></a>su 命令的差别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">su  - cali</span><br><span class="line">su    cali</span><br><span class="line"></span><br><span class="line">- 的作用：其实就是登录的时候，加载全部的环境变量，不接只会加载部分当前用户的环境，部分环境变量会停留在上一个用户的环境变量里。  --login</span><br><span class="line"></span><br><span class="line">    When called without arguments su defaults to running an interactive shell as root.</span><br><span class="line"></span><br><span class="line">   For  backward compatibility su defaults to not change the current directory and to only set the environment variables HOME and SHELL</span><br><span class="line">   (plus USER and LOGNAME if the target user is not root).  It is recommended to always use the --login option (instead  it&apos;s  shortcut</span><br><span class="line">   -) to avoid side effects caused by mixing environments.</span><br></pre></td></tr></table></figure>
+
+<h3 id="另外一个防火墙TCP-Wrappers"><a href="#另外一个防火墙TCP-Wrappers" class="headerlink" title="另外一个防火墙TCP Wrappers"></a>另外一个防火墙TCP Wrappers</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SSH使用TCP Wrappers实现访问控制  --》它像一个保姆看管着我们很多的服务。</span><br><span class="line">主要配置文件</span><br><span class="line">/etc/hosts.allow  --》白名单</span><br><span class="line">/etc/hosts.deny   ---》黑名单</span><br></pre></td></tr></table></figure>
     </article>
     <!-- license  -->
     
@@ -439,7 +439,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/07/linux学习-ssh服务/">https://biubiu34.github.io/2019/10/07/linux学习-ssh服务/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/07/linux学习-ssh服务/">October 7th 2019, 3:36:08 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/07/linux学习-ssh服务/">October 16th 2019, 5:14:00 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/07/linux学习-ssh服务/">October 16th 2019, 8:23:43 pm</a>
             <p>版权声明：</p>
         </div>
     
@@ -448,8 +448,8 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/10/07/计算机网络（一）-基本介绍/" title= "计算机网络（一）--基本介绍">
-                    <div class="nextTitle">计算机网络（一）--基本介绍</div>
+                <a href= "/2019/10/07/linux学习-ssh原理/" title= "Linux学习-SSH原理">
+                    <div class="nextTitle">Linux学习-SSH原理</div>
                 </a>
             
         </li>
@@ -576,7 +576,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#密钥认证的配置过程："><span class="toc-number">1.</span> <span class="toc-text">密钥认证的配置过程：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-创建密钥对-会存放到-root-ssh目录下"><span class="toc-number">1.1.</span> <span class="toc-text">1.创建密钥对,会存放到/root/.ssh目录下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-上传公钥到另外一台备份服务器"><span class="toc-number">1.2.</span> <span class="toc-text">2.上传公钥到另外一台备份服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-验证免密码登录是否成功"><span class="toc-number">1.3.</span> <span class="toc-text">3.验证免密码登录是否成功</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#密钥认证的配置过程："><span class="toc-number">1.</span> <span class="toc-text">密钥认证的配置过程：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-创建密钥对-会存放到-root-ssh目录下"><span class="toc-number">1.1.</span> <span class="toc-text">1.创建密钥对,会存放到/root/.ssh目录下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-上传公钥到另外一台备份服务器"><span class="toc-number">1.2.</span> <span class="toc-text">2.上传公钥到另外一台备份服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-验证免密码登录是否成功"><span class="toc-number">1.3.</span> <span class="toc-text">3.验证免密码登录是否成功</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立了密钥认证的好处："><span class="toc-number">2.</span> <span class="toc-text">建立了密钥认证的好处：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">3.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#是不是所有的服务器都关闭selinux？"><span class="toc-number">3.1.</span> <span class="toc-text">是不是所有的服务器都关闭selinux？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#是不是所有的服务器都关闭iptables？"><span class="toc-number">3.2.</span> <span class="toc-text">是不是所有的服务器都关闭iptables？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#su-命令的差别"><span class="toc-number">3.3.</span> <span class="toc-text">su 命令的差别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#另外一个防火墙TCP-Wrappers"><span class="toc-number">3.4.</span> <span class="toc-text">另外一个防火墙TCP Wrappers</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1121,9 +1121,112 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 41
         </div>
         <!-- search  -->
         
@@ -1136,6 +1239,16 @@ top:50vh;
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/Linux学习-软件安装/" >Linux学习--软件安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/【Python学习】-paramiko/" >【Python学习】--paramiko</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1199,12 +1312,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
         </li>
     
     
@@ -1260,6 +1373,11 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh服务/" >Linux学习-SSH服务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
         </li>
     
     
@@ -1340,27 +1458,23 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
     
-        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
-    
         <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
-        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
     
-        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
-    
-        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
-    
-        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
-    
         <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
     
         <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
     
@@ -1368,13 +1482,17 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
+    
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
         <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
     
         <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
-    
-        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
@@ -1386,9 +1504,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
-        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
     
         <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
     
@@ -1401,6 +1521,10 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
     
         <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
+    
+        <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
     
         <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
@@ -1447,21 +1571,25 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
     
-        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
-    
         <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
         <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
     
         <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
     
         <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
     

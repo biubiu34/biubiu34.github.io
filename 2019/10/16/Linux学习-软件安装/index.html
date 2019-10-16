@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Linux学习--软件安装 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux学习--软件安装</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Linux学习--软件安装
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux学习">Linux学习</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "软件安装">软件安装</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.5k</span>阅读时长: <span class="post-count reading-time">17 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/16</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h2><ul>
+<li><p>rpm： redhat  Packages manager 红帽公司推荐的软件包管理工具<br>rpm 是redhat和centos系统里使用的软件安装包</p>
+<ul>
+<li>程序写出来的时候都源代码—》工具制作成—》rpm包</li>
+</ul>
+</li>
+<li><p>rpm包安装优点：</p>
+<pre><code>1.简单
+2.快捷</code></pre></li>
+<li><p>编译安装：</p>
+<pre><code>1.可以指定安装参数（路径、定制功能）</code></pre><p>Source Code</p>
+<ul>
+<li>​    缺点：<br>​    安装步骤多<br>​    所需要时间长</li>
+</ul>
+</li>
+</ul>
+<p>我们去买衣服：<br>    1.专卖店—》rpm<br>    2.去裁缝店 –》编译安装</p>
+<h2 id="rpm方式安装软件："><a href="#rpm方式安装软件：" class="headerlink" title="rpm方式安装软件："></a>rpm方式安装软件：</h2><h4 id="1-rpm包哪里来？"><a href="#1-rpm包哪里来？" class="headerlink" title="1.rpm包哪里来？"></a>1.rpm包哪里来？</h4><p>​        镜像文件<br>​        官方网站–》mysql<br>​        第3方平台  epel、pbone<br>​        <a href="http://www.pbone.net" target="_blank" rel="noopener">www.pbone.net</a></p>
+<h4 id="2-如何安装、卸载、查询、升级？"><a href="#2-如何安装、卸载、查询、升级？" class="headerlink" title="2.如何安装、卸载、查询、升级？"></a>2.如何安装、卸载、查询、升级？</h4><p>linux：<br>    1.redhat系<br>        redhat、centos、opensuse、redflag、oracle linux、fedora等<br>        软件包.rpm<br>    2.debian系<br>        debian、ubuntu<br>        软件包.deb</p>
+<h3 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h3><ul>
+<li><p>源码包 是所有的系统都可以安装的</p>
+</li>
+<li><h4 id="rpm包和源码包的关系"><a href="#rpm包和源码包的关系" class="headerlink" title="rpm包和源码包的关系"></a>rpm包和源码包的关系</h4><ul>
+<li>可以使用源码包制作rpm包。</li>
+</ul>
+</li>
+</ul>
+<h3 id="软件类型"><a href="#软件类型" class="headerlink" title="软件类型"></a>软件类型</h3><ul>
+<li><p><img src="1571229469153.png" alt="1571229469153"></p>
+</li>
+<li><h4 id="软件包封装类型"><a href="#软件包封装类型" class="headerlink" title="软件包封装类型"></a>软件包封装类型</h4><ul>
+<li><img src="1571229637432.png" alt="1571229637432"></li>
+</ul>
+</li>
+</ul>
+<h3 id="rpm包从哪得到？"><a href="#rpm包从哪得到？" class="headerlink" title="rpm包从哪得到？"></a>rpm包从哪得到？</h3><ul>
+<li><h4 id="rpm包从镜像文件获取"><a href="#rpm包从镜像文件获取" class="headerlink" title="rpm包从镜像文件获取"></a><strong>rpm包从镜像文件获取</strong></h4></li>
+</ul>
+<p>1.将镜像文件放入光驱<br>2.挂载光驱到/mnt目录</p>
+<ul>
+<li><p>mount 是挂载磁盘或者光盘、u盘的工具</p>
+</li>
+<li><p>挂载点：其实就是一个目录，通过这个目录可以访问到硬件（光驱）里的镜像文件了</p>
+</li>
+<li><p>cdrom 是光驱</p>
+</li>
+<li><p><strong>默认情况下光盘里的内容是只读的</strong></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@cali_feng ~]# mount  /dev/cdrom  /mnt   相当于win的插入u盘</span><br><span class="line"></span><br><span class="line">[root@cali_feng ~]# umount /mnt 卸载</span><br><span class="line">mount: /dev/sr0 写保护，将以只读方式挂载</span><br><span class="line">[root@cali_feng ~]# df -Th  查看系统里已经挂载的在使用的分区或者磁盘---》windows打开计算机</span><br><span class="line">文件系统                类型      容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/mapper/centos-root xfs        17G  6.0G   12G   36% /</span><br><span class="line">devtmpfs                devtmpfs  475M     0  475M    0% /dev</span><br><span class="line">tmpfs                   tmpfs     487M     0  487M    0% /dev/shm</span><br><span class="line">tmpfs                   tmpfs     487M  7.8M  479M    2% /run</span><br><span class="line">tmpfs                   tmpfs     487M     0  487M    0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1               xfs      1014M  146M  869M   15% /boot</span><br><span class="line">tmpfs                   tmpfs      98M     0   98M    0% /run/user/0</span><br><span class="line">/dev/sr0                iso9660   4.3G  4.3G     0  100% /mnt</span><br><span class="line">[root@cali_feng ~]#</span><br><span class="line"></span><br><span class="line">[root@cali_feng ~]# ll /dev/cdrom   ----&gt;/dev/cdrom 是链接到sr0的</span><br><span class="line">lrwxrwxrwx 1 root root 3 6月  20 19:49 /dev/cdrom -&gt; sr0</span><br><span class="line">[root@cali_feng ~]#</span><br></pre></td></tr></table></figure>
+
+<p>3.进入挂载点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@cali_feng ~]# cd /mnt</span><br><span class="line">[root@cali_feng mnt]# ls</span><br><span class="line">CentOS_BuildTag  EULA  images    LiveOS    repodata              RPM-GPG-KEY-CentOS-Testing-7</span><br><span class="line">EFI              GPL   isolinux  Packages  RPM-GPG-KEY-CentOS-7  TRANS.TBL</span><br><span class="line">[root@cali_feng mnt]#</span><br><span class="line">[root@cali_feng mnt]# cd Packages/</span><br><span class="line">[root@cali_feng Packages]# ls</span><br><span class="line">zsh-5.0.2-31.el7.x86_64.rpm</span><br><span class="line">zziplib-0.13.62-9.el7.x86_64.rpm</span><br><span class="line">[root@cali_feng Packages]# ls|wc -l</span><br><span class="line">4022</span><br><span class="line">[root@cali_feng Packages]#</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="从官方网站得到"><a href="#从官方网站得到" class="headerlink" title="从官方网站得到"></a>从官方网站得到</h4></li>
+</ul>
+<p><img src="1571230392529.png" alt="1571230392529"></p>
+<h3 id="RPM命令"><a href="#RPM命令" class="headerlink" title="RPM命令"></a>RPM命令</h3><p>软件管理命令：</p>
+<h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h4><p>​    rpm  -ivh   软件包的名字<br>​    {-i|–install}<br>​    [-h,–hash]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@cali_feng Packages]# rpm -i  tree-1.6.0-10.el7.x86_64.rpm </span><br><span class="line">[root@cali_feng Packages]# rpm -ihv  tree-1.6.0-10.el7.x86_64.rpm </span><br><span class="line">准备中...                          ################################# [100%]</span><br><span class="line">正在升级/安装...</span><br><span class="line">   1:tree-1.6.0-10.el7                ################################# [100%]</span><br><span class="line">[root@cali_feng Packages]#</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-卸载"><a href="#2-卸载" class="headerlink" title="2.卸载"></a>2.卸载</h4><p>{-e|–erase}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@cali_feng Packages]# rpm -e tree</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-查询"><a href="#3-查询" class="headerlink" title="3.查询"></a>3.查询</h4><p>{-q|–query}<br>[-a,–all]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@cali_feng Packages]# rpm  -q mysql</span><br><span class="line">未安装软件包 mysql </span><br><span class="line">[root@cali_feng Packages]# </span><br><span class="line">[root@cali_feng Packages]# rpm  -q tree</span><br><span class="line">tree-1.6.0-10.el7.x86_64</span><br><span class="line">[root@cali_feng Packages]# </span><br><span class="line"></span><br><span class="line">[root@cali_feng Packages]# rpm  -q tree</span><br><span class="line">tree-1.6.0-10.el7.x86_64</span><br><span class="line">[root@cali_feng Packages]# echo $?</span><br><span class="line">0</span><br><span class="line">[root@cali_feng Packages]# rpm  -q mysql</span><br><span class="line">未安装软件包 mysql </span><br><span class="line">[root@cali_feng Packages]# echo $?</span><br><span class="line">1</span><br><span class="line">[root@cali_feng Packages]#</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h5 id="qa-查看系统中已经安装的所有RPM包列表all"><a href="#qa-查看系统中已经安装的所有RPM包列表all" class="headerlink" title="-qa:查看系统中已经安装的所有RPM包列表all"></a>-qa:查看系统中已经安装的所有RPM包列表all</h5><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@cali_feng Packages]# rpm -qa|wc -l</span><br><span class="line">400</span><br><span class="line">[root@cali_feng Packages]# rpm -qa |grep mysql</span><br><span class="line">mysql-community-common-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-embedded-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-test-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-libs-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-client-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-server-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-embedded-devel-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-embedded-compat-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-devel-5.7.25-1.el7.x86_64</span><br><span class="line">mysql-community-libs-compat-5.7.25-1.el7.x86_64</span><br><span class="line">[root@cali_feng Packages]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="qi-查询软件的信息"><a href="#qi-查询软件的信息" class="headerlink" title="-qi:查询软件的信息"></a>-qi:查询软件的信息</h5><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB mnt]# rpm -qi python</span><br><span class="line">Name        : python</span><br><span class="line">Version     : 2.7.5</span><br><span class="line">Release     : 68.el7</span><br><span class="line">Architecture: x86_64</span><br><span class="line">Install Date: 2019年10月10日 星期四 03时36分41秒</span><br><span class="line">Group       : Development/Languages</span><br><span class="line">Size        : 80907</span><br><span class="line">License     : Python</span><br><span class="line">Signature   : RSA/SHA256, 2018年04月25日 星期三 19时38分11秒, Key ID 24c6a8a7f4a80eb5</span><br><span class="line">Source RPM  : python-2.7.5-68.el7.src.rpm</span><br><span class="line">Build Date  : 2018年04月11日 星期三 16时03分06秒</span><br><span class="line">Build Host  : x86-01.bsys.centos.org</span><br><span class="line">Relocations : (not relocatable)</span><br><span class="line">Packager    : CentOS BuildSystem &lt;http://bugs.centos.org&gt;</span><br><span class="line">Vendor      : CentOS</span><br><span class="line">URL         : http://www.python.org/</span><br><span class="line">Summary     : An interpreted, interactive, object-oriented programming language</span><br><span class="line">Description :</span><br><span class="line">Python is an interpreted, interactive, object-oriented programming</span><br><span class="line">language often compared to Tcl, Perl, Scheme or Java. Python includes</span><br><span class="line">modules, classes, exceptions, very high level dynamic data types and</span><br><span class="line">dynamic typing. Python supports interfaces to many system calls and</span><br><span class="line">libraries, as well as to various windowing systems (X11, Motif, Tk,</span><br><span class="line">Mac and MFC).</span><br><span class="line"></span><br><span class="line">Programmers can write new built-in modules for Python in C or C++.</span><br><span class="line">Python can be used as an extension language for applications that need</span><br><span class="line">a programmable interface.</span><br><span class="line"></span><br><span class="line">Note that documentation for Python is provided in the python-docs</span><br><span class="line">package.</span><br><span class="line"></span><br><span class="line">This package provides the &quot;python&quot; executable; most of the actual</span><br><span class="line">implementation is within the &quot;python-libs&quot; package.</span><br><span class="line">[root@RouterB mnt]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="ql-查询指定软件包所安装的目录、文件列表—-》安装到哪去了？"><a href="#ql-查询指定软件包所安装的目录、文件列表—-》安装到哪去了？" class="headerlink" title="-ql:查询指定软件包所安装的目录、文件列表—-》安装到哪去了？"></a>-ql:查询指定软件包所安装的目录、文件列表—-》安装到哪去了？</h5><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB mnt]# rpm -ql python</span><br><span class="line">/usr/bin/pydoc</span><br><span class="line">/usr/bin/python</span><br><span class="line">/usr/bin/python2</span><br><span class="line">/usr/bin/python2.7</span><br><span class="line">/usr/share/doc/python-2.7.5</span><br><span class="line">/usr/share/doc/python-2.7.5/LICENSE</span><br><span class="line">/usr/share/doc/python-2.7.5/README</span><br><span class="line">/usr/share/man/man1/python.1.gz</span><br><span class="line">/usr/share/man/man1/python2.1.gz</span><br><span class="line">/usr/share/man/man1/python2.7.1.gz</span><br><span class="line">[root@RouterB mnt]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="qc-仅显示指定软件包安装的配置文件"><a href="#qc-仅显示指定软件包安装的配置文件" class="headerlink" title="-qc:仅显示指定软件包安装的配置文件"></a>-qc:仅显示指定软件包安装的配置文件</h5><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB mnt]# rpm -qc yum </span><br><span class="line">/etc/logrotate.d/yum</span><br><span class="line">/etc/yum.conf</span><br><span class="line">/etc/yum/version-groups.conf</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="qd-仅显示指定软件包安装的文档文件-document"><a href="#qd-仅显示指定软件包安装的文档文件-document" class="headerlink" title="-qd:仅显示指定软件包安装的文档文件 document"></a>-qd:仅显示指定软件包安装的文档文件 document</h5><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB mnt]# rpm -qd yum </span><br><span class="line">/usr/share/doc/yum-3.4.3/AUTHORS</span><br><span class="line">/usr/share/doc/yum-3.4.3/COPYING</span><br><span class="line">/usr/share/doc/yum-3.4.3/ChangeLog</span><br><span class="line">/usr/share/doc/yum-3.4.3/INSTALL</span><br><span class="line">/usr/share/doc/yum-3.4.3/PLUGINS</span><br><span class="line">/usr/share/doc/yum-3.4.3/README</span><br><span class="line">/usr/share/doc/yum-3.4.3/TODO</span><br><span class="line">/usr/share/doc/yum-3.4.3/comps.rng</span><br><span class="line">/usr/share/man/man5/yum.conf.5</span><br><span class="line">/usr/share/man/man8/yum-shell.8</span><br><span class="line">/usr/share/man/man8/yum.8</span><br><span class="line">[root@RouterB mnt]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="查询文件-目录属于哪个RPM软件"><a href="#查询文件-目录属于哪个RPM软件" class="headerlink" title="查询文件/目录属于哪个RPM软件"></a>查询文件/目录属于哪个RPM软件</h5><ul>
+<li><p>rpm -qf 文件或目录名   </p>
+</li>
+<li><h6 id="只能查已经安装到系统里的软件"><a href="#只能查已经安装到系统里的软件" class="headerlink" title="只能查已经安装到系统里的软件"></a><strong>只能查已经安装到系统里的软件</strong></h6></li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB mnt]# rpm -qf /usr/bin/mkdir</span><br><span class="line">coreutils-8.22-21.el7.x86_64</span><br><span class="line">[root@RouterB mnt]# </span><br><span class="line"></span><br><span class="line">#等效于</span><br><span class="line">[root@RouterB mnt]# rpm -qf $(which mkdir)</span><br><span class="line">coreutils-8.22-21.el7.x86_64</span><br><span class="line">[root@RouterB mnt]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其他：</p>
+<ul>
+<li><p>[root@RouterB mnt]# yum provides nginx   没有安装的软件也可以查到是通过软件安装过来的</p>
+<ul>
+<li><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB mnt]# yum provides pstree</span><br><span class="line">已加载插件：fastestmirror</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"></span><br><span class="line"> * base: mirrors.cqu.edu.cn</span><br><span class="line"> * epel: hk.mirrors.thegigabit.com</span><br><span class="line"> * extras: mirrors.cqu.edu.cn</span><br><span class="line"> * updates: mirrors.cqu.edu.cn</span><br><span class="line">   base/7/x86_64/filelists_db                                      | 7.3 MB  00:00:00</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-升级"><a href="#4-升级" class="headerlink" title="4.升级"></a>4.升级</h4><ul>
+<li>rpm  -U  软件包    upgrade  —&gt;推荐使用</li>
+</ul>
+<p>如果需要升级的软件没有安装，会自动帮你安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@cali_feng Packages]# rpm -U tree-1.6.0-10.el7.x86_64.rpm </span><br><span class="line">	软件包 tree-1.6.0-10.el7.x86_64 已经安装</span><br><span class="line">[root@cali_feng Packages]# </span><br><span class="line"></span><br><span class="line">rpm包软件安装之间的依赖关系问题</span><br><span class="line">[root@cali_feng Packages]# rpm -ivh xpp3-1.1.3.8-11.el7.noarch.rpm </span><br><span class="line">错误：依赖检测失败：</span><br><span class="line">	java 被 xpp3-0:1.1.3.8-11.el7.noarch 需要</span><br><span class="line">	jpackage-utils 被 xpp3-0:1.1.3.8-11.el7.noarch 需要</span><br><span class="line">	junit 被 xpp3-0:1.1.3.8-11.el7.noarch 需要</span><br><span class="line">	xml-commons-apis 被 xpp3-0:1.1.3.8-11.el7.noarch 需要</span><br><span class="line">[root@cali_feng Packages]# </span><br><span class="line">安装 A --&gt;B--&gt;C--&gt;D</span><br></pre></td></tr></table></figure>
+
+<h4 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a><strong>依赖关系</strong></h4><ul>
+<li><strong>rpm命令安装软件的时候，需要我们自己去解决依赖关系</strong></li>
+<li>缺点:不能自动帮助下载需要的软件，并且安装好<br>yum–》 它可以自动帮我们去下载，并且安装好–》 提供的服务很周到</li>
+</ul>
+<h2 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h2><ul>
+<li><p><strong>yum是rpm的一个升级版本</strong></p>
+</li>
+<li><p>yum是python编写的一个工具</p>
+<pre><code>是python2的语法</code></pre></li>
+<li><p><strong>最大的优势是可以自动的解决软件安装的依赖关系</strong></p>
+</li>
+<li><h3 id="yum的好处"><a href="#yum的好处" class="headerlink" title="yum的好处"></a>yum的好处</h3><p>​    1.集中存放<br>​    2.统一更新管理，用户不需要到处去找软件</p>
+</li>
+<li><h3 id="yum-的工作流程"><a href="#yum-的工作流程" class="headerlink" title="yum 的工作流程"></a>yum 的工作流程</h3><ul>
+<li><img src="1571232779783.png" alt="1571232779783"></li>
+<li>yum install php<br><strong>分析php软件的依赖关系–》需要下载哪些软件–》决定使用到哪个源–》去哪个源里下载–》安</strong><br><strong>装–》删除下载的软件</strong></li>
+</ul>
+</li>
+<li><h3 id="yum-安装需要解决的问题"><a href="#yum-安装需要解决的问题" class="headerlink" title="yum 安装需要解决的问题"></a>yum 安装需要解决的问题</h3><ul>
+<li><p>1.网络要畅通–》能上网</p>
+</li>
+<li><p>2.客户机需要在配置文件找到源的服务器ip地址</p>
+<pre><code>仓库--》repository ---》其实就是一个网站或者一个目录里有很多的软件
+directory  目录</code></pre><ul>
+<li><p>源存放在/etc/yum.repo.d/目录下，有多个源（仓库）</p>
+</li>
+<li><p><strong>默认情况下centos会读取/etc/yum. repos.d目录下的所有的. repo结尾的文件，找yum源</strong></p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB yum]# cd /etc/yum.repos.d/  </span><br><span class="line">[root@RouterB yum.repos.d]# ls</span><br><span class="line">CentOS-Base.repo       CentOS-fasttrack.repo  CentOS-Vault.repo  nginx.repo</span><br><span class="line">CentOS-CR.repo         CentOS-Media.repo      epel.repo</span><br><span class="line">CentOS-Debuginfo.repo  CentOS-Sources.repo    epel-testing.repo</span><br><span class="line">[root@RouterB yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>yum的仓库文件必须以.repo结尾，用来帮助linux系统找到源，安装软件</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="yum-相关的文件"><a href="#yum-相关的文件" class="headerlink" title="yum 相关的文件"></a>yum 相关的文件</h3><ul>
+<li><img src="1571232833948.png" alt="1571232833948"></li>
+</ul>
+</li>
+<li><h3 id="使用yum安装软件"><a href="#使用yum安装软件" class="headerlink" title="使用yum安装软件"></a>使用yum安装软件</h3><ul>
+<li><p>1.默认情况下，确保你的机器能上网，就能访问官方源</p>
+<ul>
+<li><p>CentOS-Base.repo  主要使用的repo文件（yum仓库的配置文件）–》找到yum源的服务器的–》藏宝图 </p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">[base]</span><br><span class="line">name=CentOS-$releasever - Base   ---》源的描述</span><br><span class="line">mirrorlist=http://mirrorlist.centos.org/?  release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra  </span><br><span class="line">					告诉Linux系统镜像站点源在哪里？</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/		 ----》使用官方的源</span><br><span class="line">gpgcheck=1		 是否检测下载的软件是否是官方出品 1表示检测 0表示不检测</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 ---》认证的密钥</span><br><span class="line">#released updates </span><br><span class="line">[updates]</span><br><span class="line">name=CentOS-$releasever - Updates</span><br><span class="line">mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/  </span><br><span class="line">gpgcheck=1   </span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7  </span><br><span class="line"></span><br><span class="line">#additional packages that may be useful</span><br><span class="line">[extras]</span><br><span class="line">name=CentOS-$releasever - Extras</span><br><span class="line">mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that extend functionality of existing packages</span><br><span class="line">[centosplus]</span><br><span class="line">name=CentOS-$releasever - Plus</span><br><span class="line">mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus&amp;infra=$infra</span><br><span class="line">#baseurl=http://mirror.centos.org/centos/$releasever/centosplus/$basearch/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=0    ----》源是否启用 1启用这个源 0启用这个源</span><br><span class="line">					如果没有enabled这个配置说明源是可以使用的</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">[root@RouterB yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>清除所有的yum源的缓存信息</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB yum.repos.d]# yum clean all</span><br><span class="line">已加载插件：fastestmirror</span><br><span class="line">正在清理软件源： base epel extras nginx-stable updates</span><br><span class="line">Cleaning up everything</span><br><span class="line">Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos</span><br><span class="line">Cleaning up list of fastest mirrors</span><br><span class="line">[root@RouterB yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>yum源：</p>
+<ul>
+<li><p>1.官方源</p>
+</li>
+<li><p>2.第三方源</p>
+<ul>
+<li>epel.repo 帮助系统找到epel源 </li>
+<li>epel 里有很多官方源里没有的好软件<ul>
+<li>nginx —&gt;开源、有免费版本、有商业服务</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB yum.repos.d]# rpm -ql epel-release</span><br><span class="line">/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7</span><br><span class="line">/etc/yum.repos.d/epel-testing.repo</span><br><span class="line">/etc/yum.repos.d/epel.repo</span><br><span class="line">/usr/lib/systemd/system-preset/90-epel.preset</span><br><span class="line">/usr/share/doc/epel-release-7</span><br><span class="line">/usr/share/doc/epel-release-7/GPL</span><br><span class="line">[root@RouterB yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查询有哪些可用的源</p>
+<ul>
+<li><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB yum.repos.d]# yum repolist</span><br><span class="line">已加载插件：fastestmirror</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"></span><br><span class="line"> * base: mirrors.163.com</span><br><span class="line"> * epel: my.mirrors.thegigabit.com</span><br><span class="line"> * extras: mirrors.huaweicloud.com</span><br><span class="line"> * updates: mirrors.163.com</span><br><span class="line">   源标识                      源名称                                               状态</span><br><span class="line">   base/7/x86_64               CentOS-7 - Base                                      10,097</span><br><span class="line">   *epel/x86_64                Extra Packages for Enterprise Linux 7 - x86_64       13,416</span><br><span class="line">   extras/7/x86_64             CentOS-7 - Extras                                       304</span><br><span class="line">   nginx-stable/7/x86_64       nginx stable repo                                       166</span><br><span class="line">   updates/7/x86_64            CentOS-7 - Updates                                      332</span><br><span class="line">   repolist: 24,315</span><br><span class="line">   [root@RouterB yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>自己搭建一个本地源</strong></p>
+<ul>
+<li><p>服务器端：</p>
+<ul>
+<li>yum源：有软件—》很多软件—》镜像文件</li>
+</ul>
+</li>
+<li><p>客户端：</p>
+<ul>
+<li>找到yum源 —》repo文件的定位问题</li>
+</ul>
+</li>
+<li><p>本地的yum 源，自己是服务器又是客户机</p>
+</li>
+<li><p>步骤：</p>
+<ul>
+<li><p><strong>服务器端</strong></p>
+</li>
+<li><p>1.挂载镜像文件到/local yum文件里</p>
+<ul>
+<li><p>前提是将镜像文件放入到光驱里</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@PC1 ~]# mkdir /localyum</span><br><span class="line">[root@PC1 ~]# mount /dev/cdrom /localyum/</span><br><span class="line">mount: /dev/sr0 is write-protected, mounting read-only</span><br><span class="line">[root@PC1 ~]# df</span><br><span class="line">Filesystem              1K-blocks    Used Available Use% Mounted on</span><br><span class="line">/dev/mapper/centos-root  17811456 1562008  16249448   9% /</span><br><span class="line">devtmpfs                   486708       0    486708   0% /dev</span><br><span class="line">tmpfs                      498976       0    498976   0% /dev/shm</span><br><span class="line">tmpfs                      498976    7888    491088   2% /run</span><br><span class="line">tmpfs                      498976       0    498976   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1                 1038336  132476    905860  13% /boot</span><br><span class="line">tmpfs                       99796       0     99796   0% /run/user/0</span><br><span class="line">tmpfs                       99796       0     99796   0% /run/user/1053</span><br><span class="line">/dev/sr0                  4364408 4364408         0 100% /localyum</span><br><span class="line">[root@PC1 ~]# getenforce</span><br><span class="line">Permissive</span><br><span class="line">[root@PC1 ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>客户端</strong></p>
+<ul>
+<li><p>2.到/etc/yum.repo.d/目录下新建一个local.repo文件来定位我们的本地yum源 </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@PC1 yum.repos.d]# cat local.repo </span><br><span class="line">[localyum]</span><br><span class="line">name=local yum</span><br><span class="line">baseurl=file:///localyum</span><br><span class="line">enabled=1</span><br><span class="line">gpdcheck=0</span><br><span class="line">[root@PC1 yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>3.使用本地yum源</p>
+<ul>
+<li><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@PC1 yum.repos.d]# yum repolist</span><br><span class="line">Failed to set locale, defaulting to C</span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"></span><br><span class="line"> * base: mirrors.huaweicloud.com</span><br><span class="line"> * epel: mirrors.tuna.tsinghua.edu.cn</span><br><span class="line"> * extras: mirrors.tuna.tsinghua.edu.cn</span><br><span class="line"> * remi-safe: mirrors.tuna.tsinghua.edu.cn</span><br><span class="line"> * updates: mirrors.163.com</span><br><span class="line">   repo id            repo name                                                     status</span><br><span class="line">   base/7/x86_64      CentOS-7 - Base                                               10097</span><br><span class="line">   *epel/x86_64       Extra Packages for Enterprise Linux 7 - x86_64                13416</span><br><span class="line">   extras/7/x86_64    CentOS-7 - Extras                                               304</span><br><span class="line">   localyum           local yum                                                      3971</span><br><span class="line">   remi-safe          Safe Remi&apos;s RPM repository for Enterprise Linux 7 - x86_64     3613</span><br><span class="line">   updates/7/x86_64   CentOS-7 - Updates                                              332</span><br><span class="line">   repolist: 31733</span><br><span class="line">   [root@PC1 yum.repos.d]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>当你的机器里有很多源的时候，到底我们的系统会使用哪个源？</p>
+</li>
+<li><blockquote>
+<p><strong>方法1:</strong><br>jack–》10台<br>yum install yum- plugin-priorities</p>
+<p>priority=1  –&gt;使用这个参数来控制优先级<br><strong>方法2:</strong><br>一条命令一个参数搞定<br>代码如下:<br>[root@aikaiyuan ~]# yum install nginx –enablerepo=epel<br>稍微解释一下:<br>代码如下:<br>yum install XXX –enablerepo=YYY<br>XXX是要交装的软件，YYY是repo源的名字。<br>建议安装的时候尽量选择同一个源。<br>因为不同的源安装的软件可能会有冲突。比如mplayer的f*d</p>
+<p><strong>方法3：</strong></p>
+<p>把其他源全部挪走，就只能使用本地源了</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="yum命令"><a href="#yum命令" class="headerlink" title="yum命令"></a>yum命令</h3><ul>
+<li><p>yum list [package] –》 登询安装了哪些软件，还有哪些软件没有安装</p>
+<blockquote>
+<p>@anaconda —》 表示这个软件是在安装系统的时候安装的anaconda是一个源的名字,<br>@base  表 示这个软件是通过base源安装的<br>zeromq-devel.x86_ 64<br>4.1.4-6.e17              epel<br>表示这个软件没有安装，可用通过epel源去安装</p>
+</blockquote>
+<p>rpm -qa 是查询已经安装过哪些软件了，但是不能知道还有哪些软件可以安装</p>
+</li>
+<li><p>yum install  package..安装软件</p>
+</li>
+<li><p>yum remove   package…  卸载软件 </p>
+</li>
+<li><p>yum update package  升级软件</p>
+<ul>
+<li>yum update 升级系统里可以升级的所有软件</li>
+</ul>
+</li>
+<li><p>yum info [package..]   查看/安装/删除rpm包组/查看rpm包组信息</p>
+</li>
+<li><p>yum provides tree 查询命令是通过哪个软件安装过来的</p>
+</li>
+<li><p>yum search [package] ..查看命令相关的软件包</p>
+</li>
+<li><p>yum grouplist   查询系统里所有的组</p>
+</li>
+<li><p>yum groupinstall   安装一组软件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@RouterB yum.repos.d]# yum install &quot;Security Tools&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>yum groupremove  包组</p>
+</li>
+<li><p>yum groupinfo  组里包含了哪些软件</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><h3 id="Linux里如何知道装了哪些软件？"><a href="#Linux里如何知道装了哪些软件？" class="headerlink" title="Linux里如何知道装了哪些软件？"></a>Linux里如何知道装了哪些软件？</h3><ul>
+<li>rpm -qa</li>
+</ul>
+</li>
+<li><h3 id="依赖关系-1"><a href="#依赖关系-1" class="headerlink" title="依赖关系"></a>依赖关系</h3><ul>
+<li><h4 id="安装有依赖关系的多个软件时"><a href="#安装有依赖关系的多个软件时" class="headerlink" title="安装有依赖关系的多个软件时"></a>安装有依赖关系的多个软件时</h4><p>■被依赖的软件包需要先安装<br>■同时指定多个.rpm包文件进行安装</p>
+</li>
+<li><h4 id="卸载有依赖关系的多个软件时"><a href="#卸载有依赖关系的多个软件时" class="headerlink" title="卸载有依赖关系的多个软件时"></a>卸载有依赖关系的多个软件时</h4><p>■依赖其他程序的软件包需要先卸载<br>■同时指定多个软件名进行卸载</p>
+</li>
+</ul>
+</li>
+<li><p><strong>安装系统 的时候使用的就是光盘里的那个源，默认最小安装</strong></p>
+</li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/16/Linux学习-软件安装/">https://biubiu34.github.io/2019/10/16/Linux学习-软件安装/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/16/Linux学习-软件安装/">October 16th 2019, 8:24:23 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/16/Linux学习-软件安装/">October 16th 2019, 10:49:47 pm</a>
+            <p>版权声明：</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/16/【Python学习】-paramiko/" title= "【Python学习】--paramiko">
+                    <div class="prevTitle">【Python学习】--paramiko</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概况"><span class="toc-number">1.</span> <span class="toc-text">概况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rpm方式安装软件："><span class="toc-number">2.</span> <span class="toc-text">rpm方式安装软件：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-rpm包哪里来？"><span class="toc-number">2.0.1.</span> <span class="toc-text">1.rpm包哪里来？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-如何安装、卸载、查询、升级？"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.如何安装、卸载、查询、升级？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注："><span class="toc-number">2.1.</span> <span class="toc-text">注：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rpm包和源码包的关系"><span class="toc-number">2.1.1.</span> <span class="toc-text">rpm包和源码包的关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#软件类型"><span class="toc-number">2.2.</span> <span class="toc-text">软件类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#软件包封装类型"><span class="toc-number">2.2.1.</span> <span class="toc-text">软件包封装类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rpm包从哪得到？"><span class="toc-number">2.3.</span> <span class="toc-text">rpm包从哪得到？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rpm包从镜像文件获取"><span class="toc-number">2.3.1.</span> <span class="toc-text">rpm包从镜像文件获取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从官方网站得到"><span class="toc-number">2.3.2.</span> <span class="toc-text">从官方网站得到</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPM命令"><span class="toc-number">2.4.</span> <span class="toc-text">RPM命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-安装"><span class="toc-number">2.4.1.</span> <span class="toc-text">1.安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-卸载"><span class="toc-number">2.4.2.</span> <span class="toc-text">2.卸载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-查询"><span class="toc-number">2.4.3.</span> <span class="toc-text">3.查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#qa-查看系统中已经安装的所有RPM包列表all"><span class="toc-number">2.4.3.1.</span> <span class="toc-text">-qa:查看系统中已经安装的所有RPM包列表all</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#qi-查询软件的信息"><span class="toc-number">2.4.3.2.</span> <span class="toc-text">-qi:查询软件的信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ql-查询指定软件包所安装的目录、文件列表—-》安装到哪去了？"><span class="toc-number">2.4.3.3.</span> <span class="toc-text">-ql:查询指定软件包所安装的目录、文件列表—-》安装到哪去了？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#qc-仅显示指定软件包安装的配置文件"><span class="toc-number">2.4.3.4.</span> <span class="toc-text">-qc:仅显示指定软件包安装的配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#qd-仅显示指定软件包安装的文档文件-document"><span class="toc-number">2.4.3.5.</span> <span class="toc-text">-qd:仅显示指定软件包安装的文档文件 document</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查询文件-目录属于哪个RPM软件"><span class="toc-number">2.4.3.6.</span> <span class="toc-text">查询文件/目录属于哪个RPM软件</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#只能查已经安装到系统里的软件"><span class="toc-number">2.4.3.6.1.</span> <span class="toc-text">只能查已经安装到系统里的软件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-升级"><span class="toc-number">2.4.4.</span> <span class="toc-text">4.升级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#依赖关系"><span class="toc-number">2.4.5.</span> <span class="toc-text">依赖关系</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#yum安装"><span class="toc-number">3.</span> <span class="toc-text">yum安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#yum的好处"><span class="toc-number">3.1.</span> <span class="toc-text">yum的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum-的工作流程"><span class="toc-number">3.2.</span> <span class="toc-text">yum 的工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum-安装需要解决的问题"><span class="toc-number">3.3.</span> <span class="toc-text">yum 安装需要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum-相关的文件"><span class="toc-number">3.4.</span> <span class="toc-text">yum 相关的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用yum安装软件"><span class="toc-number">3.5.</span> <span class="toc-text">使用yum安装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum命令"><span class="toc-number">3.6.</span> <span class="toc-text">yum命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux里如何知道装了哪些软件？"><span class="toc-number">4.1.</span> <span class="toc-text">Linux里如何知道装了哪些软件？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖关系-1"><span class="toc-number">4.2.</span> <span class="toc-text">依赖关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装有依赖关系的多个软件时"><span class="toc-number">4.2.1.</span> <span class="toc-text">安装有依赖关系的多个软件时</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#卸载有依赖关系的多个软件时"><span class="toc-number">4.2.2.</span> <span class="toc-text">卸载有依赖关系的多个软件时</span></a></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 41
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/Linux学习-软件安装/" >Linux学习--软件安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/【Python学习】-paramiko/" >【Python学习】--paramiko</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【shell编程】-shell入门/" >【Shell编程】--Shell入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx配置文件详解/" >【web服务器】--Nginx配置文件详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【Git】-git入门/" >【Git】--git入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx入门/" >【web服务器】--Nginx入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【计算机网络】-WLAN/" >【计算机网络】--WLAN</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-传输层协议/" >【计算机网络】--传输层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/Linux基础-配置ip地址/" >Linux基础--配置ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/【计算机网络】-Linux实现路由功能/" >【计算机网络】--Linux实现路由功能</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/Linux基础-Linux常用文件及其作用/" >Linux基础--Linux常用文件及其作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-网络层协议/" >【计算机网络】--网络层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（四）-数据链路层/" >计算机网络（四）--数据链路层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（三）-物理层/" >计算机网络（三）--物理层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >计算机网络（二）--OSI7层和TCP/IP5层模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh服务/" >Linux学习-SSH服务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/Linux学习-selinux/" >Linux学习--SElinux安全系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/redis基础（一）/" >redis基础（一）--redis简介和基本操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo 插入音乐和视频/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
+    
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
+    
+        <span class="sidebar-tag-name" data-tags="VLAN"><span class="iconfont-archer">&#xe606;</span>VLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
+    
+        <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
+    
+        <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
+        <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
