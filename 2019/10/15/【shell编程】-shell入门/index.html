@@ -275,7 +275,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2.9k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -555,13 +555,42 @@ height:50vh;
 </li>
 <li><h2 id="Shell脚本的执行"><a href="#Shell脚本的执行" class="headerlink" title="Shell脚本的执行"></a>Shell脚本的执行</h2><ul>
 <li><h3 id="执行脚本的办法"><a href="#执行脚本的办法" class="headerlink" title="执行脚本的办法"></a>执行脚本的办法</h3><ul>
-<li><h4 id="source-命令"><a href="#source-命令" class="headerlink" title="source 命令"></a>source 命令</h4><ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source scripts.sh</span><br></pre></td></tr></table></figure>
+<li><h4 id="工作目录执行"><a href="#工作目录执行" class="headerlink" title="工作目录执行"></a>工作目录执行</h4><ul>
+<li><p>工作目录执行，指的是执行脚本时，先进入到脚本所在的目录（此时，称为工作目录），然后使用 ./脚本方式执行 </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@PC1 scripts]# ./hello.sh</span><br><span class="line">-bash: ./hello.sh: 权限不够</span><br><span class="line">[root@PC1 scripts]# chmod 764 hello.sh </span><br><span class="line">[root@PC1 scripts]# ll</span><br><span class="line">total 4</span><br><span class="line">-rwxrw-r--. 1 root root 307 Oct 16 14:21 hello.sh</span><br><span class="line">[root@PC1 scripts]# ./hello.sh</span><br><span class="line">hello world</span><br><span class="line">[root@PC1 scripts]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>./的意思是说在当前的工作目录下执行hello.sh。如果不加上./，bash可能会响应找到不到hello.sh的错误信息 </p>
 </li>
 </ul>
 </li>
-<li><h4 id="点"><a href="#点" class="headerlink" title=".  (点)"></a>.  (点)</h4><ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. (空格) scripts.sh</span><br></pre></td></tr></table></figure>
+<li><h4 id="绝对路径执行"><a href="#绝对路径执行" class="headerlink" title="绝对路径执行"></a>绝对路径执行</h4><ul>
+<li><p>绝对路径中执行，指的是直接从根目录/到脚本目录的绝对路径 </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@PC1 scripts]# pwd</span><br><span class="line">/shells/scripts</span><br><span class="line">[root@PC1 scripts]# /shells/scripts/hello.sh </span><br><span class="line">hello world</span><br><span class="line">[root@PC1 scripts]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li></li>
+<li><h4 id="sh-bash执行"><a href="#sh-bash执行" class="headerlink" title="sh/bash执行"></a>sh/bash执行</h4><ul>
+<li><p>sh执行，指的是用脚本对应的sh或bash来接着脚本执行 </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@PC1 scripts]# sh hello.sh </span><br><span class="line">hello world</span><br><span class="line">[root@PC1 scripts]# bash hello.sh </span><br><span class="line">hello world</span><br><span class="line">[root@PC1 scripts]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意，若是以方法三的方式来执行，那么，可以不必事先设定shell的执行权限，甚至都不用写shell文件中的第一行（指定bash路径）。因为方法三 是将hello.sh作为参数传给sh(bash)命令来执行的。这时不是hello.sh自己来执行，而是被人家调用执行，所以不要执行权限。</p>
+</li>
+</ul>
+</li>
+<li><h4 id="shell环境执行"><a href="#shell环境执行" class="headerlink" title="shell环境执行"></a>shell环境执行</h4><ul>
+<li><p>shell环境执行，指的是在当前的shell环境中执行，可以使用 . 接脚本 或 source 接脚本 </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@PC1 scripts]# . hello.sh </span><br><span class="line">hello world</span><br><span class="line">[root@PC1 scripts]# source hello.sh </span><br><span class="line">hello world</span><br><span class="line">[root@PC1 scripts]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><ul>
+<li><p>区别：</p>
+<p>绝对路径和相对路径没有什么区别，两种方式都需要提前赋予脚本以执行权限。<br>sh或者bash方式是把脚本当做bash的调用来处理，所以，脚本不需要有执行权限就可以执行。<br>前三种方式都是在当前shell中打开一个子shell来执行脚本内容，当脚本内容结束，则子shell关闭，回到父shell中。<br>source或者.方式是使脚本内容在当前shell里执行，而不是单独开子shell执行。<br>开子shell与不开子shell的区别就在于，环境变量的继承关系，如在子shell中设置的当前变量，不做特殊通道处理的话，父shell是不可见的。而在当前shell中执行的话，则所有设置的环境变量都是直接生效可用的。<br> <img src="1190037-20171206153935784-244298231-1571207343876.png" alt="img"> </p>
 </li>
 </ul>
 </li>
@@ -571,10 +600,41 @@ height:50vh;
 <li><img src="1190037-20171206153935784-244298231.png" alt="img"> </li>
 </ul>
 </li>
+<li><h4 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h4><ul>
+<li><p>问sh test.sh后echo $user返回的结果<em>_空</em> ? </p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@oldboy scripts]# cat test.sh </span><br><span class="line">#!/bin/bash</span><br><span class="line">user=`whoami`</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
-<li><h2 id="Shell的变量"><a href="#Shell的变量" class="headerlink" title="Shell的变量"></a>Shell的变量</h2></li>
-<li><h2 id="特殊变量"><a href="#特殊变量" class="headerlink" title="特殊变量"></a>特殊变量</h2></li>
+</ul>
+</li>
+<li><h2 id="Shell的变量"><a href="#Shell的变量" class="headerlink" title="Shell的变量"></a>Shell的变量</h2><ul>
+<li><h3 id="什么是变量"><a href="#什么是变量" class="headerlink" title="什么是变量"></a>什么是变量</h3><ul>
+<li><p>变量可以分为两类：环境变量（全局变量）和普通变量（局部变量） </p>
+</li>
+<li><p>　<strong>环境变量</strong>也可称为全局变量，可以在创建他们的Shell及其派生出来的任意子进程shell中使用，环境变量又可分为自定义环境变量和Bash内置的环境变量</p>
+<p>　　<strong>普通变量</strong>也可称为局部变量，只能在创建他们的Shell函数或Shell脚本中使用。普通变量一般是由开发者用户开发脚本程序时创建的。</p>
+<p>​     <strong>特殊变量</strong></p>
+</li>
+</ul>
+</li>
+<li><h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3></li>
+<li><h3 id="普通变量"><a href="#普通变量" class="headerlink" title="普通变量"></a>普通变量</h3></li>
+<li><h3 id="export命令"><a href="#export命令" class="headerlink" title="export命令"></a>export命令</h3></li>
+<li><h3 id="环境变量相关配置文件"><a href="#环境变量相关配置文件" class="headerlink" title="环境变量相关配置文件"></a>环境变量相关配置文件</h3></li>
+<li><h3 id="环境变量的知识小结"><a href="#环境变量的知识小结" class="headerlink" title="环境变量的知识小结"></a>环境变量的知识小结</h3></li>
+<li><h3 id="变量中引号的使用"><a href="#变量中引号的使用" class="headerlink" title="变量中引号的使用"></a>变量中引号的使用</h3></li>
+<li><h3 id="普通变量的要求"><a href="#普通变量的要求" class="headerlink" title="普通变量的要求"></a>普通变量的要求</h3></li>
+<li><h3 id="定义变量名技巧"><a href="#定义变量名技巧" class="headerlink" title="定义变量名技巧"></a>定义变量名技巧</h3></li>
+</ul>
+</li>
+<li><h2 id="特殊变量"><a href="#特殊变量" class="headerlink" title="特殊变量"></a>特殊变量</h2><ul>
+<li><h3 id="位置变量"><a href="#位置变量" class="headerlink" title="位置变量"></a>位置变量</h3></li>
+<li><h3 id="进程状态变量"><a href="#进程状态变量" class="headerlink" title="进程状态变量"></a>进程状态变量</h3></li>
+<li><h3 id="echo参数说明"><a href="#echo参数说明" class="headerlink" title="echo参数说明"></a>echo参数说明</h3></li>
+</ul>
+</li>
 <li><h2 id="定义变量的方式"><a href="#定义变量的方式" class="headerlink" title="定义变量的方式"></a>定义变量的方式</h2></li>
 <li><h2 id="变量的子串"><a href="#变量的子串" class="headerlink" title="变量的子串"></a>变量的子串</h2></li>
 <li><h2 id="变量的数值计算"><a href="#变量的数值计算" class="headerlink" title="变量的数值计算"></a>变量的数值计算</h2></li>
@@ -582,6 +642,7 @@ height:50vh;
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
 <li><a href="https://www.baidu.com/link?url=NrtH-cF1Ma-P-tEn67Tps5uGWFq6TslAoqMZgG8HLjgXmi761nEepGnaAJWCCJ9BdZtlNOpHqKk6kRqG6lzp2MEPYmqyg0NZgsQc01K_ce7&wd=&eqid=aacc1205000be2aa000000065da44449" target="_blank" rel="noopener"><em>Shell编程基础</em>篇-上 - 惨绿少年 - 博客园</a></li>
 <li><a href="https://www.baidu.com/link?url=IloxdW3pyHwYF0iFyOHASz_BQXH0mm1sIqnjIlNwMqANM0aNRHYzW7yE6gGduzguXNiExYW0i-BGoIGQc2gqXq&wd=&eqid=aacc1205000be2aa000000065da44449" target="_blank" rel="noopener"><em>Shell编程基础</em>篇-下 - 惨绿少年 - 博客园</a></li>
+<li><a href="https://www.baidu.com/link?url=XWDmoc2nIU_eAiQUimec-t_N3-Ix5n-mRWH3FrB6_PNHQzfuKGihJ9WVBp-4KjQfPMfaKNwlN9wWH6qeoDc2ha&wd=&eqid=d0470a620003841d000000065da6b84a" target="_blank" rel="noopener"><em>shell</em>脚本的四种<em>执行方式</em>及其区别 - WWW_SYR的博客 - CSDN博客</a></li>
 </ul>
 
     </article>
@@ -591,7 +652,7 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/15/【shell编程】-shell入门/">https://biubiu34.github.io/2019/10/15/【shell编程】-shell入门/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/15/【shell编程】-shell入门/">October 15th 2019, 7:30:26 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/15/【shell编程】-shell入门/">October 15th 2019, 10:42:11 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/15/【shell编程】-shell入门/">October 16th 2019, 2:33:05 pm</a>
             <p>版权声明：</p>
         </div>
     
@@ -723,7 +784,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell编程基础–Shell入门"><span class="toc-number">1.</span> <span class="toc-text">Shell编程基础–Shell入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么学习Shell"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么学习Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是Shell"><span class="toc-number">1.1.2.</span> <span class="toc-text">什么是Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是Shell脚本"><span class="toc-number">1.1.3.</span> <span class="toc-text">什么是Shell脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本语言的种类"><span class="toc-number">1.1.4.</span> <span class="toc-text">脚本语言的种类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编译型"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">编译型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解释型"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">解释型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#脚本语言"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">脚本语言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他常用的脚本语言种类"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">其他常用的脚本语言种类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shell脚本与php-perl-python语言的区别和优势？"><span class="toc-number">1.1.4.5.</span> <span class="toc-text">Shell脚本与php/perl/python语言的区别和优势？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统中的Shell"><span class="toc-number">1.1.5.</span> <span class="toc-text">系统中的Shell</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell脚本书写规范"><span class="toc-number">1.2.</span> <span class="toc-text">Shell脚本书写规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本统一存放的目录"><span class="toc-number">1.2.1.</span> <span class="toc-text">脚本统一存放的目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选择解释器"><span class="toc-number">1.2.2.</span> <span class="toc-text">选择解释器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑脚本使用vim"><span class="toc-number">1.2.3.</span> <span class="toc-text">编辑脚本使用vim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件名规范"><span class="toc-number">1.2.4.</span> <span class="toc-text">文件名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发的规范和习惯"><span class="toc-number">1.2.5.</span> <span class="toc-text">开发的规范和习惯</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell脚本的执行"><span class="toc-number">1.3.</span> <span class="toc-text">Shell脚本的执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#执行脚本的办法"><span class="toc-number">1.3.1.</span> <span class="toc-text">执行脚本的办法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#source-命令"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">source 命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#点"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">.  (点)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sh-于-source的区别"><span class="toc-number">1.3.2.</span> <span class="toc-text">sh 于 source的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell的变量"><span class="toc-number">1.4.</span> <span class="toc-text">Shell的变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特殊变量"><span class="toc-number">1.5.</span> <span class="toc-text">特殊变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义变量的方式"><span class="toc-number">1.6.</span> <span class="toc-text">定义变量的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量的子串"><span class="toc-number">1.7.</span> <span class="toc-text">变量的子串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量的数值计算"><span class="toc-number">1.8.</span> <span class="toc-text">变量的数值计算</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell编程基础–Shell入门"><span class="toc-number">1.</span> <span class="toc-text">Shell编程基础–Shell入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么学习Shell"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么学习Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是Shell"><span class="toc-number">1.1.2.</span> <span class="toc-text">什么是Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是Shell脚本"><span class="toc-number">1.1.3.</span> <span class="toc-text">什么是Shell脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本语言的种类"><span class="toc-number">1.1.4.</span> <span class="toc-text">脚本语言的种类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编译型"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">编译型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解释型"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">解释型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#脚本语言"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">脚本语言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他常用的脚本语言种类"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">其他常用的脚本语言种类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shell脚本与php-perl-python语言的区别和优势？"><span class="toc-number">1.1.4.5.</span> <span class="toc-text">Shell脚本与php/perl/python语言的区别和优势？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统中的Shell"><span class="toc-number">1.1.5.</span> <span class="toc-text">系统中的Shell</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell脚本书写规范"><span class="toc-number">1.2.</span> <span class="toc-text">Shell脚本书写规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本统一存放的目录"><span class="toc-number">1.2.1.</span> <span class="toc-text">脚本统一存放的目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选择解释器"><span class="toc-number">1.2.2.</span> <span class="toc-text">选择解释器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑脚本使用vim"><span class="toc-number">1.2.3.</span> <span class="toc-text">编辑脚本使用vim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件名规范"><span class="toc-number">1.2.4.</span> <span class="toc-text">文件名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发的规范和习惯"><span class="toc-number">1.2.5.</span> <span class="toc-text">开发的规范和习惯</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell脚本的执行"><span class="toc-number">1.3.</span> <span class="toc-text">Shell脚本的执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#执行脚本的办法"><span class="toc-number">1.3.1.</span> <span class="toc-text">执行脚本的办法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#工作目录执行"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">工作目录执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#绝对路径执行"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">绝对路径执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sh-bash执行"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">sh/bash执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#shell环境执行"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">shell环境执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#区别"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sh-于-source的区别"><span class="toc-number">1.3.2.</span> <span class="toc-text">sh 于 source的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#面试题"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">面试题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell的变量"><span class="toc-number">1.4.</span> <span class="toc-text">Shell的变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是变量"><span class="toc-number">1.4.1.</span> <span class="toc-text">什么是变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境变量"><span class="toc-number">1.4.2.</span> <span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#普通变量"><span class="toc-number">1.4.3.</span> <span class="toc-text">普通变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#export命令"><span class="toc-number">1.4.4.</span> <span class="toc-text">export命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境变量相关配置文件"><span class="toc-number">1.4.5.</span> <span class="toc-text">环境变量相关配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境变量的知识小结"><span class="toc-number">1.4.6.</span> <span class="toc-text">环境变量的知识小结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量中引号的使用"><span class="toc-number">1.4.7.</span> <span class="toc-text">变量中引号的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#普通变量的要求"><span class="toc-number">1.4.8.</span> <span class="toc-text">普通变量的要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义变量名技巧"><span class="toc-number">1.4.9.</span> <span class="toc-text">定义变量名技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特殊变量"><span class="toc-number">1.5.</span> <span class="toc-text">特殊变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#位置变量"><span class="toc-number">1.5.1.</span> <span class="toc-text">位置变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程状态变量"><span class="toc-number">1.5.2.</span> <span class="toc-text">进程状态变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#echo参数说明"><span class="toc-number">1.5.3.</span> <span class="toc-text">echo参数说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义变量的方式"><span class="toc-number">1.6.</span> <span class="toc-text">定义变量的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量的子串"><span class="toc-number">1.7.</span> <span class="toc-text">变量的子串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量的数值计算"><span class="toc-number">1.8.</span> <span class="toc-text">变量的数值计算</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1299,26 +1360,9 @@ top:50vh;
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 39
         </div>
         <!-- search  -->
         
@@ -1344,12 +1388,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
         </li>
     
     
@@ -1374,12 +1418,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
         </li>
     
     
@@ -1424,12 +1468,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
         </li>
     
     
@@ -1450,6 +1494,11 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh服务/" >Linux学习-SSH服务</a>
         </li>
     
     
@@ -1535,39 +1584,41 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
     
-        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
-    
         <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
-        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
-    
-        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
     
         <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
     
         <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
     
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
         <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
     
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+    
         <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
         <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
     
         <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
-    
-        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
-    
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
-    
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
@@ -1579,11 +1630,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
-        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
-    
-        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
-    
         <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
     
@@ -1642,15 +1691,15 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
         <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
-        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
         <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
     
         <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
-    
-        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
         <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
     
