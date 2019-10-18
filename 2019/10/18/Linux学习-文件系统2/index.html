@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Linux学习--文件系统2 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux学习--文件系统2</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Linux学习--文件系统2
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "磁盘">磁盘</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "文件系统">文件系统</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.5k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/18</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>接上一篇文章，继续讲Linux文件系统</p>
+<h1 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h1><ul>
+<li><p><strong>文件系统其实是一个逻辑上的概念</strong></p>
+</li>
+<li><h2 id="文件系统是什么"><a href="#文件系统是什么" class="headerlink" title="文件系统是什么"></a>文件系统是什么</h2><ul>
+<li><p>管理文件和目录的一套机制（方法）</p>
+</li>
+<li><blockquote>
+<p>1.文件存取<br>2.文件的查找<br>3.文件的大小<br>4.一个目录可以存放多少个文件<br>5.文件的命名<br>6.一个分区可以多大<br>7.一个文件最大可以多大<br>8.一个分区使用了多少空间，还有多少空间没有使用<br>等等</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h2 id="文件系统的种类"><a href="#文件系统的种类" class="headerlink" title="文件系统的种类"></a>文件系统的种类</h2><ul>
+<li>Linux下的文件系统<ol>
+<li>XFS  —》centos7</li>
+<li>ext4  —》centos6</li>
+<li>ext3  –》centos5</li>
+<li>iso9660  光盘</li>
+<li>tmpfs   –》内存里划分一块空间，使用这种文件系统</li>
+</ol>
+</li>
+<li>windows下的文件系统<ol>
+<li>NTFS  –》new technology file system</li>
+<li>FAT32  —》u盘<br>超过4G的文件不能存放</li>
+</ol>
+</li>
+<li>网络文件系统–》分布式、集群<ol>
+<li>NFS  —》可以共享磁盘空间给别的机器使用存放数据</li>
+<li>GFS  –》Google file system</li>
+<li>TFS  –》taobao file system</li>
+</ol>
+</li>
+<li><strong>linux内核采取虚拟文件系统层(VFS)</strong></li>
+<li>规定目录树上所有东西统一为如下结构<ul>
+<li>dentry 目录项 </li>
+<li>i-节点  index node  —》悟空的办公室–》仓管系统–》货物的信息</li>
+<li>block  –》货架–》真正的数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="文件系统重要概念"><a href="#文件系统重要概念" class="headerlink" title="文件系统重要概念"></a>文件系统重要概念</h2><ul>
+<li><p>目录项:包括文件名和inode节点号。</p>
+</li>
+<li><p>Inode：又称文件索引节点 ，是文件基本信息的存放地和数据块指针存放地。 <strong>存放文件的属性。</strong></p>
+<pre><code>一个文件有一个inode，inode是磁盘里划分出来的空间。用来存放文件的属性信息（权限、用户和组、时间、大小信息、指针）。</code></pre></li>
+<li><p>数据块：文件的具体内容存放地。真正的数据存放的地方。</p>
+<blockquote>
+<p><strong>一个文件只有1个inode，可以有很多block</strong><br><strong>ext4文件系统里：inode  256字节  block 4096字节</strong></p>
+</blockquote>
+</li>
+<li><h3 id="Linux文件的组成"><a href="#Linux文件的组成" class="headerlink" title="Linux文件的组成"></a>Linux文件的组成</h3><ul>
+<li>元数据：就是描述数据的数据</li>
+<li><img src="1571406596484.png" alt="1571406596484"></li>
+</ul>
+</li>
+<li><p>查看文件信息</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#方法1</span><br><span class="line">[root@localhost ~]# ll -i</span><br><span class="line">总用量 8</span><br><span class="line">33574979 -rw-------. 1 root root 1257 10月 11 23:28 anaconda-ks.cfg</span><br><span class="line">33647857 -rw-r--r--. 1 root root  489 10月 14 19:53 nat.sh</span><br><span class="line">#方法2</span><br><span class="line">[root@localhost ~]# stat nat.sh </span><br><span class="line">  文件：&quot;nat.sh&quot;</span><br><span class="line">  大小：489       	块：8          IO 块：4096   普通文件</span><br><span class="line">设备：fd00h/64768d	Inode：33647857    硬链接：1</span><br><span class="line">权限：(0644/-rw-r--r--)  Uid：(    0/    root)   Gid：(    0/    root)</span><br><span class="line">环境：unconfined_u:object_r:admin_home_t:s0</span><br><span class="line">最近访问：2019-10-14 19:53:32.581080386 +0800</span><br><span class="line">最近更改：2019-10-14 19:53:32.581080386 +0800</span><br><span class="line">最近改动：2019-10-14 19:53:32.583080376 +0800</span><br><span class="line">创建时间：-</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h3 id="文件系统重要参数"><a href="#文件系统重要参数" class="headerlink" title="文件系统重要参数"></a>文件系统重要参数</h3><ul>
+<li><p>superblock（超级块）：<strong>记录此 file system 的整体信息</strong>，包括inode/block的总量、使用量、剩余量，以及文件系统的格式</p>
+</li>
+<li><p>inode：<strong>记录文件的属性</strong>，一个文件占用一个inode，同时记录此文件的数据所在的 block 号码</p>
+<pre><code>属性：权限、用户、组、时间、大小、文件名等</code></pre></li>
+<li><p>block：实际记录文件的内容（真实的数据），若文件太大时，会占用多个 block</p>
+<ul>
+<li><blockquote>
+<p><strong>在格式化时 block已经固定，且每个block都有编号。但要注意，由于block大小不同，会导致该文件系统能够支持的最大磁盘容量与最大单一文件容量并不相同。<br>用的block太小，则一个文件要用多两个block，inode 记录也会增加，降低读写性能。<br>若block太大，文件小的时候则会使剩余空间不能用了，会浪费资源。</strong> </p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><blockquote>
+<p>inode对应表：记录哪些inode使用了，哪些没有使用<br>block对应表：记录哪些block使用了，哪些没有使用</p>
+</blockquote>
+</li>
+<li><h4 id="超级块（superblock）"><a href="#超级块（superblock）" class="headerlink" title="超级块（superblock）"></a>超级块（superblock）</h4><ul>
+<li><img src="1571408685433.png" alt="1571408685433"></li>
+</ul>
+</li>
+<li><h4 id="查看文件系统的超级块信息-dumpe2fs"><a href="#查看文件系统的超级块信息-dumpe2fs" class="headerlink" title="查看文件系统的超级块信息:dumpe2fs"></a>查看文件系统的超级块信息:dumpe2fs</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# dumpe2fs /dev/sdc5</span><br><span class="line">dumpe2fs 1.42.9 (28-Dec-2013)</span><br><span class="line">Filesystem volume name:   &lt;none&gt;</span><br><span class="line">Last mounted on:          &lt;not available&gt;</span><br><span class="line">Filesystem UUID:          950a267e-29c5-4d5a-9cdf-c27cc64dc62b</span><br><span class="line">Filesystem magic number:  0xEF53</span><br><span class="line">Filesystem revision #:    1 (dynamic)</span><br><span class="line">Filesystem features:      has_journal ext_attr resize_inode dir_index filetype extent 64bit flex_bg sparse_super huge_file uninit_bg dir_nlink extra_isize</span><br><span class="line">Filesystem flags:         signed_directory_hash </span><br><span class="line">Default mount options:    user_xattr acl</span><br><span class="line">Filesystem state:         clean</span><br><span class="line">Errors behavior:          Continue</span><br><span class="line">Filesystem OS type:       Linux</span><br><span class="line">Inode count:              2560</span><br><span class="line">Block count:              10240</span><br><span class="line">Reserved block count:     512</span><br><span class="line">Free blocks:              8715</span><br><span class="line">Free inodes:              2549</span><br><span class="line">First block:              1</span><br><span class="line">Block size:               1024</span><br><span class="line">Fragment size:            1024</span><br><span class="line">Group descriptor size:    64</span><br><span class="line">Reserved GDT blocks:      79</span><br><span class="line">Blocks per group:         8192</span><br><span class="line">Fragments per group:      8192</span><br><span class="line">Inodes per group:         1280</span><br><span class="line">Inode blocks per group:   160</span><br><span class="line">Flex block group size:    16</span><br><span class="line">Filesystem created:       Fri Oct 18 22:14:01 2019</span><br><span class="line">Last mount time:          n/a</span><br><span class="line">Last write time:          Fri Oct 18 22:14:01 2019</span><br><span class="line">Mount count:              0</span><br><span class="line">Maximum mount count:      -1</span><br><span class="line">Last checked:             Fri Oct 18 22:14:01 2019</span><br><span class="line">Check interval:           0 (&lt;none&gt;)</span><br><span class="line">Lifetime writes:          1190 kB</span><br><span class="line">Reserved blocks uid:      0 (user root)</span><br><span class="line">Reserved blocks gid:      0 (group root)</span><br><span class="line">First inode:              11</span><br><span class="line">Inode size:	          128</span><br><span class="line">Journal inode:            8</span><br><span class="line">Default directory hash:   half_md4</span><br><span class="line">Directory Hash Seed:      859d37de-8fec-4ec3-a368-c8b4a8ce4f74</span><br><span class="line">Journal backup:           inode blocks</span><br><span class="line">Journal features:         (none)</span><br><span class="line">日志大小:             1024k</span><br><span class="line">Journal length:           1024</span><br><span class="line">Journal sequence:         0x00000001</span><br><span class="line">Journal start:            0</span><br><span class="line"></span><br><span class="line">Group 0: (Blocks 1-8192)</span><br><span class="line">  Checksum 0x3333, unused inodes 1269</span><br><span class="line">  主 superblock at 1, Group descriptors at 2-2</span><br><span class="line">  保留的GDT块位于 3-81</span><br><span class="line">  Block bitmap at 82 (+81), Inode bitmap at 98 (+97)</span><br><span class="line">  Inode表位于 114-273 (+113)</span><br><span class="line">  6749 free blocks, 1269 free inodes, 2 directories, 1269个未使用的inodes</span><br><span class="line">  可用块数: 1444-8192</span><br><span class="line">  可用inode数: 12-1280</span><br><span class="line">Group 1: (Blocks 8193-10239) [INODE_UNINIT]</span><br><span class="line">  Checksum 0x47e8, unused inodes 1280</span><br><span class="line">  备份 superblock at 8193, Group descriptors at 8194-8194</span><br><span class="line">  保留的GDT块位于 8195-8273</span><br><span class="line">  Block bitmap at 83 (bg #0 + 82), Inode bitmap at 99 (bg #0 + 98)</span><br><span class="line">  Inode表位于 274-433 (bg #0 + 273)</span><br><span class="line">  1966 free blocks, 1280 free inodes, 0 directories, 1280个未使用的inodes</span><br><span class="line">  可用块数: 8274-10239</span><br><span class="line">  可用inode数: 1281-2560</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="文件系统如何读取文件？"><a href="#文件系统如何读取文件？" class="headerlink" title="文件系统如何读取文件？"></a>文件系统如何读取文件？</h3><ul>
+<li><blockquote>
+<p>I、根据文件名,通过Directory的对应关系,找到文件对应的Inode number<br>2、再根据Inode number读取到文件的Inode table<br>3.再根据Inode table中的Pointer读取到相应的Blocks</p>
+</blockquote>
+</li>
+<li><p><img src="1571408950708.png" alt="1571408950708"></p>
+</li>
+<li><p><img src="1571409022818.png" alt="1571409022818"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="内核"><a href="#内核" class="headerlink" title="内核"></a>内核</h2><ul>
+<li><p>/boot<br>/<br>/data –》20G  —&gt;容量不够了，如何解决？</p>
+<p>linux的内核（kernel）：  linux内部最核心的软件–》c语言</p>
+<p>作用：管理硬件</p>
+<blockquote>
+<p>​    1.对cpu进行调度<br>​    2.对内存进行分配管理<br>​    3.对进程进行管理<br>​    4.对文件系统进行管理</p>
+<p>​    5.对其他硬件进行管理</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h2 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h2><ul>
+<li><p>block设备文件：存放数据的文件–》磁盘相关的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@disk ~]# ll /dev/sde*</span><br><span class="line">brw-rw----. 1 root disk 8, 64 7月   4 17:23 /dev/sde</span><br><span class="line">brw-rw----. 1 root disk 8, 65 7月   4 17:23 /dev/sde1</span><br><span class="line">brw-rw----. 1 root disk 8, 66 7月   4 17:23 /dev/sde2</span><br><span class="line">brw-rw----. 1 root disk 8, 67 7月   4 17:23 /dev/sde3</span><br><span class="line">[root@disk ~]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>character 字符设备文件：与文字显示有关的设备文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@disk ~]# ll /dev/tty1</span><br><span class="line">crw--w----. 1 root tty 4, 1 7月   5 09:36 /dev/tty1</span><br><span class="line">[root@disk ~]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>socket文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@disk dev]# ll /dev/log</span><br><span class="line">srw-rw-rw-. 1 root root 0 7月   4 15:29 /dev/log</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h2 id="软链接硬链接"><a href="#软链接硬链接" class="headerlink" title="软链接硬链接"></a>软链接硬链接</h2></li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li><h2 id="1-删除一个文件删除了哪些东西？为什么数据可以恢复？"><a href="#1-删除一个文件删除了哪些东西？为什么数据可以恢复？" class="headerlink" title="1.删除一个文件删除了哪些东西？为什么数据可以恢复？"></a>1.删除一个文件删除了哪些东西？为什么数据可以恢复？</h2><ul>
+<li><p>​    目录项和inode表里的bit map(位图表inode对应表)里的信息和block bitmap里的信息</p>
+</li>
+<li><blockquote>
+<p>其实真正的数据并没有删除，建议误删除数据后不要再做任何创建文件或者文件夹或者复制文件进来的操作</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h2 id="2-新建一个分区10M，对格式化ext4—-gt-有多少的inode-有多少blcok"><a href="#2-新建一个分区10M，对格式化ext4—-gt-有多少的inode-有多少blcok" class="headerlink" title="2.新建一个分区10M，对格式化ext4—-&gt;有多少的inode,有多少blcok?"></a>2.新建一个分区10M，对格式化ext4—-&gt;有多少的inode,有多少blcok?</h2><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# mkfs.ext4 /dev/sdc5</span><br><span class="line">mke2fs 1.42.9 (28-Dec-2013)</span><br><span class="line">文件系统标签=</span><br><span class="line">OS type: Linux</span><br><span class="line">块大小=1024 (log=0)</span><br><span class="line">分块大小=1024 (log=0)</span><br><span class="line">Stride=0 blocks, Stripe width=0 blocks</span><br><span class="line">2560 inodes, 10240 blocks</span><br><span class="line">512 blocks (5.00%) reserved for the super user</span><br><span class="line">第一个数据块=1</span><br><span class="line">Maximum filesystem blocks=10485760</span><br><span class="line">2 block groups</span><br><span class="line">8192 blocks per group, 8192 fragments per group</span><br><span class="line">1280 inodes per group</span><br><span class="line">Superblock backups stored on blocks: </span><br><span class="line">	8193</span><br><span class="line"></span><br><span class="line">Allocating group tables: 完成                            </span><br><span class="line">正在写入inode表: 完成                            </span><br><span class="line">Creating journal (1024 blocks): 完成</span><br><span class="line">Writing superblocks and filesystem accounting information: 完成</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>操作系统会根据我们的分区大小调节inode,和block的数量</strong></p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# mkdir /chengweihan</span><br><span class="line">[root@localhost ~]# mount /dev/sdc5 /chengweihan/</span><br><span class="line">[root@localhost ~]# df -Tj</span><br><span class="line">df：无效选项 -- j</span><br><span class="line">Try &apos;df --help&apos; for more information.</span><br><span class="line">[root@localhost ~]# df -Th</span><br><span class="line">文件系统                类型      容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/mapper/centos-root xfs        17G  1.4G   16G    8% /</span><br><span class="line">devtmpfs                devtmpfs  476M     0  476M    0% /dev</span><br><span class="line">tmpfs                   tmpfs     488M     0  488M    0% /dev/shm</span><br><span class="line">tmpfs                   tmpfs     488M  7.7M  480M    2% /run</span><br><span class="line">tmpfs                   tmpfs     488M     0  488M    0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1               xfs      1014M  130M  885M   13% /boot</span><br><span class="line">tmpfs                   tmpfs      98M     0   98M    0% /run/user/0</span><br><span class="line">/dev/sdc5               ext4      8.7M  172K  7.9M    3% /chengweihan</span><br><span class="line">[root@localhost ~]# cd /chengweihan/</span><br><span class="line">[root@localhost chengweihan]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>将inode耗光，哪怕磁盘空间容量还够都无法再创建文件</strong></p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost chengweihan]# vim create_file.sh</span><br><span class="line">[root@localhost chengweihan]# ll -i</span><br><span class="line">总用量 14</span><br><span class="line">13 -rw-r--r--. 1 root root    59 10月 18 22:21 create_file.sh</span><br><span class="line">11 drwx------. 2 root root 12288 10月 18 22:14 lost+found</span><br><span class="line">[root@localhost chengweihan]# bash create_file.sh </span><br><span class="line">touch: 无法创建&quot;sanchuang2549&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2550&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2551&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2552&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2553&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2554&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2555&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2556&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2557&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2558&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2559&quot;: 设备上没有空间</span><br><span class="line">touch: 无法创建&quot;sanchuang2560&quot;: 设备上没有空间</span><br><span class="line">[root@localhost chengweihan]# df -TH</span><br><span class="line">文件系统                类型      容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/mapper/centos-root xfs        19G  1.5G   17G    8% /</span><br><span class="line">devtmpfs                devtmpfs  499M     0  499M    0% /dev</span><br><span class="line">tmpfs                   tmpfs     511M     0  511M    0% /dev/shm</span><br><span class="line">tmpfs                   tmpfs     511M  8.1M  503M    2% /run</span><br><span class="line">tmpfs                   tmpfs     511M     0  511M    0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1               xfs       1.1G  136M  928M   13% /boot</span><br><span class="line">tmpfs                   tmpfs     103M     0  103M    0% /run/user/0</span><br><span class="line">/dev/sdc5               ext4      9.2M  261k  8.2M    4% /chengweihan</span><br><span class="line">[root@localhost chengweihan]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h2 id="删除一个大文件速度快，删除一个小文件速度快，或者是一样的？"><a href="#删除一个大文件速度快，删除一个小文件速度快，或者是一样的？" class="headerlink" title="删除一个大文件速度快，删除一个小文件速度快，或者是一样的？"></a>删除一个大文件速度快，删除一个小文件速度快，或者是一样的？</h2><ul>
+<li>inode是一样的，但是大文件消耗的block多，需要大量时间把block对应表里的1要变成0，所以消耗的时间长</li>
+</ul>
+</li>
+<li><h2 id="nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？"><a href="#nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？" class="headerlink" title="nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？"></a>nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？</h2><pre><code>rm -rf  nginx.log  释放不了的
+
+&gt;nginx.log
+不能直接去删除这个文件</code></pre><ul>
+<li>文件描述符：<ul>
+<li>进程里打开了哪些文件，进程会给文件进行编号。</li>
+</ul>
+</li>
+<li>进程通过编号可以找到这个文件，然后再找到文件对应的block，再往块里写数据，不停的往里面消耗空间，所以rm -rf根本停不住</li>
+<li>只有把服务停止了，进程挂了，操作系统会检测发现没有了对应的目录项（inode），才能释放数据</li>
+<li>在不停止服务的情况下，可以使用重定向解决这个问题<ul>
+<li>​    [root@localhost chengweihan]# &gt;zhangyalong.txt</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/">https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/">October 18th 2019, 9:33:32 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/">October 19th 2019, 12:12:33 am</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/18/Linux学习-文件系统/" title= "Linux学习--文件系统">
+                    <div class="prevTitle">Linux学习--文件系统</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid= MTAyMC80NzEyMS8yMzYyMQ>
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/QQ.png" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#文件系统"><span class="toc-number">1.</span> <span class="toc-text">文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统是什么"><span class="toc-number">1.1.</span> <span class="toc-text">文件系统是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统的种类"><span class="toc-number">1.2.</span> <span class="toc-text">文件系统的种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统重要概念"><span class="toc-number">1.3.</span> <span class="toc-text">文件系统重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux文件的组成"><span class="toc-number">1.3.1.</span> <span class="toc-text">Linux文件的组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件系统重要参数"><span class="toc-number">1.3.2.</span> <span class="toc-text">文件系统重要参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#超级块（superblock）"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">超级块（superblock）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看文件系统的超级块信息-dumpe2fs"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">查看文件系统的超级块信息:dumpe2fs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件系统如何读取文件？"><span class="toc-number">1.3.3.</span> <span class="toc-text">文件系统如何读取文件？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核"><span class="toc-number">1.4.</span> <span class="toc-text">内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件类型"><span class="toc-number">1.5.</span> <span class="toc-text">文件类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软链接硬链接"><span class="toc-number">1.6.</span> <span class="toc-text">软链接硬链接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-number">2.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-删除一个文件删除了哪些东西？为什么数据可以恢复？"><span class="toc-number">2.1.</span> <span class="toc-text">1.删除一个文件删除了哪些东西？为什么数据可以恢复？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-新建一个分区10M，对格式化ext4—-gt-有多少的inode-有多少blcok"><span class="toc-number">2.2.</span> <span class="toc-text">2.新建一个分区10M，对格式化ext4—-&gt;有多少的inode,有多少blcok?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除一个大文件速度快，删除一个小文件速度快，或者是一样的？"><span class="toc-number">2.3.</span> <span class="toc-text">删除一个大文件速度快，删除一个小文件速度快，或者是一样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？"><span class="toc-number">2.4.</span> <span class="toc-text">nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 47
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统2/" >Linux学习--文件系统2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-开启启动流程/" >Linux学习--开启启动流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统/" >Linux学习--文件系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-日志/" >Linux学习--日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/【web服务器】-编译安装Apache和Tomcat/" >【web服务器】--编译安装Apache和Tomcat</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/Linux学习-计划任务/" >Linux学习--计划任务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/Linux学习-软件安装/" >Linux学习--软件安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/【Python学习】-paramiko/" >【Python学习】--paramiko</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【shell编程】-shell入门/" >【Shell编程】--Shell入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx配置文件详解/" >【web服务器】--Nginx配置文件详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【Git】-git入门/" >【Git】--git入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx入门/" >【web服务器】--Nginx入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【计算机网络】-WLAN/" >【计算机网络】--WLAN</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-传输层协议/" >【计算机网络】--传输层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/Linux基础-配置ip地址/" >Linux基础--配置ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/【计算机网络】-Linux实现路由功能/" >【计算机网络】--Linux实现路由功能</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/Linux基础-Linux常用文件及其作用/" >Linux基础--Linux常用文件及其作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-网络层协议/" >【计算机网络】--网络层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（四）-数据链路层/" >计算机网络（四）--数据链路层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（三）-物理层/" >计算机网络（三）--物理层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >计算机网络（二）--OSI7层和TCP/IP5层模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh服务/" >Linux学习-SSH服务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/Linux学习-selinux/" >Linux学习--SElinux安全系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/redis基础（一）/" >redis基础（一）--redis简介和基本操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo 插入音乐和视频/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="开机启动"><span class="iconfont-archer">&#xe606;</span>开机启动</span>
+    
+        <span class="sidebar-tag-name" data-tags="计划任务"><span class="iconfont-archer">&#xe606;</span>计划任务</span>
+    
+        <span class="sidebar-tag-name" data-tags="cortab"><span class="iconfont-archer">&#xe606;</span>cortab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="Tomcat"><span class="iconfont-archer">&#xe606;</span>Tomcat</span>
+    
+        <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
+    
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
+    
+        <span class="sidebar-tag-name" data-tags="文件系统"><span class="iconfont-archer">&#xe606;</span>文件系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
+    
+        <span class="sidebar-tag-name" data-tags="VLAN"><span class="iconfont-archer">&#xe606;</span>VLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
+    
+        <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
+    
+        <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
+    
+        <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+
+

@@ -345,6 +345,238 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/09/27/Linux基础-xshell/" >
+            
+                <span>Linux基础--xshell和虚拟机使用技巧（快照和挂起）</span>
+        </a>
+        <div class="abstract-content">
+            xshell的使用、虚拟机的使用技巧（快照和挂起）1.检查wins真实机器的vmnet1的ip 和Linux虚拟机的ip
+2.ping一下测试网络是否ping的通
+远程连接工具：
+​    xshell
+Xshell的使用1.填写ip地址
+
+2.输入用户密码
+3.选编码格式，建议utf-8
+虚拟机的使用技巧​    1.快照（snapshot）：创建一个Linux系统好的状态，一旦系统出现问题的时候，可以快速恢复到当时创建好的系统的状态。
+​        ——创建快照会消耗真实机器的磁盘空间
+
+挂起（suspend）:让虚拟机暂停在某个时间点    
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "xshell">xshell</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "VMware">VMware</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/09/27/Linux基础（二）-Linux命令/" >
+            
+                <span>Linux基础（二）--Linux命令</span>
+        </a>
+        <div class="abstract-content">
+            linux基本命令Linux网络设置
+
+桥接bridge:本地连接（有线网卡）、无线网络，，，相当于通过一个交换机通信
+NAT：
+host-only（仅主机模式）：只和真实机器VMnet1通信，不能和其他的主机通信
+
+
+
+
+配置ip地址（临时配置ip,重新启动会使ip地址失效）
+
+ip address add 192.168.20.24/24  dev eth0    —-》不会覆盖原来的ip地址，一个网卡可以有多个ip,推荐使用
+给eth0这个网卡配置ip地址192.168.20.24，子网掩码为255.255.255.0
+
+
+ifconfig (centos7 使用yum insta...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/09/26/linux基础（一）/" >
+            
+                <span>linux基础（一）---操作系统和Linux常用命令</span>
+        </a>
+        <div class="abstract-content">
+            操作系统
+操作系统就是特殊的软件
+
+作用
+
+
+直接操作硬件
+把操作硬件的代码封装成一个又一个系统调用，供其它的成员通过系统调用间接操作操作系统的硬件
+
+
+
+没有安装操作系统的计算机，被称为裸机
+
+
+系统调用的好处
+
+
+操作系统提供了不同的系统调用就可以直接和系统调用
+
+
+操作系统吧对内存对硬盘对声卡等的操作统统都变成系统调用，避免了繁琐的0101的编码
+
+
+不同应用领域的操作系统
+
+桌面操作系统
+
+
+windows系统
+
+
+应用软件多，用户群体大
+不稳定
+
+
+macOS
+
+
+适合开发人员
+
+
+linux
+
+
+应用软件少
+用户基数少
+
+
+
+
+服务器操作系统
+
+
+服务器
+
+
+硬件层面上：所谓...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "操作系统">操作系统</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/09/26/vim编辑器/" >
+            
+                <span>VIM编辑器</span>
+        </a>
+        <div class="abstract-content">
+            目标
+
+vi 简介
+打开和新建文件
+三种工作模式
+常用命令
+分屏命令
+常用命令速查图
+
+vi 简介学习 vi 的目的
+在工作中，要对 服务器 上的文件进行 简单 的修改，可以使用 ssh 远程登录到服务器上，并且使用 vi 进行快速的编辑即可
+
+常见需要修改的文件包括：
+
+
+源程序
+配置文件，例如 ssh 的配置文件 ~/.ssh/config
+在没有图形界面的环境下，要编辑文件，vi 是最佳选择！
+每一个要使用 Linux       的程序员，都应该或多或少的学习一些 vi 的常用命令
+
+
+
+vi 和 vim
+在很多 Linux 发行版中，直接把 vi 做成 vim 的软连接
+vi ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "VIM">VIM</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/09/25/hexo+github搭建静态博客/" >
             
                 <span>hexo+github搭建静态博客</span>
@@ -1169,9 +1401,129 @@ Markdown 编写的文档后缀为 .md, .markdown
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 43
+        Total : 47
         </div>
         <!-- search  -->
         
@@ -1184,6 +1536,26 @@ Markdown 编写的文档后缀为 .md, .markdown
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统2/" >Linux学习--文件系统2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-开启启动流程/" >Linux学习--开启启动流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统/" >Linux学习--文件系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-日志/" >Linux学习--日志</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1297,12 +1669,12 @@ Markdown 编写的文档后缀为 .md, .markdown
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
         </li>
     
     
@@ -1377,12 +1749,12 @@ Markdown 编写的文档后缀为 .md, .markdown
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
         </li>
     
     
@@ -1405,39 +1777,41 @@ Markdown 编写的文档后缀为 .md, .markdown
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
-    
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
     
         <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
     
-        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
     
         <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="开机启动"><span class="iconfont-archer">&#xe606;</span>开机启动</span>
     
         <span class="sidebar-tag-name" data-tags="计划任务"><span class="iconfont-archer">&#xe606;</span>计划任务</span>
     
         <span class="sidebar-tag-name" data-tags="cortab"><span class="iconfont-archer">&#xe606;</span>cortab</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
-    
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
     
-        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
     
         <span class="sidebar-tag-name" data-tags="Tomcat"><span class="iconfont-archer">&#xe606;</span>Tomcat</span>
     
         <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
     
-        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
-    
-        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
     
         <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
     
@@ -1445,13 +1819,19 @@ Markdown 编写的文档后缀为 .md, .markdown
     
         <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
     
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
         <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
     
         <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
-        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
     
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
@@ -1461,19 +1841,15 @@ Markdown 编写的文档后缀为 .md, .markdown
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
-        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
-    
-        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
-    
-        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
-    
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
         <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
     
-        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+        <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
     
-        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
+        <span class="sidebar-tag-name" data-tags="文件系统"><span class="iconfont-archer">&#xe606;</span>文件系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
     
@@ -1485,13 +1861,17 @@ Markdown 编写的文档后缀为 .md, .markdown
     
         <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
     
-        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
     
-        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
     
         <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
     
         <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
     
         <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
     
@@ -1534,15 +1914,17 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+        <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
     
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
-        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
     
         <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
     
-        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
     
@@ -1553,8 +1935,6 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
-    
-        <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
