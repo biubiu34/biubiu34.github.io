@@ -265,15 +265,15 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "磁盘">磁盘</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags = "文件系统">文件系统</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "磁盘">磁盘</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2.5k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">14 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -506,6 +506,26 @@ height:50vh;
 </li>
 </ul>
 </li>
+<li><h2 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h2><ul>
+<li><p>内核—》进程—》文件描述符</p>
+<ul>
+<li><p>文件描述符在形式上是一个非负整数。实际上，<strong>它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</strong></p>
+</li>
+<li><p><strong>文件描述符就是进程打开的每一个文件对应的一个编号，进程通过这个编号来找到相应的文件。</strong></p>
+<ul>
+<li>内核帮助进程维护一张文件描述符表：文件名 –》编号</li>
+</ul>
+</li>
+<li><p>每个进程里面都有自己独立的文件描述符,相互之间没有关系</p>
+</li>
+<li><p>文件描述符的有效范围是0到OPEN_MAX</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
 <li><h2 id="内核"><a href="#内核" class="headerlink" title="内核"></a>内核</h2><ul>
 <li><p>/boot<br>/<br>/data –》20G  —&gt;容量不够了，如何解决？</p>
 <p>linux的内核（kernel）：  linux内部最核心的软件–》c语言</p>
@@ -514,6 +534,18 @@ height:50vh;
 <p>​    1.对cpu进行调度<br>​    2.对内存进行分配管理<br>​    3.对进程进行管理<br>​    4.对文件系统进行管理</p>
 <p>​    5.对其他硬件进行管理</p>
 </blockquote>
+</li>
+<li><h3 id="查看内核相关参数"><a href="#查看内核相关参数" class="headerlink" title="查看内核相关参数"></a>查看内核相关参数</h3><ul>
+<li><p>ulimit -a</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@PC-2 fd]# ulimit -a</span><br><span class="line">core file size          (blocks, -c) 0</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 3802</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024 所以一个进程最多可以打开1024个文件</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 3802</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br><span class="line">[root@PC-2 fd]#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调大一个进程最多能打开的文件数量 ulimit -n 65535 </p>
+<ul>
+<li>相当于对内核参数进行调优 </li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </li>
@@ -529,7 +561,30 @@ height:50vh;
 </li>
 </ul>
 </li>
-<li><h2 id="软链接硬链接"><a href="#软链接硬链接" class="headerlink" title="软链接硬链接"></a>软链接硬链接</h2></li>
+<li><h2 id="软链接硬链接"><a href="#软链接硬链接" class="headerlink" title="软链接硬链接"></a>软链接硬链接</h2><ul>
+<li><h3 id="软链接和硬链接的区别"><a href="#软链接和硬链接的区别" class="headerlink" title="软链接和硬链接的区别"></a>软链接和硬链接的区别</h3><p>软链接：相当于windows里的快捷方式</p>
+<p>软链接是有自己的目录项和inode号，block里存放的是链接文件的文件名，然后通过文件名在去找原文件的内容</p>
+<ul>
+<li>软链接=符号文件，目录和文件都可以创建，删除源文件会导致链接文件失效</li>
+</ul>
+<p>硬链接是目录项里的文件名不同，但是inode号一样，指向同一个block</p>
+<p>软链接：删除原文件，链接文件不能访问 ，不同的目录项，不同的inode</p>
+<p>硬链接：删除原文件，还是可以访问  :相同的inode号–》block<br>目录项的文件名不一样，但是inode号一样。</p>
+<ul>
+<li><p>​    目录项的文件名不一样，但是inode号一样</p>
+</li>
+<li><p><img src="1571531745883.png" alt="1571531745883"></p>
+</li>
+</ul>
+</li>
+<li><h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">[root@disk 7_5]# ln  -s  nongda  nd</span><br><span class="line">[root@disk 7_5]# ll</span><br><span class="line">总用量 0</span><br><span class="line">lrwxrwxrwx. 1 root root  6 7月   5 14:51 nd -&gt; nongda</span><br><span class="line">drwxr-xr-x. 2 root root  6 7月   5 14:51 nongda</span><br><span class="line">drwxr-xr-x. 6 root root 69 7月   5 10:48 sanchuang</span><br><span class="line">[root@disk 7_5]# touch yx.txt</span><br><span class="line">[root@disk 7_5]# ls</span><br><span class="line">nd  nongda  sanchuang  yx.txt</span><br><span class="line">[root@disk 7_5]# ln -s yx.txt   yinxiang.txt</span><br><span class="line">[root@disk 7_5]# ll</span><br><span class="line">总用量 0</span><br><span class="line">lrwxrwxrwx. 1 root root  6 7月   5 14:51 nd -&gt; nongda</span><br><span class="line">drwxr-xr-x. 2 root root  6 7月   5 14:51 nongda</span><br><span class="line">drwxr-xr-x. 6 root root 69 7月   5 10:48 sanchuang</span><br><span class="line">lrwxrwxrwx. 1 root root  6 7月   5 14:54 yinxiang.txt -&gt; yx.txt</span><br><span class="line">-rw-r--r--. 1 root root  0 7月   5 14:54 yx.txt</span><br><span class="line">[root@disk 7_5]# </span><br><span class="line">[root@disk 7_5]# cd nd</span><br><span class="line">[root@disk nd]# ls</span><br><span class="line">cali  feng.txt</span><br><span class="line">[root@disk nd]# pwd</span><br><span class="line">/root/7_5/nd</span><br><span class="line">[root@disk nd]# pwd -P  显示真正的路径</span><br><span class="line">/root/7_5/nongda</span><br><span class="line">[root@disk nd]# man pwd</span><br><span class="line">[root@disk nd]# </span><br><span class="line"></span><br><span class="line">[root@localhost sanchuang]# ln -s dinglang  dl</span><br><span class="line">       -s, --symbolic   soft links  符号链接叫软链接</span><br><span class="line">              make symbolic links instead of hard links</span><br><span class="line"></span><br><span class="line">[root@localhost dl]# pwd -P</span><br><span class="line">/movie/sanchuang/dinglang</span><br><span class="line">[root@localhost dl]# </span><br><span class="line">[root@localhost dl]# ln jack/ jiezhu</span><br><span class="line">ln: &quot;jack/&quot;: 不允许将硬链接指向目录</span><br><span class="line">[root@localhost dl]#</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
 <li><h2 id="1-删除一个文件删除了哪些东西？为什么数据可以恢复？"><a href="#1-删除一个文件删除了哪些东西？为什么数据可以恢复？" class="headerlink" title="1.删除一个文件删除了哪些东西？为什么数据可以恢复？"></a>1.删除一个文件删除了哪些东西？为什么数据可以恢复？</h2><ul>
@@ -560,8 +615,8 @@ height:50vh;
 </li>
 <li><h2 id="nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？"><a href="#nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？" class="headerlink" title="nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？"></a>nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？</h2><pre><code>rm -rf  nginx.log  释放不了的
 
-&gt;nginx.log
-不能直接去删除这个文件</code></pre><ul>
+  &gt;nginx.log
+  不能直接去删除这个文件</code></pre><ul>
 <li>文件描述符：<ul>
 <li>进程里打开了哪些文件，进程会给文件进行编号。</li>
 </ul>
@@ -585,13 +640,18 @@ height:50vh;
             <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
             <p>原文链接：<a href="https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/">https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/</a>
             <p>发表日期：<a href="https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/">October 18th 2019, 9:33:32 pm</a>
-            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/">October 19th 2019, 12:12:33 am</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/18/Linux学习-文件系统2/">October 20th 2019, 9:02:34 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/20/Linux学习-raid和LVM/" title= "Linux学习--raid和LVM">
+                    <div class="nextTitle">Linux学习--raid和LVM</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -739,7 +799,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#文件系统"><span class="toc-number">1.</span> <span class="toc-text">文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统是什么"><span class="toc-number">1.1.</span> <span class="toc-text">文件系统是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统的种类"><span class="toc-number">1.2.</span> <span class="toc-text">文件系统的种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统重要概念"><span class="toc-number">1.3.</span> <span class="toc-text">文件系统重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux文件的组成"><span class="toc-number">1.3.1.</span> <span class="toc-text">Linux文件的组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件系统重要参数"><span class="toc-number">1.3.2.</span> <span class="toc-text">文件系统重要参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#超级块（superblock）"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">超级块（superblock）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看文件系统的超级块信息-dumpe2fs"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">查看文件系统的超级块信息:dumpe2fs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件系统如何读取文件？"><span class="toc-number">1.3.3.</span> <span class="toc-text">文件系统如何读取文件？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核"><span class="toc-number">1.4.</span> <span class="toc-text">内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件类型"><span class="toc-number">1.5.</span> <span class="toc-text">文件类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软链接硬链接"><span class="toc-number">1.6.</span> <span class="toc-text">软链接硬链接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-number">2.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-删除一个文件删除了哪些东西？为什么数据可以恢复？"><span class="toc-number">2.1.</span> <span class="toc-text">1.删除一个文件删除了哪些东西？为什么数据可以恢复？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-新建一个分区10M，对格式化ext4—-gt-有多少的inode-有多少blcok"><span class="toc-number">2.2.</span> <span class="toc-text">2.新建一个分区10M，对格式化ext4—-&gt;有多少的inode,有多少blcok?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除一个大文件速度快，删除一个小文件速度快，或者是一样的？"><span class="toc-number">2.3.</span> <span class="toc-text">删除一个大文件速度快，删除一个小文件速度快，或者是一样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？"><span class="toc-number">2.4.</span> <span class="toc-text">nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#文件系统"><span class="toc-number">1.</span> <span class="toc-text">文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统是什么"><span class="toc-number">1.1.</span> <span class="toc-text">文件系统是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统的种类"><span class="toc-number">1.2.</span> <span class="toc-text">文件系统的种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统重要概念"><span class="toc-number">1.3.</span> <span class="toc-text">文件系统重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux文件的组成"><span class="toc-number">1.3.1.</span> <span class="toc-text">Linux文件的组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件系统重要参数"><span class="toc-number">1.3.2.</span> <span class="toc-text">文件系统重要参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#超级块（superblock）"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">超级块（superblock）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看文件系统的超级块信息-dumpe2fs"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">查看文件系统的超级块信息:dumpe2fs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件系统如何读取文件？"><span class="toc-number">1.3.3.</span> <span class="toc-text">文件系统如何读取文件？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件描述符"><span class="toc-number">1.4.</span> <span class="toc-text">文件描述符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核"><span class="toc-number">1.5.</span> <span class="toc-text">内核</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看内核相关参数"><span class="toc-number">1.5.1.</span> <span class="toc-text">查看内核相关参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件类型"><span class="toc-number">1.6.</span> <span class="toc-text">文件类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软链接硬链接"><span class="toc-number">1.7.</span> <span class="toc-text">软链接硬链接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软链接和硬链接的区别"><span class="toc-number">1.7.1.</span> <span class="toc-text">软链接和硬链接的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#软链接"><span class="toc-number">1.7.2.</span> <span class="toc-text">软链接</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-number">2.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-删除一个文件删除了哪些东西？为什么数据可以恢复？"><span class="toc-number">2.1.</span> <span class="toc-text">1.删除一个文件删除了哪些东西？为什么数据可以恢复？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-新建一个分区10M，对格式化ext4—-gt-有多少的inode-有多少blcok"><span class="toc-number">2.2.</span> <span class="toc-text">2.新建一个分区10M，对格式化ext4—-&gt;有多少的inode,有多少blcok?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除一个大文件速度快，删除一个小文件速度快，或者是一样的？"><span class="toc-number">2.3.</span> <span class="toc-text">删除一个大文件速度快，删除一个小文件速度快，或者是一样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？"><span class="toc-number">2.4.</span> <span class="toc-text">nginx里有个日志文件将近10G了，需要清空这个文件，但是nginx服务一直在往这个文件里写数据，不允许停止nginx服务。直接删除这个10G的文件，是否空间就释放出来了？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1475,9 +1535,157 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 47
+        Total : 55
         </div>
         <!-- search  -->
         
@@ -1493,12 +1701,47 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统2/" >Linux学习--文件系统2</a>
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【Zabbix】-Zabbix安装部署/" >【Zabbix】--Zabbix安装部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-开启启动流程/" >Linux学习--开启启动流程</a>
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【Zabbix】-Zabbix学习/" >【Zabbix】--Zabbix学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【自动化运维】-Ansible的Playbook模式/" >【自动化运维】--Ansible的Playbook模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/【自动化运维】-ansible/" >【自动化运维】--Ansible</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/【自动化运维】-自动化运维概述/" >【自动化运维】--自动化运维概述</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux服务-DNS/" >Linux服务--DNS</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux学习-NFS文件系统/" >Linux学习--NFS文件系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux学习-raid和LVM/" >Linux学习--raid和LVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统2/" >Linux学习--文件系统2</a>
         </li>
     
     
@@ -1508,17 +1751,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-开启启动流程/" >Linux学习--开启启动流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-日志/" >Linux学习--日志</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/【web服务器】-编译安装Apache和Tomcat/" >【web服务器】--编译安装Apache和Tomcat</a>
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/Linux学习-计划任务/" >Linux学习--计划任务</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/Linux学习-计划任务/" >Linux学习--计划任务</a>
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/【web服务器】-编译安装Apache和Tomcat/" >【web服务器】--编译安装Apache和Tomcat</a>
         </li>
     
     
@@ -1745,6 +1993,12 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="开机启动"><span class="iconfont-archer">&#xe606;</span>开机启动</span>
     
+        <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
+    
+        <span class="sidebar-tag-name" data-tags="LVM"><span class="iconfont-archer">&#xe606;</span>LVM</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNS"><span class="iconfont-archer">&#xe606;</span>DNS</span>
+    
         <span class="sidebar-tag-name" data-tags="计划任务"><span class="iconfont-archer">&#xe606;</span>计划任务</span>
     
         <span class="sidebar-tag-name" data-tags="cortab"><span class="iconfont-archer">&#xe606;</span>cortab</span>
@@ -1753,11 +2007,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
-    
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
     
-        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
     
         <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
     
@@ -1765,7 +2019,7 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
     
-        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
     
         <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
     
@@ -1773,19 +2027,19 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
     
-        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
-    
         <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
     
         <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
-    
-        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
         <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
     
         <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevOps"><span class="iconfont-archer">&#xe606;</span>DevOps</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
         <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
     
@@ -1795,13 +2049,15 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
     
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
-        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
-    
-        <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
     
         <span class="sidebar-tag-name" data-tags="文件系统"><span class="iconfont-archer">&#xe606;</span>文件系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
     
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
@@ -1815,7 +2071,7 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
     
-        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
+        <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
     
         <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
     
@@ -1823,15 +2079,23 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
     
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
         <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
         <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
     
         <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
     
         <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
     
+        <span class="sidebar-tag-name" data-tags="Ansile"><span class="iconfont-archer">&#xe606;</span>Ansile</span>
+    
         <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1870,25 +2134,31 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
     
+        <span class="sidebar-category-name" data-categories="Linux服务"><span class="iconfont-archer">&#xe60a;</span>Linux服务</span>
+    
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
         <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
-        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
     
         <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
     
-        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
     
         <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="自动化运维"><span class="iconfont-archer">&#xe60a;</span>自动化运维</span>
     
         <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
     
         <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
     
-        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
+        <span class="sidebar-category-name" data-categories="Zabbix监控"><span class="iconfont-archer">&#xe60a;</span>Zabbix监控</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

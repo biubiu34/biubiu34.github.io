@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>【Zabbix】--Zabbix学习 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【Zabbix】--Zabbix学习</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            【Zabbix】--Zabbix学习
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Zabbix">Zabbix</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.2k</span>阅读时长: <span class="post-count reading-time">14 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/21</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><p>​    监控： monitor</p>
+<p>运维：<br>    1.自动化<br>    2.智能化<br>    3.可视化</p>
+<ul>
+<li><h2 id="常见的开源的监控软件的名字："><a href="#常见的开源的监控软件的名字：" class="headerlink" title="常见的开源的监控软件的名字："></a>常见的开源的监控软件的名字：</h2><p>1.zabbix – 》cacti和nagios的结合体，图形和脚本都比较好<br>2.cacti –》图形显示非常好<br>3.nagios  –》监控脚本非常丰富</p>
+</li>
+<li><ul>
+<li><h3 id="1-为什么要监控？"><a href="#1-为什么要监控？" class="headerlink" title="1.为什么要监控？"></a>1.为什么要监控？</h3><p>​    及早的发现问题，将问题消灭在萌芽状态。保障公司业务的正常开展运行。</p>
+<ul>
+<li><blockquote>
+<p>  　　在需要的时刻，提前提醒我们服务器出问题了</p>
+<p> 　　 当出问题之后，可以找到问题的根源</p>
+<p> 　 网站/服务器 的可用性</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-监控什么东西？"><a href="#2-监控什么东西？" class="headerlink" title="2.监控什么东西？"></a>2.监控什么东西？</h3><p>​    cpu、内存、磁盘、带宽、运行的服务（web、db、mail、dns、ftp、NFS、ssh等）<br>​    阈值：警告值</p>
+<ul>
+<li><img src="1190037-20171123164550743-1527232078.png" alt="img"> </li>
+</ul>
+<h3 id="3-具体监控的东西的指标？"><a href="#3-具体监控的东西的指标？" class="headerlink" title="3.具体监控的东西的指标？"></a>3.具体监控的东西的指标？</h3><p>​    cpu使用率—》80%<br>​    数据指标是多少？–》经验值–》前辈（或者自己）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Zabbix"><a href="#Zabbix" class="headerlink" title="Zabbix"></a>Zabbix</h1><ul>
+<li><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>Zabbix 是一个企业级的分布式开源监控方案。  zabbix就是一个监控软件。<br>Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。<br>Zabbix是免费的。</p>
+<p>Zabbix 是由 Alexei Vladishev 开发的一种网络监视、管理系统，<strong>基于 Server-Client 架构</strong>。可用于监视各种网络服务、服务器和网络机器等状态。</p>
+<p><strong>zabbix由2部分构成，zabbix server与可选组件zabbix agent。</strong></p>
+<p>zabbix server可以通过<strong>SNMP，zabbix agent，ping，端口监视等方法提供对远程服务器/网络状态的监视，数据收集等功能，</strong>它可以运行在路由器和交换机、Linux，Solaris，HP-UX，AIX，Free BSD，Open BSD，OS X等平台上。</p>
+<ul>
+<li><blockquote>
+<p>SNMP :简单网络管理协议（Simple Network Management Protocol）</p>
+<p>硬件：服务器、网络设备（路由器和交换机）  up和down</p>
+<p>服务：数据库、web、ftp、mail等服务</p>
+<p>性能参数：cpu、内存、磁盘IO、网络流量、进程、端口等</p>
+<p>同类型的监控软件：cacti、nagios</p>
+<p>zabbix集cacti、nagios的优点于一身，集大成者。</p>
+<p>使用php语言开发，需要安装部署<strong>LAMP</strong>环境。</p>
+<blockquote>
+<p>LNMP: Linux  nginx  MySQL   php/python/perl  –&gt;集成开发环境</p>
+<p>LAMP：Linux  apache MySQL   php/python/perl<br>WAMP: windows apache MySQL   php<br>WNMP: windows nginx MySQL    php</p>
+<blockquote>
+<p>php和网站相关的技术结合更紧密–》html和js、css</p>
+<p>python和php、java<br>python：运维工具（devops）、数据分析、人工智能、爬虫、网站–》互联化<br>php：网站<br>java：写软件–》android–》java—》软件（无纸化办公，信息化建设）</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><ul>
+<li><p>官方：</p>
+<blockquote>
+<p><a href="https://www.zabbix.com/" target="_blank" rel="noopener">https://www.zabbix.com/</a></p>
+<p><a href="https://www.zabbix.com/documentation/3.4/zh/manual" target="_blank" rel="noopener">https://www.zabbix.com/documentation/3.4/zh/manual</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="zabbix监控范畴"><a href="#zabbix监控范畴" class="headerlink" title="zabbix监控范畴"></a>zabbix监控范畴</h2><p>　　² 硬件监控 ：Zabbix IPMI Interface</p>
+<p>　　² 系统监控 ：Zabbix Agent Interface</p>
+<p>　　² Java 监控：ZabbixJMX Interface</p>
+<p>　　² 网络设备监抟：Zabbix SNMP Interface</p>
+<p>　　² 应用服务监控：Zabbix Agent UserParameter</p>
+<p>　　² MySQL 数据库监控：percona-monitoring-pldlgins</p>
+<p>　　² URL监控：Zabbix Web监控</p>
+</li>
+<li><h2 id="Zabbix架构和原理"><a href="#Zabbix架构和原理" class="headerlink" title="Zabbix架构和原理"></a>Zabbix架构和原理</h2><ul>
+<li><p>架构：C/S</p>
+</li>
+<li><p><img src="1571641126297.png" alt="1571641126297"></p>
+<ul>
+<li><h3 id="重要组件说明："><a href="#重要组件说明：" class="headerlink" title="重要组件说明："></a><strong>重要组件说明：</strong></h3><p>1）zabbix server:负责接收agent发送的报告信息的核心组件，所有配置、统计数据及操作数据都由它组织进行；</p>
+<p>2）database storage：专用于存储所有配置信息，以及由zabbix收集的数据；</p>
+<p>3）web interface：zabbix的GUI接口；</p>
+<p>4）proxy：可选组件，常用于监控节点很多的分布式环境中，代理server收集部分数据转发到poxy，可以减轻server的压力；</p>
+<p>5）agent：部署在被监控的主机上，负责收集主机本地数据如cpu、内存、数据库等数据发往server端或proxy端；</p>
+<p>另外，zabbix server、proxy、agent都有自己的配置文件以及log文件，重要的参数需要在这里配置，后面会详细说明。</p>
+</li>
+</ul>
+</li>
+<li><h3 id="一个监控系统运行的大概的流程是这样的："><a href="#一个监控系统运行的大概的流程是这样的：" class="headerlink" title="一个监控系统运行的大概的流程是这样的："></a>一个监控系统运行的大概的流程是这样的：</h3><p>agentd需要安装到被监控的主机上，它负责定期收集各项数据，并发送到zabbix server端，zabbix server将数据存储到数据库中，zabbix web根据数据在前端进行展现和绘图。这里agentd收集数据分为<strong>主动和被动</strong>两种模式：</p>
+<ul>
+<li><p>主动：agent请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server/proxy</p>
+</li>
+<li><p>被动：server向agent请求获取监控项的数据，agent返回数据。</p>
+</li>
+</ul>
+</li>
+<li><h3 id="常用的监控架构平台"><a href="#常用的监控架构平台" class="headerlink" title="常用的监控架构平台"></a>常用的监控架构平台</h3><p>1、server-agentd模式：</p>
+<p>这个是最简单的架构了，常用于监控主机比较少的情况下。</p>
+<p>2、server-proxy-agentd模式：</p>
+<p>这个常用于比较多的机器，使用proxy进行分布式监控，有效的减轻server端的压力。</p>
+</li>
+</ul>
+</li>
+<li><h2 id="zabbix-server端"><a href="#zabbix-server端" class="headerlink" title="zabbix-server端"></a>zabbix-server端</h2><ul>
+<li><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li><h4 id="使用yum方式安装："><a href="#使用yum方式安装：" class="headerlink" title="使用yum方式安装："></a>使用yum方式安装：</h4><ul>
+<li><h5 id="开始安装zabbix的资源仓库包："><a href="#开始安装zabbix的资源仓库包：" class="headerlink" title="开始安装zabbix的资源仓库包："></a>开始安装zabbix的资源仓库包：</h5></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h5 id="安装Zabbix部署包"><a href="#安装Zabbix部署包" class="headerlink" title="安装Zabbix部署包"></a>安装Zabbix部署包</h5><ul>
+<li>安装Zabbix部署包。以下是使用Mysql数据库安装Zabbix server、WEB前端的示例</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix yum.repos.d]# yum install zabbix-server-mysql  zabbix-web-mysql    -y 安装服务端的软件</span><br><span class="line">[root@zabbix yum.repos.d]# yum install zabbix-agent  -y   安装客户端的软件（因为机器不多，顺便也监控下自己，多搞几台机器看效果），服务器端不需要安装agent这个软件。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="安装Zabbix-Agent-Agent包安装到被监控服务器上。"><a href="#安装Zabbix-Agent-Agent包安装到被监控服务器上。" class="headerlink" title="安装Zabbix Agent. Agent包安装到被监控服务器上。"></a>安装Zabbix Agent. Agent包安装到被监控服务器上。</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">下面是在2台被监控的服务器上安装agent端软件</span><br><span class="line">[root@node1 ~]# rpm -ivh http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm</span><br><span class="line">[root@node1 ~]#  yum install zabbix-agent  -y</span><br><span class="line"></span><br><span class="line">[root@node2 ~]# rpm -ivh http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm</span><br><span class="line">[root@node2 ~]# yum install zabbix-agent  -y</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h4 id="需要你提前安装好mysql，但是数据库也可以使用Mariadb"><a href="#需要你提前安装好mysql，但是数据库也可以使用Mariadb" class="headerlink" title="需要你提前安装好mysql，但是数据库也可以使用Mariadb"></a>需要你提前安装好mysql，但是数据库也可以使用Mariadb</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@new-zabbix ~]# yum install mariadb  mariadb-server -y</span><br><span class="line"></span><br><span class="line">[root@zabbix ~]# ps aux|grep mysqld</span><br><span class="line">root       6572  0.0  0.0 115432  1728 ?        S    7月04   0:00 /bin/sh /usr/local/mysql/bin/mysqld_safe --datadir=/data/mysql --pid-file=/data/mysql/mysql-2.pid</span><br><span class="line">mysql      6836  0.0 14.9 1768900 278788 ?      Sl   7月04   6:19 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/data/mysql --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/var/log/mysql/mysql.log --open-files-limit=8192 --pid-file=/data/mysql/mysql-2.pid --socket=/data/mysql/mysql.sock --port=3309</span><br><span class="line">root      48590  0.0  0.0 112728   988 pts/0    S+   15:08   0:00 grep --color=auto mysqld</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="建库建表授权用户"><a href="#建库建表授权用户" class="headerlink" title="建库建表授权用户"></a>建库建表授权用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix ~]# </span><br><span class="line">[root@zabbix ~]# mysql -uroot -pSanchuang12345#</span><br><span class="line">mysql: [Warning] Using a password on the command line interface can be insecure.</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 109</span><br><span class="line">Server version: 5.7.25 Source distribution</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &apos;help;&apos; or &apos;\h&apos; for help. Type &apos;\c&apos; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">root@(none) 15:08  mysql&gt;</span><br><span class="line">root@(none) 15:10  mysql&gt;create database zabbix character set utf8 collate utf8_bin; 建库</span><br><span class="line">Query OK, 1 row affected (0.07 sec)</span><br><span class="line"></span><br><span class="line">root@(none) 15:11  mysql&gt; grant all privileges on zabbix.* to zabbix@localhost identified by &apos;zabbix123&apos;; 新建用户并且授权</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.15 sec)</span><br><span class="line"></span><br><span class="line">root@(none) 15:12  mysql&gt;quit</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>授权的zabbix用户和密码zabbix123是用来连接数据库的，不是用来登录zabbix web界面系统的</strong></li>
+</ul>
+</li>
+<li><h4 id="导入zabbix相关的表和数据到MySQL数据库"><a href="#导入zabbix相关的表和数据到MySQL数据库" class="headerlink" title="导入zabbix相关的表和数据到MySQL数据库"></a>导入zabbix相关的表和数据到MySQL数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix ~]#</span><br><span class="line"></span><br><span class="line">[root@zabbix ~]# zcat /usr/share/doc/zabbix-server-mysql-4.0.10/create.sql.gz |mysql -uzabbix -pzabbix123 zabbix</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="检查下selinux和iptables防火墙的状态，建议关闭"><a href="#检查下selinux和iptables防火墙的状态，建议关闭" class="headerlink" title="检查下selinux和iptables防火墙的状态，建议关闭"></a>检查下selinux和iptables防火墙的状态，建议关闭</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix zabbix-server-mysql-4.0.10]# getenforce </span><br><span class="line">Disabled</span><br><span class="line">[root@zabbix zabbix-server-mysql-4.0.10]# iptables -L</span><br><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line">[root@zabbix zabbix-server-mysql-4.0.10]#</span><br><span class="line"></span><br><span class="line">[root@localhost zabbix]# setenforce 0  临时关闭selinux安全机制，立马生效</span><br><span class="line">[root@localhost zabbix]# </span><br><span class="line">[root@localhost zabbix]# vim /etc/sysconfig/selinux </span><br><span class="line">SELINUX=disabled  #禁用selinux，但是需要重新启动系统才会生效</span><br><span class="line">[root@localhost zabbix]# reboot</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="启动Zabbix-Server进程"><a href="#启动Zabbix-Server进程" class="headerlink" title="启动Zabbix Server进程"></a>启动Zabbix Server进程</h4><p>在zabbix_server.conf中编辑数据库配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/zabbix/zabbix_server.conf</span><br><span class="line"></span><br><span class="line">DBHost=localhost</span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=zabbix</span><br><span class="line">DBPassword=zabbix123</span><br><span class="line"></span><br><span class="line">启动Zabbix Server进程</span><br><span class="line">service zabbix-server start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>要确保mariadb,zabbix-server,zabbix-agent进程都是启动的</p>
+</li>
+<li><h4 id="Zabbix-前端配置，编辑Zabbix前端的PHP配置"><a href="#Zabbix-前端配置，编辑Zabbix前端的PHP配置" class="headerlink" title="Zabbix 前端配置，编辑Zabbix前端的PHP配置"></a>Zabbix 前端配置，编辑Zabbix前端的PHP配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix zabbix]# timedatectl   #查看时区</span><br><span class="line">      Local time: 四 2019-07-11 15:29:49 CST</span><br><span class="line">  Universal time: 四 2019-07-11 07:29:49 UTC</span><br><span class="line">        RTC time: 四 2019-07-11 07:29:49</span><br><span class="line">       Time zone: Asia/Shanghai (CST, +0800)</span><br><span class="line">     NTP enabled: yes</span><br><span class="line">NTP synchronized: yes</span><br><span class="line"> RTC in local TZ: no</span><br><span class="line">      DST active: n/a</span><br><span class="line">[root@zabbix zabbix]#</span><br><span class="line"></span><br><span class="line">zabbix前端的Apache配置文件位于 /etc/httpd/conf.d/zabbix.conf 。一些PHP设置已经完成了配置。</span><br><span class="line">php_value max_execution_time 300</span><br><span class="line">php_value memory_limit 128M</span><br><span class="line">php_value post_max_size 16M</span><br><span class="line">php_value upload_max_filesize 2M</span><br><span class="line">php_value max_input_time 300</span><br><span class="line">php_value always_populate_raw_post_data -1</span><br><span class="line">php_value date.timezone Asia/Shanghai  #修改</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="zabbix-get检测连通性"><a href="#zabbix-get检测连通性" class="headerlink" title="zabbix-get检测连通性"></a>zabbix-get检测连通性</h2><ul>
+<li><p>在服务端进行测试<br>注意：只能在服务端进行测试</p>
+<p>出错的情况，因为agent端没有允许服务器端过来采集数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">修改客户端上的配置文件，里面的Server配置项为zabbix 服务器的ip地址，允许服务器过来采集数据</span><br><span class="line">[root@zabbix zabbix]# vim /etc/zabbix/zabbix_agentd.conf </span><br><span class="line">Server=192.168.1.206  #修改为允许来采集数据的服务器ip，不然下面的zabbix_get命令不能去采集数据</span><br><span class="line">ServerActive=192.168.0.206</span><br><span class="line">[root@zabbix zabbix]# zabbix_get -s 192.168.1.126 -p 10050 -k &quot;system.cpu.load[all,avg1]&quot;</span><br><span class="line">zabbix_get [48863]: Check access restrictions in Zabbix agent configuration</span><br><span class="line">[root@zabbix zabbix]#</span><br><span class="line"></span><br><span class="line">[root@zabbix zabbix]# zabbix_get -s 127.0.0.1 -p 10050 -k &quot;system.cpu.load[all,avg1]&quot;</span><br><span class="line">0.010000</span><br><span class="line">[root@zabbix zabbix]# zabbix_get -s 192.168.1.126 -p 10050 -k &quot;system.cpu.load[all,avg1]&quot;</span><br><span class="line">0.060000</span><br><span class="line">[root@zabbix zabbix]#</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h2 id="zabbix客户端"><a href="#zabbix客户端" class="headerlink" title="zabbix客户端"></a>zabbix客户端</h2><ul>
+<li><h3 id="安装启动agent"><a href="#安装启动agent" class="headerlink" title="安装启动agent"></a>安装启动agent</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">运行以下命令以安装 Zabbix agent ：</span><br><span class="line"></span><br><span class="line"># yum install zabbix-agent</span><br><span class="line"></span><br><span class="line">运行以下命令以启动 Zabbix agent：</span><br><span class="line"></span><br><span class="line">[root@node1 ~]# service zabbix-agent  start</span><br><span class="line">Redirecting to /bin/systemctl start zabbix-agent.service</span><br><span class="line">[root@node1 ~]# getenforce </span><br><span class="line">Disabled</span><br><span class="line">[root@node1 ~]# iptables -L</span><br><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line">[root@node1 ~]# </span><br><span class="line">[root@node2 ~]# ps aux|grep zabbix</span><br><span class="line">zabbix    17017  0.0  0.1  80828  1276 ?        S    15:36   0:00 /usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf</span><br><span class="line">zabbix    17018  0.0  0.1  80828  1316 ?        S    15:36   0:00 /usr/sbin/zabbix_agentd: collector [idle 1 sec]</span><br><span class="line">zabbix    17019  0.0  0.1  80828  1832 ?        S    15:36   0:00 /usr/sbin/zabbix_agentd: listener #1 [waiting for connection]</span><br><span class="line">zabbix    17020  0.0  0.1  80828  1832 ?        S    15:36   0:00 /usr/sbin/zabbix_agentd: listener #2 [waiting for connection]</span><br><span class="line">zabbix    17021  0.0  0.1  80828  1832 ?        S    15:36   0:00 /usr/sbin/zabbix_agentd: listener #3 [waiting for connection]</span><br><span class="line">zabbix    17022  0.0  0.2  80960  2212 ?        S    15:36   0:00 /usr/sbin/zabbix_agentd: active checks #1 [idle 1 sec]</span><br><span class="line">root      17026  0.0  0.0 112724   988 pts/0    R+   15:37   0:00 grep --color=auto zabbix</span><br><span class="line">[root@node2 ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="web-界面"><a href="#web-界面" class="headerlink" title="web 界面"></a>web 界面</h2><ul>
+<li><h3 id="web界面里开始安装，打开浏览器输入URL，如下"><a href="#web界面里开始安装，打开浏览器输入URL，如下" class="headerlink" title="web界面里开始安装，打开浏览器输入URL，如下"></a>web界面里开始安装，打开浏览器输入URL，如下</h3><p><a href="http://192.168.1.139/zabbix/setup.php" target="_blank" rel="noopener">http://192.168.1.139/zabbix/setup.php</a></p>
+</li>
+<li><h3 id="添加监控主机、打开图形效率"><a href="#添加监控主机、打开图形效率" class="headerlink" title="添加监控主机、打开图形效率"></a>添加监控主机、打开图形效率</h3><p>配置–》主机</p>
+<pre><code>Zabbix server    应用集 11    监控项 88    触发器 50    图形 14    自动发现 2    Web监测    127.0.0.1: 10050</code></pre><p>应用集  –》应用的方向的功能集合</p>
+<p>监控项  –》具体需要监控的项目</p>
+<p>触发器  –》监控的内容到达设置的条件（阈值），会触发警告</p>
+<p>图形  –》监控的数据图形化展示</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>自动发现  --》设置某些条件，只要出现了，就zabbix马上监控
+
+Web监测   --》 通过网站上显示监控
+接口         --》 127.0.0.1: 10050  其实我们是通过zabbix-agent去监控 
+
+模板       --》里面有很多已经设置好的应用集和监控项、触发器  --》监控的样板设置
+
+- 增加模板---》会增加应用集--》多了监控项和触发器</code></pre><ul>
+<li><h3 id="出图的中文乱码问题："><a href="#出图的中文乱码问题：" class="headerlink" title="出图的中文乱码问题："></a>出图的中文乱码问题：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- [root@mysql-server conf.d]# yum install wqy-microhei-fonts -y</span><br><span class="line">  [root@zabbix zabbix]# alternatives --install /usr/share/zabbix/assets/fonts/graphfont.ttf zabbix-web-font /usr/share/fonts/wqy-microhei/wqy-microhei.ttc 20</span><br><span class="line">  [root@zabbix zabbix]# </span><br><span class="line"></span><br><span class="line">[root@zabbix-server conf.d]# cp /usr/share/fonts/wqy-microhei/wqy-microhei.ttc  /usr/share/fonts/dejavu/DejaVuSans.ttf</span><br><span class="line">cp：是否覆盖&quot;/usr/share/fonts/dejavu/DejaVuSans.ttf&quot;？ y</span><br><span class="line">[root@zabbix-server conf.d]#</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><h3 id="添加图形："><a href="#添加图形：" class="headerlink" title="添加图形："></a>添加图形：</h3><p>​    图形其实是某个监控的项目出图</p>
+</li>
+<li><h3 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h3><p>/usr/sbin/zabbix_server: poller  —》主动去取<br>/usr/sbin/zabbix_server: trapper  –》等着agetn送数据过来</p>
+</li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li><h2 id="top："><a href="#top：" class="headerlink" title="top："></a>top：</h2><p>​    进程的排序默认是根据cpu使用率<br>​    P  cpu使用率排序<br>​    M  memory 使用率排序</p>
+</li>
+<li><h2 id="zabbix排错的思路："><a href="#zabbix排错的思路：" class="headerlink" title="zabbix排错的思路："></a>zabbix排错的思路：</h2><p>​    1.selinux是否关闭<br>​    2.配置文件是否修改<br>​    3.看日志了解问题<br>​    4.数据库的表没有导入</p>
+</li>
+<li><h2 id="zabbix自定义监控项："><a href="#zabbix自定义监控项：" class="headerlink" title="zabbix自定义监控项："></a>zabbix自定义监控项：</h2><p>​    1.到客户机上编写脚本<br>​    2.在客户机定义key<br>​    UnsafeUserParameters=1<br>​    UserParameter=my.estab.count,/usr/local/sbin/estab.sh<br>​    3.在server上添加监控项<br>​    4.添加图形</p>
+</li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li><h2 id="zabbix的server端启动不起来："><a href="#zabbix的server端启动不起来：" class="headerlink" title="zabbix的server端启动不起来："></a>zabbix的server端启动不起来：</h2><ul>
+<li><p>数据库连接不上导致zabbix-ser启动失败，因为我们还没有去zabbix相关的建库建表</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">原因是selinux没有禁用导致，建议关闭</span><br><span class="line">[root@fengdeyong run]# vim /etc/sysconfig/selinux  永久关闭</span><br><span class="line">SELINUX=disabled</span><br><span class="line">[root@fengdeyong run]# setenforce 0 临时关闭</span><br><span class="line">[root@fengdeyong run]# getenforce   #查看selinux的状态，建议关闭</span><br><span class="line">Permissive</span><br><span class="line">[root@mysql-server zabbix]#</span><br><span class="line"></span><br><span class="line">[root@zabbix zabbix]# ps aux|grep zabbix  说明zabbix已经启动</span><br><span class="line">zabbix    48631  0.0  0.1 257624  3384 ?        S    15:26   0:00 /usr/sbin/zabbix_server -c /etc/zabbix/zabbix_server.conf</span><br><span class="line">root      48634  0.0  0.0 112724   988 pts/0    S+   15:26   0:00 grep --color=auto zabbix</span><br><span class="line">[root@zabbix zabbix]#</span><br><span class="line">并在系统启动时让它自启：</span><br><span class="line">[root@zabbix zabbix]# systemctl enable zabbix-server</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/zabbix-server.service to /usr/lib/systemd/system/zabbix-server.service.</span><br><span class="line">[root@zabbix zabbix]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h2 id="zabbix-server会监听哪个端口，zabbix-agent监听的端口？"><a href="#zabbix-server会监听哪个端口，zabbix-agent监听的端口？" class="headerlink" title="zabbix-server会监听哪个端口，zabbix-agent监听的端口？"></a>zabbix-server会监听哪个端口，zabbix-agent监听的端口？</h2><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@node2 ~]# netstat -anplut|grep zabbix</span><br><span class="line">tcp        0      0 0.0.0.0:10050           0.0.0.0:*               LISTEN      17017/zabbix_agentd </span><br><span class="line">tcp6       0      0 :::10050                :::*                    LISTEN      17017/zabbix_agentd </span><br><span class="line">[root@node2 ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h2 id="没有看到服务器端的开放端口"><a href="#没有看到服务器端的开放端口" class="headerlink" title="没有看到服务器端的开放端口"></a>没有看到服务器端的开放端口</h2></li>
+</ul>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><p><a href="https://www.cnblogs.com/mysql-dba/p/5010902.html" target="_blank" rel="noopener">zabbix实现原理及架构详解</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/clsn/p/7885990.html" target="_blank" rel="noopener">Zabbix 3.0 从入门到精通(zabbix使用详解)</a></p>
+</li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/21/【Zabbix】-Zabbix学习/">https://biubiu34.github.io/2019/10/21/【Zabbix】-Zabbix学习/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/21/【Zabbix】-Zabbix学习/">October 21st 2019, 2:15:26 pm</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/21/【Zabbix】-Zabbix学习/">October 21st 2019, 10:28:38 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/21/【Zabbix】-Zabbix安装部署/" title= "【Zabbix】--Zabbix安装部署">
+                    <div class="nextTitle">【Zabbix】--Zabbix安装部署</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/21/【自动化运维】-Ansible的Playbook模式/" title= "【自动化运维】--Ansible的Playbook模式">
+                    <div class="prevTitle">【自动化运维】--Ansible的Playbook模式</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid= MTAyMC80NzEyMS8yMzYyMQ>
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/QQ.png" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#监控"><span class="toc-number">1.</span> <span class="toc-text">监控</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的开源的监控软件的名字："><span class="toc-number">1.1.</span> <span class="toc-text">常见的开源的监控软件的名字：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-为什么要监控？"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.为什么要监控？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-监控什么东西？"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.监控什么东西？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-具体监控的东西的指标？"><span class="toc-number">1.1.3.</span> <span class="toc-text">3.具体监控的东西的指标？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Zabbix"><span class="toc-number">2.</span> <span class="toc-text">Zabbix</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#官方文档"><span class="toc-number">2.1.1.</span> <span class="toc-text">官方文档</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix监控范畴"><span class="toc-number">2.2.</span> <span class="toc-text">zabbix监控范畴</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Zabbix架构和原理"><span class="toc-number">2.3.</span> <span class="toc-text">Zabbix架构和原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重要组件说明："><span class="toc-number">2.3.1.</span> <span class="toc-text">重要组件说明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一个监控系统运行的大概的流程是这样的："><span class="toc-number">2.3.2.</span> <span class="toc-text">一个监控系统运行的大概的流程是这样的：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的监控架构平台"><span class="toc-number">2.3.3.</span> <span class="toc-text">常用的监控架构平台</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix-server端"><span class="toc-number">2.4.</span> <span class="toc-text">zabbix-server端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">2.4.1.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用yum方式安装："><span class="toc-number">2.4.1.1.</span> <span class="toc-text">使用yum方式安装：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#开始安装zabbix的资源仓库包："><span class="toc-number">2.4.1.1.1.</span> <span class="toc-text">开始安装zabbix的资源仓库包：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#安装Zabbix部署包"><span class="toc-number">2.4.1.1.2.</span> <span class="toc-text">安装Zabbix部署包</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装Zabbix-Agent-Agent包安装到被监控服务器上。"><span class="toc-number">2.4.1.2.</span> <span class="toc-text">安装Zabbix Agent. Agent包安装到被监控服务器上。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#需要你提前安装好mysql，但是数据库也可以使用Mariadb"><span class="toc-number">2.4.1.3.</span> <span class="toc-text">需要你提前安装好mysql，但是数据库也可以使用Mariadb</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#建库建表授权用户"><span class="toc-number">2.4.1.4.</span> <span class="toc-text">建库建表授权用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导入zabbix相关的表和数据到MySQL数据库"><span class="toc-number">2.4.1.5.</span> <span class="toc-text">导入zabbix相关的表和数据到MySQL数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#检查下selinux和iptables防火墙的状态，建议关闭"><span class="toc-number">2.4.1.6.</span> <span class="toc-text">检查下selinux和iptables防火墙的状态，建议关闭</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动Zabbix-Server进程"><span class="toc-number">2.4.1.7.</span> <span class="toc-text">启动Zabbix Server进程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Zabbix-前端配置，编辑Zabbix前端的PHP配置"><span class="toc-number">2.4.1.8.</span> <span class="toc-text">Zabbix 前端配置，编辑Zabbix前端的PHP配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix-get检测连通性"><span class="toc-number">2.5.</span> <span class="toc-text">zabbix-get检测连通性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix客户端"><span class="toc-number">2.6.</span> <span class="toc-text">zabbix客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装启动agent"><span class="toc-number">2.6.1.</span> <span class="toc-text">安装启动agent</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web-界面"><span class="toc-number">2.7.</span> <span class="toc-text">web 界面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#web界面里开始安装，打开浏览器输入URL，如下"><span class="toc-number">2.7.1.</span> <span class="toc-text">web界面里开始安装，打开浏览器输入URL，如下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加监控主机、打开图形效率"><span class="toc-number">2.7.2.</span> <span class="toc-text">添加监控主机、打开图形效率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#出图的中文乱码问题："><span class="toc-number">2.7.3.</span> <span class="toc-text">出图的中文乱码问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加图形："><span class="toc-number">2.7.4.</span> <span class="toc-text">添加图形：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他："><span class="toc-number">2.7.5.</span> <span class="toc-text">其他：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他"><span class="toc-number">3.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#top："><span class="toc-number">3.1.</span> <span class="toc-text">top：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix排错的思路："><span class="toc-number">3.2.</span> <span class="toc-text">zabbix排错的思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix自定义监控项："><span class="toc-number">3.3.</span> <span class="toc-text">zabbix自定义监控项：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-number">4.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix的server端启动不起来："><span class="toc-number">4.1.</span> <span class="toc-text">zabbix的server端启动不起来：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zabbix-server会监听哪个端口，zabbix-agent监听的端口？"><span class="toc-number">4.2.</span> <span class="toc-text">zabbix-server会监听哪个端口，zabbix-agent监听的端口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#没有看到服务器端的开放端口"><span class="toc-number">4.3.</span> <span class="toc-text">没有看到服务器端的开放端口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">5.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 55
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【Zabbix】-Zabbix安装部署/" >【Zabbix】--Zabbix安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【Zabbix】-Zabbix学习/" >【Zabbix】--Zabbix学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【自动化运维】-Ansible的Playbook模式/" >【自动化运维】--Ansible的Playbook模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/【自动化运维】-ansible/" >【自动化运维】--Ansible</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/【自动化运维】-自动化运维概述/" >【自动化运维】--自动化运维概述</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux服务-DNS/" >Linux服务--DNS</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux学习-NFS文件系统/" >Linux学习--NFS文件系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux学习-raid和LVM/" >Linux学习--raid和LVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统2/" >Linux学习--文件系统2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统/" >Linux学习--文件系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-开启启动流程/" >Linux学习--开启启动流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-日志/" >Linux学习--日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/Linux学习-计划任务/" >Linux学习--计划任务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/【web服务器】-编译安装Apache和Tomcat/" >【web服务器】--编译安装Apache和Tomcat</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/Linux学习-软件安装/" >Linux学习--软件安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/【Python学习】-paramiko/" >【Python学习】--paramiko</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【shell编程】-shell入门/" >【Shell编程】--Shell入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx配置文件详解/" >【web服务器】--Nginx配置文件详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【Git】-git入门/" >【Git】--git入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx入门/" >【web服务器】--Nginx入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【计算机网络】-WLAN/" >【计算机网络】--WLAN</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-传输层协议/" >【计算机网络】--传输层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/Linux基础-配置ip地址/" >Linux基础--配置ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/【计算机网络】-Linux实现路由功能/" >【计算机网络】--Linux实现路由功能</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/Linux基础-Linux常用文件及其作用/" >Linux基础--Linux常用文件及其作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-网络层协议/" >【计算机网络】--网络层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（四）-数据链路层/" >计算机网络（四）--数据链路层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（三）-物理层/" >计算机网络（三）--物理层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >计算机网络（二）--OSI7层和TCP/IP5层模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh服务/" >Linux学习-SSH服务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/Linux学习-selinux/" >Linux学习--SElinux安全系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/redis基础（一）/" >redis基础（一）--redis简介和基本操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo 插入音乐和视频/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="开机启动"><span class="iconfont-archer">&#xe606;</span>开机启动</span>
+    
+        <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
+    
+        <span class="sidebar-tag-name" data-tags="LVM"><span class="iconfont-archer">&#xe606;</span>LVM</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNS"><span class="iconfont-archer">&#xe606;</span>DNS</span>
+    
+        <span class="sidebar-tag-name" data-tags="计划任务"><span class="iconfont-archer">&#xe606;</span>计划任务</span>
+    
+        <span class="sidebar-tag-name" data-tags="cortab"><span class="iconfont-archer">&#xe606;</span>cortab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="Tomcat"><span class="iconfont-archer">&#xe606;</span>Tomcat</span>
+    
+        <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+    
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevOps"><span class="iconfont-archer">&#xe606;</span>DevOps</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="文件系统"><span class="iconfont-archer">&#xe606;</span>文件系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
+    
+        <span class="sidebar-tag-name" data-tags="VLAN"><span class="iconfont-archer">&#xe606;</span>VLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
+    
+        <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
+    
+        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
+    
+        <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
+    
+        <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansile"><span class="iconfont-archer">&#xe606;</span>Ansile</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux服务"><span class="iconfont-archer">&#xe60a;</span>Linux服务</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
+        <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="自动化运维"><span class="iconfont-archer">&#xe60a;</span>自动化运维</span>
+    
+        <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix监控"><span class="iconfont-archer">&#xe60a;</span>Zabbix监控</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+
+

@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="biubiu">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="biubiu">
+    
+    <meta name="keywords" content="hexo,biubiu's blog,hexo-blog">
+    
+    <meta name="description" content="个人博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>【自动化运维】--Ansible的Playbook模式 · biubiu&#39;s website</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/avatar.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Welcome to biubiu&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">【自动化运维】--Ansible的Playbook模式</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Welcome to biubiu's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            【自动化运维】--Ansible的Playbook模式
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Ansible">Ansible</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.2k</span>阅读时长: <span class="post-count reading-time">13 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/21</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Ansible-playbook"><a href="#Ansible-playbook" class="headerlink" title="Ansible playbook"></a>Ansible playbook</h1><ul>
+<li><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li>　<strong>playbook 是 ansible 用于配置，部署，和管理被控节点的剧本。</strong><br>　　通过 playbook 的详细描述，执行其中的一系列 tasks ，可以让远端主机达到预期的状态。playbook 就像 Ansible 控制器给被控节点列出的的一系列 to-do-list ，而被控节点必须要完成。<br>　　也可以这么理解，playbook 字面意思，即剧本，现实中由演员按照剧本表演，在Ansible中，这次由计算机进行表演，由计算机安装，部署应用，提供对外服务，以及组织计算机处理各种各样的事情。 </li>
+</ul>
+</li>
+<li><h2 id="Ansible-playbook使用场景"><a href="#Ansible-playbook使用场景" class="headerlink" title="Ansible playbook使用场景"></a>Ansible playbook使用场景</h2><ul>
+<li>　　执行一些简单的任务，使用ad-hoc命令可以方便的解决问题，但是有时一个设施过于复杂，需要大量的操作时候，执行的ad-hoc命令是不适合的，这时最好使用playbook。<br>　　就像执行shell命令与写shell脚本一样，<strong>也可以理解为批处理任务，不过playbook有自己的语法格式。</strong><br>　　使用playbook你可以方便的重用这些代码，可以移植到不同的机器上面，像函数一样，最大化的利用代码。在你使用Ansible的过程中，你也会发现，你所处理的大部分操作都是编写playbook。可以把常见的应用都编写成playbook，之后管理服务器会变得十分简单。 </li>
+</ul>
+</li>
+<li><h2 id="Ansible-playbook格式"><a href="#Ansible-playbook格式" class="headerlink" title="Ansible playbook格式"></a>Ansible playbook格式</h2><ul>
+<li><h3 id="1）格式简介"><a href="#1）格式简介" class="headerlink" title="1）格式简介"></a>1）格式简介</h3><p>　　<strong>playbook由YMAL语言编写。</strong>YAML( /ˈjæməl/ )参考了其他多种语言，包括：XML、C语言、Python、Perl以及电子邮件格式RFC2822，Clark Evans在2001年5月在首次发表了这种语言，另外Ingy döt Net与OrenBen-Kiki也是这语言的共同设计者。<br>　　YMAL格式是类似于JSON的文件格式，便于人理解和阅读，同时便于书写。首先学习了解一下YMAL的格式，对我们后面书写playbook很有帮助。以下为playbook常用到的YMAL格式：<br>　1、文件的第一行应该以 “—“ (三个连字符)开始，表明YMAL文件的开始。<br>　　2、在同一行中，#之后的内容表示注释，类似于shell，python和ruby。<br>　　3、YMAL中的列表元素以”-”开头然后紧跟着一个空格，后面为元素内容。<br>　　4、同一个列表中的元素应该保持相同的缩进。否则会被当做错误处理。<br>　　5、play中hosts，variables，roles，tasks等对象的表示方法都是键值中间以”:”分隔表示，”:”后面还要增加一个空格。</p>
+<ul>
+<li><p>示例</p>
+<ul>
+<li><p>　　下面是一个举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">#安装与运行mysql服务</span><br><span class="line">- hosts: node1</span><br><span class="line">  remote_user: root</span><br><span class="line">  tasks:</span><br><span class="line">  </span><br><span class="line">    - name: install mysql-server package</span><br><span class="line">      yum: name=mysql-server state=present</span><br><span class="line">    - name: starting mysqld service</span><br><span class="line">      service: name=mysql state=started</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>　我们的文件名称应该以<code>.yml</code>结尾，像我们上面的例子就是<code>mysql.yml</code>。其中，有三个部分组成：</p>
+<blockquote>
+<p><code>host部分</code>：使用 hosts 指示使用哪个主机或主机组来运行下面的 tasks ，每个 playbook 都必须指定 hosts ，hosts也<strong>可以使用通配符格式</strong>。主机或主机组在 inventory 清单中指定，可以使用系统默认的<code>/etc/ansible/hosts</code>，也可以自己编辑，在运行的时候加上<code>-i</code>选项，指定清单的位置即可。在运行清单文件的时候，<code>–list-hosts</code>选项会显示那些主机将会参与执行 task 的过程中。<br><code>remote_user</code>：指定远端主机中的哪个用户来登录远端系统，在远端系统执行 task 的用户，可以任意指定，也可以使用 sudo，但是用户必须要有执行相应 task 的权限。<br><code>tasks</code>：指定远端主机将要执行的一系列动作。tasks 的核心为 ansible 的模块，前面已经提到模块的用法。tasks 包含 <code>name</code> 和<code>要执行的模块</code>，name 是可选的，只是为了便于用户阅读，不过还是建议加上去，模块是必须的，同时也要给予模块相应的参数。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>使用ansible-playbook运行playbook文件，得到如下输出信息，输出内容为JSON格式。并且由不同颜色组成，便于识别。一般而言<br>| 绿色代表执行成功，系统保持原样<br>| 黄色代表系统代表系统状态发生改变<br>| 红色代表执行失败，显示错误输出<br>　　执行有三个步骤：1、收集facts 2、执行tasks 3、报告结果</p>
+<ul>
+<li><img src="1204916-20171208112235999-1825222840.png" alt="img"> </li>
+</ul>
+</li>
+<li><h3 id="2）核心元素"><a href="#2）核心元素" class="headerlink" title="2）核心元素"></a>2）核心元素</h3><p>　　Playbook的核心元素：</p>
+<blockquote>
+<p><code>Hosts</code>：主机组；<br><code>Tasks</code>：任务列表；<br><code>Variables</code>：变量，设置方式有四种；<br><code>Templates</code>：包含了模板语法的文本文件；<br><code>Handlers</code>：由特定条件触发的任务；</p>
+</blockquote>
+</li>
+<li><h3 id="3）基本组件"><a href="#3）基本组件" class="headerlink" title="3）基本组件"></a>3）基本组件</h3><p>　　Playbooks配置文件的基础组件：</p>
+<blockquote>
+<p><code>Hosts</code>：运行指定任务的目标主机<br><code>remoute_user</code>：在远程主机上执行任务的用户；<br><code>sudo_user</code>：<br><code>tasks</code>：任务列表</p>
+<blockquote>
+<p>　　格式：<br>　　　　tasks：<br>　　　　　　– name: TASK_NAME<br>　　　　　　 module: arguments<br>　　　　　　 notify: HANDLER_NAME<br>　　　　　　 handlers:<br>　　　　　　– name: HANDLER_NAME<br>　　　　　　 module: arguments</p>
+</blockquote>
+</blockquote>
+<p>​    <code>模块，模块参数</code>：</p>
+<blockquote>
+<p>　　格式：<br>　　　　(1) action: module arguments<br>　　　　(2) module: arguments<br>　　　　注意：shell和command模块后面直接跟命令，而非key=value类的参数列表；</p>
+</blockquote>
+<p> <code>handlers</code>：任务，在特定条件下触发；接收到其它任务的通知时被触发； </p>
+<ul>
+<li><strong>注</strong><ul>
+<li>(1) 某任务的状态在运行后为changed时，可通过“notify”通知给相应的handlers；<br>　　(2) 任务可以通过“tags“打标签，而后可在ansible-playbook命令上使用-t指定进行调用；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="4）variables-部分"><a href="#4）variables-部分" class="headerlink" title="4）variables 部分"></a>4）variables 部分</h3><p>　　上文中，我们说到了<code>variables</code>是变量，有四种定义方法，现在我们就来说说这四种定义方法：</p>
+<h4 id="①-facts-：可直接调用"><a href="#①-facts-：可直接调用" class="headerlink" title="① facts ：可直接调用"></a>① facts ：可直接调用</h4><p>　　上一篇中，我们有说到<code>setup</code>这个模块，这个模块就是通过调用facts组件来实现的。我们这里的<code>variables</code>也可以直接调用<code>facts</code>组件。<br>　　具体的<code>facters</code>我们可以使用<code>setup</code>模块来获取，然后直接放入我们的剧本中调用即可。</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>#### ② 用户自定义变量
+
+　　我们也可以直接使用用户自定义变量，想要自定义变量有以下两种方式：
+
+&gt; 通过命令行传入
+
+　　`ansible-playbook`命令的命令行中的`-e VARS, --extra-vars=VARS`，这样就可以直接把自定义的变量传入。
+
+&gt; 在playbook中定义变量
+
+　　我们也可以直接在playbook中定义我们的变量：
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vars:</span><br><span class="line">　　- var1: value1</span><br><span class="line">　　- - var2: value2</span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><h3 id="5）模板-templates"><a href="#5）模板-templates" class="headerlink" title="5）模板 templates"></a>5）模板 templates</h3><p>　　模板是一个文本文件，嵌套有脚本（使用模板编程语言编写）。<br>　　<code>Jinja2</code>：Jinja2是python的一种模板语言，以Django的模板语言为原本。<br>模板支持：</p>
+<blockquote>
+<p>　　字符串：使用单引号或双引号；<br>　　数字：整数，浮点数；<br>　　列表：[item1, item2, …]<br>　　元组：(item1, item2, …)<br>　　字典：{key1:value1, key2:value2, …}<br>　　布尔型：true/false<br>　　算术运算：<br>　　　　+, -, <em>, /, //, %, *</em><br>　　比较操作：<br>　　　　==, !=, &gt;, &gt;=, &lt;, &lt;=<br>　　逻辑运算：<br>　　　　and, or, not</p>
+</blockquote>
+<p>　　通常来说，模板都是通过引用变量来运用的。</p>
+</li>
+<li><h3 id="6）条件测试"><a href="#6）条件测试" class="headerlink" title="6）条件测试"></a>6）条件测试</h3><p>when语句：在task中使用，jinja2的语法格式。<br>举例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tasks:</span><br><span class="line">- name: install conf file to centos7</span><br><span class="line">  template: src=files/nginx.conf.c7.j2</span><br><span class="line">  when: ansible_distribution_major_version == &quot;7&quot;</span><br><span class="line">- name: install conf file to centos6</span><br><span class="line">  template: src=files/nginx.conf.c6.j2</span><br><span class="line">  when: ansible_distribution_major_version == &quot;6&quot;</span><br></pre></td></tr></table></figure>
+
+<p>循环：迭代，需要重复执行的任务；<br>　　对迭代项的引用，固定变量名为”item”，而后，要在task中使用with_items给定要迭代的元素列表；<br>举例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tasks:</span><br><span class="line">- name: unstall web packages</span><br><span class="line">  yum: name=&#123;&#123; item &#125;&#125; state=absent</span><br><span class="line">  with_items:</span><br><span class="line">  - httpd</span><br><span class="line">  - php</span><br><span class="line">  - php-mysql</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<pre><code>### 7）字典
+
+　　ansible playbook 还支持字典功能。举例如下：
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- name: install some packages</span><br><span class="line">  yum: name=&#123;&#123; item &#125;&#125; state=present</span><br><span class="line">  with_items:</span><br><span class="line">    - nginx</span><br><span class="line">    - memcached</span><br><span class="line">    - php-fpm</span><br><span class="line">- name: add some groups</span><br><span class="line">  group: name=&#123;&#123; item &#125;&#125; state=present</span><br><span class="line">  with_items:</span><br><span class="line">    - group11</span><br><span class="line">    - group12</span><br><span class="line">    - group13</span><br><span class="line">- name: add some users</span><br><span class="line">  user: name=&#123;&#123; item.name &#125;&#125; group=&#123;&#123; item.group &#125;&#125; state=present</span><br><span class="line">  with_items:</span><br><span class="line">    - &#123; name: &apos;user11&apos;, group: &apos;group11&apos; &#125;</span><br><span class="line">    - &#123; name: &apos;user12&apos;, group: &apos;group12&apos; &#125;</span><br><span class="line">    - &#123; name: &apos;user13&apos;, group: &apos;group13&apos; &#125;</span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><h3 id="8）角色订制：roles"><a href="#8）角色订制：roles" class="headerlink" title="8）角色订制：roles"></a>8）角色订制：roles</h3><h4 id="①-简介"><a href="#①-简介" class="headerlink" title="① 简介"></a>① 简介</h4><p>　　对于以上所有的方式有个弊端就是无法实现复用假设在同时部署Web、db、ha 时或不同服务器组合不同的应用就需要写多个yml文件。很难实现灵活的调用。<br>　　roles 用于层次性、结构化地组织playbook。roles 能够根据层次型结构自动装载变量文件、tasks以及handlers等。要使用roles只需要在playbook中使用include指令即可。简单来讲，roles就是通过分别将变量(vars)、文件(file)、任务(tasks)、模块(modules)及处理器(handlers)放置于单独的目录中，并可以便捷地include它们的一种机制。角色一般用于基于主机构建服务的场景中，但也可以是用于构建守护进程等场景中。</p>
+<h4 id="②-角色集合"><a href="#②-角色集合" class="headerlink" title="② 角色集合"></a>② 角色集合</h4><p>角色集合：roles/<br>mysql/<br>httpd/<br>nginx/<br>files/：存储由copy或script等模块调用的文件；<br>tasks/：此目录中至少应该有一个名为main.yml的文件，用于定义各task；其它的文件需要由main.yml进行“包含”调用；<br>handlers/：此目录中至少应该有一个名为main.yml的文件，用于定义各handler；其它的文件需要由main.yml进行“包含”调用；<br>vars/：此目录中至少应该有一个名为main.yml的文件，用于定义各variable；其它的文件需要由main.yml进行“包含”调用；<br>templates/：存储由template模块调用的模板文本；<br>meta/：此目录中至少应该有一个名为main.yml的文件，定义当前角色的特殊设定及其依赖关系；其它的文件需要由main.yml进行“包含”调用；<br>default/：此目录中至少应该有一个名为main.yml的文件，用于设定默认变量；</p>
+</li>
+</ul>
+<h1 id="PlayBook运行方式"><a href="#PlayBook运行方式" class="headerlink" title="PlayBook运行方式"></a>PlayBook运行方式</h1><pre><code>ansible-playbook --check 只检测可能会发生的改变,但不真执行操作
+ansible-playbook --list-hosts 列出运行任务的主机
+ansible-playbook --syntax-check playbook.yaml 语法检测
+ansible-playbook -t TAGS_NAME playbook.yaml 只执行TAGS_NAME任务
+ansible-playbook playbook.yaml 运行</code></pre><h1 id="Playbook简单应用"><a href="#Playbook简单应用" class="headerlink" title="Playbook简单应用"></a>Playbook简单应用</h1><ul>
+<li><h2 id="通过playbook安装管理redis服务"><a href="#通过playbook安装管理redis服务" class="headerlink" title="通过playbook安装管理redis服务"></a>通过playbook安装管理redis服务</h2><ul>
+<li><h3 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h3><ul>
+<li><ul>
+<li><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  [root@ansible ~]# mkdir playbooks</span><br><span class="line">  [root@ansible ~]# cd playbooks/</span><br><span class="line">  [root@ansible playbooks]# vim redis.yaml</span><br><span class="line">  </span><br><span class="line">- hosts: all </span><br><span class="line">    remote_user: root</span><br><span class="line">    tasks:</span><br><span class="line">    - name: install redis</span><br><span class="line">      yum: name=redis  state=latest</span><br><span class="line">  </span><br><span class="line">    - name: start redis</span><br><span class="line">      service:  name=redis state=started</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="语法检测"><a href="#语法检测" class="headerlink" title="语法检测:"></a>语法检测:</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible playbooks]# ansible-playbook --syntax-check redis.yaml </span><br><span class="line"></span><br><span class="line">playbook: redis.yaml</span><br><span class="line">[root@ansible playbooks]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h3 id="将要在主机上执行"><a href="#将要在主机上执行" class="headerlink" title="将要在主机上执行:"></a>将要在主机上执行:</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">root@ansible playbooks]# ansible-playbook redis.yaml </span><br><span class="line"></span><br><span class="line">PLAY [all] *********************************************************************************</span><br><span class="line"></span><br><span class="line">TASK [Gathering Facts] *********************************************************************</span><br><span class="line">ok: [192.168.0.80]</span><br><span class="line">ok: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">TASK [install redis] ***********************************************************************</span><br><span class="line">changed: [192.168.0.80]</span><br><span class="line">changed: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">TASK [start redis] *************************************************************************</span><br><span class="line">changed: [192.168.0.80]</span><br><span class="line">changed: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">PLAY RECAP *********************************************************************************</span><br><span class="line">192.168.0.117              : ok=3    changed=2    unreachable=0    failed=0   </span><br><span class="line">192.168.0.80               : ok=3    changed=2    unreachable=0    failed=0   </span><br><span class="line"></span><br><span class="line">[root@ansible playbooks]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h3 id="在目标主机上查看效果"><a href="#在目标主机上查看效果" class="headerlink" title="在目标主机上查看效果"></a>在目标主机上查看效果</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@LB-BACKUP ~]# lsof -i:6379</span><br><span class="line">COMMAND      PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</span><br><span class="line">redis-ser 102412 redis    4u  IPv4 379993      0t0  TCP localhost:6379 (LISTEN)</span><br><span class="line">[root@LB-BACKUP ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h3 id="故障"><a href="#故障" class="headerlink" title="故障"></a>故障</h3><ul>
+<li><h4 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h4><ul>
+<li><blockquote>
+<p>1.检查配置文件，是否打错<br>2.以前是否安装过redis，检查redis的配置。保持环境的纯洁性<br>3.安装redis的时候，没有epel源，安装不了，报错。先安装好epel源</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h2 id="对redis更加的复杂的操作"><a href="#对redis更加的复杂的操作" class="headerlink" title="#对redis更加的复杂的操作"></a>#对redis更加的复杂的操作</h2><ul>
+<li><p>由于上面的操作是直接安装redis服务并启动,并没有配置文件,这还不能往生产环境中使用,生产环境中的redis肯定有不同的配置项,因此需要在安装时提供配置文件</p>
+</li>
+<li><ul>
+<li><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible playbooks]# yum install redis -y</span><br><span class="line">[root@ansible playbooks]# cp /etc/redis.conf .</span><br><span class="line">[root@ansible playbooks]# pwd</span><br><span class="line">/root/playbooks</span><br><span class="line">[root@ansible playbooks]# ls</span><br><span class="line">redis.conf  redis.yaml</span><br><span class="line">[root@ansible playbooks]# vim redis.conf </span><br><span class="line"> bind 0.0.0.0   添加配置</span><br><span class="line"></span><br><span class="line">[root@ansible playbooks]# cp redis.yaml redis2.yaml</span><br><span class="line">[root@ansible playbooks]# vim redis2.yaml </span><br><span class="line"></span><br><span class="line">- hosts: all                   #所有远程主机</span><br><span class="line">  remote_user: root      #以远程主机上root用户执行</span><br><span class="line">  tasks:                        #任务</span><br><span class="line">  - name: install redis      #任务之安装</span><br><span class="line">    yum: name=redis state=latest        #动作调用yum模块安装</span><br><span class="line">  - name: copy config file     #任务之复制同步配置文件到远程目标主机</span><br><span class="line">    copy: src=/root/playbooks/redis.conf dest=/etc/redis.conf owner=redis       #动作copy模块执行</span><br><span class="line">    notify: restart redis      #触发的动作的名字，发通知给handlers</span><br><span class="line">    tags: configfile         #任务标记名configfile</span><br><span class="line">  - name: start redis      #任务之启动redis</span><br><span class="line">    service: name=redis state=started    #动作调用sevice模块</span><br><span class="line">    handlers:              #特定情况下,接收到其他任务的通知时被触发</span><br><span class="line">  - name: restart redis</span><br><span class="line">    service: name=redis state=restarted</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>- ### 先卸载redis
+
+  - - - <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible playbooks]# cat redis3.yaml </span><br><span class="line"></span><br><span class="line">- hosts: all</span><br><span class="line">  remote_user: root</span><br><span class="line">  tasks:</span><br><span class="line">  - name: remove redis</span><br><span class="line">    yum: name=redis  state=absent</span><br><span class="line">    </span><br><span class="line">[root@ansible playbooks]# </span><br><span class="line"></span><br><span class="line">[root@ansible playbooks]# ansible-playbook redis3.yaml </span><br><span class="line"></span><br><span class="line">PLAY [all] *********************************************************************************</span><br><span class="line"></span><br><span class="line">TASK [Gathering Facts] *********************************************************************</span><br><span class="line">ok: [192.168.0.80]</span><br><span class="line">ok: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">TASK [remove redis] ************************************************************************</span><br><span class="line">changed: [192.168.0.80]</span><br><span class="line">changed: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">PLAY RECAP *********************************************************************************</span><br><span class="line">192.168.0.117              : ok=2    changed=1    unreachable=0    failed=0   </span><br><span class="line">192.168.0.80               : ok=2    changed=1    unreachable=0    failed=0   </span><br><span class="line"></span><br><span class="line">[root@ansible playbooks]#</span><br></pre></td></tr></table></figure>
+
+  - ### 再来安装和配置
+
+    - <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible playbooks]# ansible-playbook redis2.yaml </span><br><span class="line"></span><br><span class="line">PLAY [all] *********************************************************************************</span><br><span class="line"></span><br><span class="line">TASK [Gathering Facts] *********************************************************************</span><br><span class="line">ok: [192.168.0.80]</span><br><span class="line">ok: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">TASK [install redis] ***********************************************************************</span><br><span class="line">changed: [192.168.0.80]</span><br><span class="line">changed: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">TASK [copy config file] ********************************************************************</span><br><span class="line">changed: [192.168.0.80]</span><br><span class="line">changed: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">TASK [start redis] *************************************************************************</span><br><span class="line">changed: [192.168.0.80]</span><br><span class="line">changed: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">RUNNING HANDLER [restart redis] ************************************************************</span><br><span class="line">changed: [192.168.0.80]</span><br><span class="line">changed: [192.168.0.117]</span><br><span class="line"></span><br><span class="line">PLAY RECAP *********************************************************************************</span><br><span class="line">192.168.0.117              : ok=5    changed=4    unreachable=0    failed=0   </span><br><span class="line">192.168.0.80               : ok=5    changed=4    unreachable=0    failed=0</span><br></pre></td></tr></table></figure>
+
+  - ### 在目标机器上查看效果
+
+    - <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@www tmp]# netstat -anplut|grep redis</span><br><span class="line">tcp        0      0 0.0.0.0:6379            0.0.0.0:*               LISTEN      22081/redis-server  </span><br><span class="line">[root@www tmp]#</span><br></pre></td></tr></table></figure></code></pre><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a href="https://www.cnblogs.com/keerya/p/8004566.html" target="_blank" rel="noopener">自动化运维工具——ansible详解（二）</a> </li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://biubiu34.github.io">biubiu</a>
+            <p>原文链接：<a href="https://biubiu34.github.io/2019/10/21/【自动化运维】-Ansible的Playbook模式/">https://biubiu34.github.io/2019/10/21/【自动化运维】-Ansible的Playbook模式/</a>
+            <p>发表日期：<a href="https://biubiu34.github.io/2019/10/21/【自动化运维】-Ansible的Playbook模式/">October 21st 2019, 11:17:26 am</a>
+            <p>更新日期：<a href="https://biubiu34.github.io/2019/10/21/【自动化运维】-Ansible的Playbook模式/">October 21st 2019, 2:16:55 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/10/21/【Zabbix】-Zabbix学习/" title= "【Zabbix】--Zabbix学习">
+                    <div class="nextTitle">【Zabbix】--Zabbix学习</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/20/【自动化运维】-自动化运维概述/" title= "【自动化运维】--自动化运维概述">
+                    <div class="prevTitle">【自动化运维】--自动化运维概述</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid= MTAyMC80NzEyMS8yMzYyMQ>
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:biubiu34@126.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/QQ.png" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//github.com/biubiu34" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">(PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ansible-playbook"><span class="toc-number">1.</span> <span class="toc-text">Ansible playbook</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ansible-playbook使用场景"><span class="toc-number">1.2.</span> <span class="toc-text">Ansible playbook使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ansible-playbook格式"><span class="toc-number">1.3.</span> <span class="toc-text">Ansible playbook格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1）格式简介"><span class="toc-number">1.3.1.</span> <span class="toc-text">1）格式简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2）核心元素"><span class="toc-number">1.3.2.</span> <span class="toc-text">2）核心元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3）基本组件"><span class="toc-number">1.3.3.</span> <span class="toc-text">3）基本组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4）variables-部分"><span class="toc-number">1.3.4.</span> <span class="toc-text">4）variables 部分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#①-facts-：可直接调用"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">① facts ：可直接调用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5）模板-templates"><span class="toc-number">1.3.5.</span> <span class="toc-text">5）模板 templates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6）条件测试"><span class="toc-number">1.3.6.</span> <span class="toc-text">6）条件测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8）角色订制：roles"><span class="toc-number">1.3.7.</span> <span class="toc-text">8）角色订制：roles</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#①-简介"><span class="toc-number">1.3.7.1.</span> <span class="toc-text">① 简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#②-角色集合"><span class="toc-number">1.3.7.2.</span> <span class="toc-text">② 角色集合</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PlayBook运行方式"><span class="toc-number">2.</span> <span class="toc-text">PlayBook运行方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Playbook简单应用"><span class="toc-number">3.</span> <span class="toc-text">Playbook简单应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#通过playbook安装管理redis服务"><span class="toc-number">3.1.</span> <span class="toc-text">通过playbook安装管理redis服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本"><span class="toc-number">3.1.1.</span> <span class="toc-text">脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法检测"><span class="toc-number">3.1.2.</span> <span class="toc-text">语法检测:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将要在主机上执行"><span class="toc-number">3.1.3.</span> <span class="toc-text">将要在主机上执行:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在目标主机上查看效果"><span class="toc-number">3.1.4.</span> <span class="toc-text">在目标主机上查看效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#故障"><span class="toc-number">3.1.5.</span> <span class="toc-text">故障</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#检查"><span class="toc-number">3.1.5.1.</span> <span class="toc-text">检查</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对redis更加的复杂的操作"><span class="toc-number">3.2.</span> <span class="toc-text">#对redis更加的复杂的操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">5.</span> <span class="toc-text">参考文章</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#问题"><span class="toc-number">6.</span> <span class="toc-text">问题</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 55
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【Zabbix】-Zabbix安装部署/" >【Zabbix】--Zabbix安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【Zabbix】-Zabbix学习/" >【Zabbix】--Zabbix学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/【自动化运维】-Ansible的Playbook模式/" >【自动化运维】--Ansible的Playbook模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/【自动化运维】-ansible/" >【自动化运维】--Ansible</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/【自动化运维】-自动化运维概述/" >【自动化运维】--自动化运维概述</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux服务-DNS/" >Linux服务--DNS</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux学习-NFS文件系统/" >Linux学习--NFS文件系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Linux学习-raid和LVM/" >Linux学习--raid和LVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统2/" >Linux学习--文件系统2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-文件系统/" >Linux学习--文件系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-开启启动流程/" >Linux学习--开启启动流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/18</span><a class="archive-post-title" href= "/2019/10/18/Linux学习-日志/" >Linux学习--日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/Linux学习-计划任务/" >Linux学习--计划任务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href= "/2019/10/17/【web服务器】-编译安装Apache和Tomcat/" >【web服务器】--编译安装Apache和Tomcat</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/Linux学习-软件安装/" >Linux学习--软件安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2019/10/16/【Python学习】-paramiko/" >【Python学习】--paramiko</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【shell编程】-shell入门/" >【Shell编程】--Shell入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx配置文件详解/" >【web服务器】--Nginx配置文件详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【Git】-git入门/" >【Git】--git入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx入门/" >【web服务器】--Nginx入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【计算机网络】-WLAN/" >【计算机网络】--WLAN</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/14</span><a class="archive-post-title" href= "/2019/10/14/Linux-网络相关命令/" >Linux--网络相关命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/【计算机网络】-DNAT实验/" >【计算机网络】--DNAT实验</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/13</span><a class="archive-post-title" href= "/2019/10/13/计算机网络（七）-应用层/" >计算机网络（七）-应用层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/12</span><a class="archive-post-title" href= "/2019/10/12/Linux学习-iptables/" >Linux学习--iptables</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/【计算机网络】-传输层协议/" >【计算机网络】--传输层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/Linux基础-配置ip地址/" >Linux基础--配置ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2019/10/09/【计算机网络】-Linux实现路由功能/" >【计算机网络】--Linux实现路由功能</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/Linux基础-Linux常用文件及其作用/" >Linux基础--Linux常用文件及其作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-网络层协议/" >【计算机网络】--网络层协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（四）-数据链路层/" >计算机网络（四）--数据链路层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（三）-物理层/" >计算机网络（三）--物理层</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >计算机网络（二）--OSI7层和TCP/IP5层模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/计算机网络（一）-基本介绍/" >计算机网络（一）--基本介绍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh原理/" >Linux学习-SSH原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/linux学习-ssh服务/" >Linux学习-SSH服务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/Linux学习-ftp命令/" >Linux学习--ftp命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/Linux学习-selinux/" >Linux学习--SElinux安全系统</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/06</span><a class="archive-post-title" href= "/2019/10/06/redis基础（一）/" >redis基础（一）--redis简介和基本操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2019/10/04/Linux基础（五）-权限/" >Linux基础（五）--权限</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2019/09/29/Linux基础（四）-用户和组、密码/" >Linux基础（四）--用户和组、密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2019/09/28/Linux基础（三）-重定向/" >Linux基础（三）--重定向和管道操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础-xshell/" >Linux基础--xshell和虚拟机使用技巧（快照和挂起）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/Linux基础（二）-Linux命令/" >Linux基础（二）--Linux命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo+github搭建静态博客/" >hexo+github搭建静态博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/hexo 插入音乐和视频/" >hexo 插入音乐和视频</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2019/09/25/Markdown语法/" >Markdown学习</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="xshell"><span class="iconfont-archer">&#xe606;</span>xshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="VMware"><span class="iconfont-archer">&#xe606;</span>VMware</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP"><span class="iconfont-archer">&#xe606;</span>IP</span>
+    
+        <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
+    
+        <span class="sidebar-tag-name" data-tags="开机启动"><span class="iconfont-archer">&#xe606;</span>开机启动</span>
+    
+        <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
+    
+        <span class="sidebar-tag-name" data-tags="LVM"><span class="iconfont-archer">&#xe606;</span>LVM</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNS"><span class="iconfont-archer">&#xe606;</span>DNS</span>
+    
+        <span class="sidebar-tag-name" data-tags="计划任务"><span class="iconfont-archer">&#xe606;</span>计划任务</span>
+    
+        <span class="sidebar-tag-name" data-tags="cortab"><span class="iconfont-archer">&#xe606;</span>cortab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
+    
+        <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="Tomcat"><span class="iconfont-archer">&#xe606;</span>Tomcat</span>
+    
+        <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+    
+        <span class="sidebar-tag-name" data-tags="路由"><span class="iconfont-archer">&#xe606;</span>路由</span>
+    
+        <span class="sidebar-tag-name" data-tags="SNAT"><span class="iconfont-archer">&#xe606;</span>SNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="DNAT"><span class="iconfont-archer">&#xe606;</span>DNAT</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
+    
+        <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevOps"><span class="iconfont-archer">&#xe606;</span>DevOps</span>
+    
+        <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
+    
+        <span class="sidebar-tag-name" data-tags="物理层"><span class="iconfont-archer">&#xe606;</span>物理层</span>
+    
+        <span class="sidebar-tag-name" data-tags="计算机网络"><span class="iconfont-archer">&#xe606;</span>计算机网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSI7层模型"><span class="iconfont-archer">&#xe606;</span>OSI7层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP五层模型"><span class="iconfont-archer">&#xe606;</span>TCP/IP五层模型</span>
+    
+        <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="文件系统"><span class="iconfont-archer">&#xe606;</span>文件系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
+        <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
+    
+        <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太网"><span class="iconfont-archer">&#xe606;</span>以太网</span>
+    
+        <span class="sidebar-tag-name" data-tags="VLAN"><span class="iconfont-archer">&#xe606;</span>VLAN</span>
+    
+        <span class="sidebar-tag-name" data-tags="Trunk"><span class="iconfont-archer">&#xe606;</span>Trunk</span>
+    
+        <span class="sidebar-tag-name" data-tags="mac地址"><span class="iconfont-archer">&#xe606;</span>mac地址</span>
+    
+        <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
+    
+        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
+    
+        <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
+    
+        <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
+    
+        <span class="sidebar-tag-name" data-tags="应用层"><span class="iconfont-archer">&#xe606;</span>应用层</span>
+    
+        <span class="sidebar-tag-name" data-tags="操作系统"><span class="iconfont-archer">&#xe606;</span>操作系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansile"><span class="iconfont-archer">&#xe606;</span>Ansile</span>
+    
+        <span class="sidebar-tag-name" data-tags="重定向"><span class="iconfont-archer">&#xe606;</span>重定向</span>
+    
+        <span class="sidebar-tag-name" data-tags="Shell"><span class="iconfont-archer">&#xe606;</span>Shell</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux基础"><span class="iconfont-archer">&#xe60a;</span>Linux基础</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux服务"><span class="iconfont-archer">&#xe60a;</span>Linux服务</span>
+    
+        <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
+    
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
+    
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
+        <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
+    
+        <span class="sidebar-category-name" data-categories="计算机网络"><span class="iconfont-archer">&#xe60a;</span>计算机网络</span>
+    
+        <span class="sidebar-category-name" data-categories="自动化运维"><span class="iconfont-archer">&#xe60a;</span>自动化运维</span>
+    
+        <span class="sidebar-category-name" data-categories="歌单分享"><span class="iconfont-archer">&#xe60a;</span>歌单分享</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix监控"><span class="iconfont-archer">&#xe60a;</span>Zabbix监控</span>
+    
+        <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
+    
+        <span class="sidebar-category-name" data-categories="Shell编程"><span class="iconfont-archer">&#xe60a;</span>Shell编程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "biubiu"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+
+
