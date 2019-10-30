@@ -345,6 +345,452 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/Linux基础-Linux常用文件及其作用/" >
+            
+                <span>Linux基础--Linux常用文件及其作用</span>
+        </a>
+        <div class="abstract-content">
+            Linux常用文件夹
+/
+根目录
+一般根目录下只存放目录，不要存放文件，/etc、/bin、/dev、/lib、/sbin应该和根目录放置在一个分区中
+
+
+/bin
+存放二进制可执行文件，存放用户级的GUN工具
+
+
+/sbin
+存放超级用户（系统管理员）专用的二进制可执行文件
+/sbin:/usr/sbin:/usr/local/sbin：　　放置系统管理员使用的可执行命令，如fdisk、shutdown、mount等。与/bin不同的是，这几个目录是给系统管理员root使用的命令，一般用户只能”查看”而不能设置和使用。
+
+
+/dev
+存放设备文件，Linux在这里创建设备节点
+
+存放l...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/【计算机网络】-网络层协议/" >
+            
+                <span>【计算机网络】--网络层协议</span>
+        </a>
+        <div class="abstract-content">
+            网络层协议
+IP
+ARP/RARP
+ICMP/IGMP
+
+IP数据包
+
+字段
+版本（4） ：IPV4
+IPV4  —-&gt;32位
+IPV6 —-&gt;128位
+
+
+首部长度（4）
+IP包头部长度，因为长度可变，因此需要定义
+
+
+优先级与服务类型（8）
+优先级与服务类型，提供3层的QoS
+
+
+总长度（16） 
+IP数据的总长度
+
+
+标识符（16）、标志（3）、段偏移量（13）
+上层来的数据到IP层会被分片，这几个字段用来对数据包进行标识，是数据到达目的端重组的时候不会乱序
+
+
+TTL（8）—time to live
+生命周期字段，经过一个路由器值减1，为0时数据包被丢弃。为了防止一个...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "IP地址">IP地址</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/【计算机网络】-ip地址/" >
+            
+                <span>【计算机网络】--ip地址</span>
+        </a>
+        <div class="abstract-content">
+            IP地址
+含义
+主机唯一的标识，保证主机之间的正常通信
+
+一种网络编码，用来确定网络中的一个节点
+
+IP地址由32位二进制（32bit）组成
+
+1如11010010.01001001.10001100.00000110 =210.73.140.6（十进制，便于记忆）
+
+
+
+
+
+IP地址的组成
+网络部分（network）
+主机部分（host）
+例子
+1234192.168.0. 25---------  ---    |       | 网络部分  主机部分
+
+
+
+ip地址十进制数的范围是0-255
+
+
+
+IP地址的分类
+ip地址划分为A,B,C,D,E 5类，每一类有不同的划分规则
+
+公...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ip">ip</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/计算机网络（五）-网络层/" >
+            
+                <span>计算机网络（五）--网络层</span>
+        </a>
+        <div class="abstract-content">
+            网络层
+网络层介于传输层和数据链路层之间，其主要作用是实现两个网络系统之间的数据透明传送，具体包括路由选择，拥塞控制和网际互连等。网络层是网络与网络之间通信的最底层，在数据从数据链路层向传输层进行数据传输的通信中，起到构建一个中间通信子网的作用。不同网络有这不同的网络层协议和地址规范
+
+如果只是同一局域网内的各个计算机之间的通信，单靠物理层和数据链路层就可以建立通信链路完成用户间的数据通信，但要扩大应用范围，连接不同的局域子网，就需要借助网络层处理各个网络子网的协议，从而进行计算机的网络互连，所以网络层在TCP/IP协议体系中叫网际互连层。
+
+
+
+在物理层传输的是一个个比特位（bit），...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络层">网络层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "IP地址">IP地址</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/计算机网络（四）-数据链路层/" >
+            
+                <span>计算机网络（四）--数据链路层</span>
+        </a>
+        <div class="abstract-content">
+            数据链路层数据链路层(Data Link Layer)是OSI模型的第二层，负责建立和管理节点间的链路。
+在计算机网络中由于各种干扰的存在，物理链路是不可靠的（物理层的线路有传输介质与通信设备组成，比特流在传输介质上传输时一定会存在误差，）。因此，数据链路层的主要功能是在物理层提供的比特流的基础上，通过差错控制、流量控制方法，使有差错的物理线路变为无差错的数据链路，即提供可靠的通过物理介质传输数据的方法。
+数据链路层的功能
+链路管理：负责数据链路的建立、维持和释放，主要用于面向连接服务。
+帧包装、帧传输、帧同步：接收方确定收到的比特流中一帧的开始位置和结束位置
+帧的差错恢复：用于使接收方...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "以太网">以太网</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "VLAN">VLAN</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Trunk">Trunk</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "mac地址">mac地址</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/计算机网络（三）-物理层/" >
+            
+                <span>计算机网络（三）--物理层</span>
+        </a>
+        <div class="abstract-content">
+            网络传输介质：—–物理层
+物理层基本概念物理层解决如何在连接各种计算机的传输媒体上传输数据比特流，而不是指具体的传输媒体。该层次的主要任务是：确定传输媒体的接口的一些特性，包括：
+
+机械特性：接口的形状，大小，引线的数目电气特性：规定电压范围（-5V到+5V）功能特性：规定-5V代表0，+5V代表1过程特性：也称规程特性，规定建立连接时各个相关部件的工作步骤
+
+
+数据通信的基础知识
+数据通信系统的模型如图所示，一个数据通信系统可划分为三大部分，即源系统(或发送端、发送方)、传输系统(或传输网络)和目的系统(或接收端、接收方)。
+
+通信的目的是传送消息(message)。如话音、文字、图像...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "物理层">物理层</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/08/计算机网络（二）-OSI7层和TCP-IP5层模型/" >
+            
+                <span>计算机网络（二）--OSI7层和TCP/IP5层模型</span>
+        </a>
+        <div class="abstract-content">
+            计算机网络层次模型
+计算机网络体系结构是一个复杂的系统，可以将复杂的系统分成若干个容易处理的子系统，然后分而治之。
+好处在于：
+a. 各层之间是互相独立的；
+b. 灵活性好，便于维护和实现; 
+c. 结构可以分割,促进标准化工作。
+
+
+计算机网络通信的理论示意图
+
+
+
+
+OSI  参考模型：7层​    ——–》做参考使用的，实际中并没有使用
+记忆：应表会传往树屋
+
+应 —》应用层 —-》某些程序
+表 —》表示层
+会 —》会话层
+传—-》传输层  —》端口号
+往—-》网络层  —》IP地址
+树—-》数据链路层
+屋—-》物理层
+
+
+OSI各层功能定义应用层
+应用层为操作系统或网络应用程序提...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "OSI7层模型">OSI7层模型</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "TCP/IP五层模型">TCP/IP五层模型</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/07/计算机网络（一）-基本介绍/" >
+            
+                <span>计算机网络（一）--基本介绍</span>
+        </a>
+        <div class="abstract-content">
+            什么是计算机网络计算机网络，是指将地理位臵不同的具有独立功能的多台计算机及其外部设备，通过通信线路连接起来，在网络操作系统，网络管理软件及网络通信协议的管理和协调下，实现资源共享和信息传递的计算机系统。
+简单地说，计算机网络就是通过电缆、电话线或无线通讯将两台以上的计算机互连起来的集合。
+网络基础名词
+
+网络：network
+
+网络是由若干节点和连接这些节点的链路构成，表示诸多对象及其相互联系。
+
+
+互联网：internet
+
+是所有网络互连起来的一个巨型网络
+
+
+以太网：Ethernet
+
+最常见的局域网通信协议
+是一种技术规范，不是一种具体的网络
+
+
+C/S架构软件
+
+C/S 结构，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "计算机网络">计算机网络</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/07/linux学习-ssh原理/" >
+            
+                <span>Linux学习-SSH原理</span>
+        </a>
+        <div class="abstract-content">
+            什么是SSH
+SSH (Secure Shell, 安全的命令解释器)
+​    为客户机提供安全的she11环境，用于远程管理– 客户机通过ssh服务连接到远程的服务器上，进行操作。—-》控制远程服务器
+默认端口：TCP 22
+wins没有，Linux里有Unix里有
+SSH就是一一个客户机进程管理服务器的一个服务。因为中间传输的数据是加密，所以非常安全。不会出现信息泄露
+telnet:明文传输—》已被淘汰  —》监听23端口
+SSH基于公钥加密非对称加密)技术
+数据加密传输
+.客户端和服务器的身份验证
+
+
+配置文件：
+/etc/ssh
+
+
+
+​        传统的网络服务程序（如f...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SSH">SSH</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/10/07/linux学习-ssh服务/" >
             
                 <span>Linux学习-SSH服务</span>
@@ -372,481 +818,10 @@
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/07/Linux学习-ftp命令/" >
-            
-                <span>Linux学习--ftp命令</span>
-        </a>
-        <div class="abstract-content">
-            ​    ftp命令是用来设置文件系统相关功能，可以用于许多不同的操作系统。
-​    ftp在Linux中使用的FTP是vsftp
-安装FTP
-yum安装
-
-1yum install vsftpd -y
-
-
-
-
-
-FTP命令
-连接ftp服务器
-ftp(参数)(主机名或IP地址)
-
-参数
-
--d 详细显示指令执行过程，便于排错或分析程序执行的情形。
--i 关闭互动模式，不询问任何问题。
--g 关闭本地主机文件名称支持特殊字符的扩充特性。
--n 不使用自动登陆。
--v 显示指令执行过程。
-
-
-直接连接ftp服务器
-
-12345678910[root@localhost ~]# ftp 19...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ftp">ftp</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/06/Linux学习-selinux/" >
-            
-                <span>Linux学习--SElinux安全系统</span>
-        </a>
-        <div class="abstract-content">
-            SELinux简介
-selinux主要由美国国家安全局开发，针对计算机基础结构安全开发的一个Linux安全策略。SELinux可以允许系统管理员更加灵活的来定义安全策略。
-SELinux是一个内核级别的安全机制，对于其配置文件的修改都是需要重新启动操作系统才能生效的
-
-SELinux基本概念
-SELinux 主要作用就是最大限度地减小系统中服务进程可访问的资源（最小权限原则）。
-
-操作系统的安全机制其实就是对两样东西做出限制：进程和系统资源（文件、网络套接字、系统调用等）
-
-SElinux 当中针对这两样东西定义两个基本概念：域（domin）和上下文（context）
-域就是用来对进程进...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/06</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SElinux">SElinux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/06/redis基础（一）/" >
-            
-                <span>redis基础（一）--redis简介和基本操作</span>
-        </a>
-        <div class="abstract-content">
-            Redis 是一个高性能的key-value数据库。
-Nosql数据库
-Nosql介绍
-
-NoSQL：一类新出现的数据库(not only sql)，它的特点：
-
-
-不支持SQL语法
-存储结构跟传统关系型数据库中的那种关系表完全不同，nosql中存储的数据都是K-V形式
-NoSQL全世界中没有一种通用的语言，每种nosql数据库都有自己的api和语法，以及擅长的业务场景
-
-
-NoSQL中的产品种类相当多：
-
-
-Mongodb
-Redis
-Hbase hadoop
-Cassandra hadoop
-
-
-
-
-NoSQL和SQL数据库的比较：
-
-
-适用场景不同：sql数据库适合用于关系特别复杂...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/06</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Redis">Redis</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/04/Linux基础（五）-权限/" >
-            
-                <span>Linux基础（五）--权限</span>
-        </a>
-        <div class="abstract-content">
-            权限引入
-为什么需要权限？
-
-管控——》资源的分配—–》有安全保障
-
-
-
-文件/目录权限以及归属
-查看文件/目录权限及归属
-访问权限
-可读（read）:允许查看文件内容、显示目录列表
-
-文件
-
-1234567891011121314[root@localhost lianxi]# cat create_user.sh #!/bin/bash#function:create new system user#author:biubiu#time:2019-104#mail:biubiu34@126.comfor i in &#123;1..5&#125;do	useradd -d /cali...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/29/Linux基础（四）-用户和组、密码/" >
-            
-                <span>Linux基础（四）--用户和组、密码</span>
-        </a>
-        <div class="abstract-content">
-            管理用户和组
-每个账号都有一个唯一的UID —》身份证
-
-每个组也有一个唯一的GID —》公司—》组织代码
-
-多个账户可以属于同一个组，一个用户可以属于多个组
-
-用户、用户组关系图
-
-任何一个用户都会属于一个组，默认情况下用户名和组名是一样的 
-​    
-
-
-root ：windows里的超级用户叫administartor
-
-linux里的超级用户是root
-
-新建的用户，没有设置密码，是否登录windows系统？ —》可以
-新建的用户，没有设置密码，是否登录Linux系统？ —》不可以
-
-
-用户和组背后的问题
-
-权限的问题、资源管控的问题
-
-
-程序  —–》服务—-》进程—–》端口...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/28/Linux基础（三）-重定向/" >
-            
-                <span>Linux基础（三）--重定向和管道操作</span>
-        </a>
-        <div class="abstract-content">
-            重定向标准输入、标准输出和标准错误​       构建了一个带有编号标记的通道（文件描述符）的进程结构来管理要打开的文件，进程连接到文件，从而到达这些文件所代表的数据内存或设备。通过用户通道0、1、2（称之为标准输入、标准输出和标准错误）的默认连接创建进程。进程使用3以上编号的通道连接 其他文件。
-
-
-标准的输入  -》键盘–》0
-标准的输出  -》显示器 —》正确的  —》1
-标准的错误输出  —》显示器  —》错误的   —-》2
-其他文件  —-》无  —》读取和/或写入 –》3+
-
-重定向（redirect）
-
-默认情况下，所有的输出都输出到屏幕上，有时候需要改变输出的方向，例如...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "重定向">重定向</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux基础-xshell/" >
-            
-                <span>Linux基础--xshell和虚拟机使用技巧（快照和挂起）</span>
-        </a>
-        <div class="abstract-content">
-            xshell的使用、虚拟机的使用技巧（快照和挂起）1.检查wins真实机器的vmnet1的ip 和Linux虚拟机的ip
-2.ping一下测试网络是否ping的通
-远程连接工具：
-​    xshell
-Xshell的使用1.填写ip地址
-
-2.输入用户密码
-3.选编码格式，建议utf-8
-虚拟机的使用技巧​    1.快照（snapshot）：创建一个Linux系统好的状态，一旦系统出现问题的时候，可以快速恢复到当时创建好的系统的状态。
-​        ——创建快照会消耗真实机器的磁盘空间
-
-挂起（suspend）:让虚拟机暂停在某个时间点    
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xshell">xshell</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "VMware">VMware</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/27/Linux基础（二）-Linux命令/" >
-            
-                <span>Linux基础（二）--Linux命令</span>
-        </a>
-        <div class="abstract-content">
-            linux基本命令Linux网络设置
-
-桥接bridge:本地连接（有线网卡）、无线网络，，，相当于通过一个交换机通信
-NAT：
-host-only（仅主机模式）：只和真实机器VMnet1通信，不能和其他的主机通信
-
-
-
-
-配置ip地址（临时配置ip,重新启动会使ip地址失效）
-
-ip address add 192.168.20.24/24  dev eth0    —-》不会覆盖原来的ip地址，一个网卡可以有多个ip,推荐使用
-给eth0这个网卡配置ip地址192.168.20.24，子网掩码为255.255.255.0
-
-
-ifconfig (centos7 使用yum insta...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/09/26/linux基础（一）/" >
-            
-                <span>linux基础（一）---操作系统和Linux常用命令</span>
-        </a>
-        <div class="abstract-content">
-            操作系统
-操作系统就是特殊的软件
-
-作用
-
-
-直接操作硬件
-把操作硬件的代码封装成一个又一个系统调用，供其它的成员通过系统调用间接操作操作系统的硬件
-
-
-
-没有安装操作系统的计算机，被称为裸机
-
-
-系统调用的好处
-
-
-操作系统提供了不同的系统调用就可以直接和系统调用
-
-
-操作系统吧对内存对硬盘对声卡等的操作统统都变成系统调用，避免了繁琐的0101的编码
-
-
-不同应用领域的操作系统
-
-桌面操作系统
-
-
-windows系统
-
-
-应用软件多，用户群体大
-不稳定
-
-
-macOS
-
-
-适合开发人员
-
-
-linux
-
-
-应用软件少
-用户基数少
-
-
-
-
-服务器操作系统
-
-
-服务器
-
-
-硬件层面上：所谓...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "操作系统">操作系统</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2019/page/5/">&#60; PREV</a><a class="page-number" href="/archives/2019/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/4/">4</a><a class="page-number" href="/archives/2019/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/2019/page/7/">7</a><a class="extend next" rel="next" href="/archives/2019/page/7/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/archives/2019/page/5/">&#60; PREV</a><a class="page-number" href="/archives/2019/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/4/">4</a><a class="page-number" href="/archives/2019/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/2019/page/7/">7</a><a class="page-number" href="/archives/2019/page/8/">8</a><a class="extend next" rel="next" href="/archives/2019/page/7/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1909,9 +1884,232 @@ linux
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 64
+        Total : 73
         </div>
         <!-- search  -->
         
@@ -1927,12 +2125,57 @@ linux
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-LVS负载均衡/" >【web服务器】--LVS负载均衡</a>
+            <span class="archive-post-date">10/29</span><a class="archive-post-title" href= "/2019/10/29/【web服务器】-LVS的FULLNAT模式/" >【web集群】--LVS的FULLNAT模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-nginx4层和7层负载均衡/" >【web服务器】--nginx4层和7层负载均衡</a>
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【容器】-k8s入门/" >【容器】--k8s入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【容器】-Docker入门/" >【容器】---Docker入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【Linux服务】-服务的restart和reload的区别/" >【Linux服务】--服务的restart和reload的区别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-Docker/" >【面试题】--Docker</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-网络/" >【面试题】--网络</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-Linux/" >【面试题】--Linux</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-Zabbix/" >【面试题】--Zabbix</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【web服务器】-Nginx和LVS优缺点比较/" >【web服务器】--Nginx和LVS、HAproxy优缺点比较</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-nginx4层和7层负载均衡/" >【web服务器】--4层和7层负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-LVS负载均衡/" >【web服务器】--LVS负载均衡</a>
         </li>
     
     
@@ -2062,12 +2305,12 @@ linux
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
         </li>
     
     
@@ -2112,12 +2355,12 @@ linux
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
         </li>
     
     
@@ -2142,12 +2385,12 @@ linux
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
         </li>
     
     
@@ -2222,12 +2465,12 @@ linux
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
         </li>
     
     
@@ -2260,9 +2503,9 @@ linux
     
         <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
     
-        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
-    
         <span class="sidebar-tag-name" data-tags="开机启动"><span class="iconfont-archer">&#xe606;</span>开机启动</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
         <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
     
@@ -2272,25 +2515,29 @@ linux
     
         <span class="sidebar-tag-name" data-tags="cortab"><span class="iconfont-archer">&#xe606;</span>cortab</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
-    
         <span class="sidebar-tag-name" data-tags="DNS"><span class="iconfont-archer">&#xe606;</span>DNS</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
     
-        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
-    
         <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
     
         <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
     
         <span class="sidebar-tag-name" data-tags="Tomcat"><span class="iconfont-archer">&#xe606;</span>Tomcat</span>
     
         <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
+    
+        <span class="sidebar-tag-name" data-tags="kubernetes"><span class="iconfont-archer">&#xe606;</span>kubernetes</span>
+    
+        <span class="sidebar-tag-name" data-tags="k8s"><span class="iconfont-archer">&#xe606;</span>k8s</span>
     
         <span class="sidebar-tag-name" data-tags="DevOps"><span class="iconfont-archer">&#xe606;</span>DevOps</span>
     
@@ -2302,15 +2549,15 @@ linux
     
         <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
     
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
-    
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
-    
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
         <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
     
         <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
@@ -2324,23 +2571,27 @@ linux
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
         <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
     
         <span class="sidebar-tag-name" data-tags="文件系统"><span class="iconfont-archer">&#xe606;</span>文件系统</span>
     
-        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
-    
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="LVS"><span class="iconfont-archer">&#xe606;</span>LVS</span>
-    
-        <span class="sidebar-tag-name" data-tags="负载均衡"><span class="iconfont-archer">&#xe606;</span>负载均衡</span>
     
         <span class="sidebar-tag-name" data-tags="缓存"><span class="iconfont-archer">&#xe606;</span>缓存</span>
     
         <span class="sidebar-tag-name" data-tags="redis"><span class="iconfont-archer">&#xe606;</span>redis</span>
     
         <span class="sidebar-tag-name" data-tags="memcached"><span class="iconfont-archer">&#xe606;</span>memcached</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvs"><span class="iconfont-archer">&#xe606;</span>lvs</span>
+    
+        <span class="sidebar-tag-name" data-tags="负载均衡"><span class="iconfont-archer">&#xe606;</span>负载均衡</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
     
@@ -2354,21 +2605,23 @@ linux
     
         <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
     
+        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
+    
         <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
     
         <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
     
-        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
         <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
-    
-        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
         <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
     
         <span class="sidebar-tag-name" data-tags="LAMP"><span class="iconfont-archer">&#xe606;</span>LAMP</span>
     
         <span class="sidebar-tag-name" data-tags="LNMP"><span class="iconfont-archer">&#xe606;</span>LNMP</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
     
         <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
     
@@ -2419,17 +2672,19 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="Linux服务"><span class="iconfont-archer">&#xe60a;</span>Linux服务</span>
     
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
-        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
     
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
         <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="容器"><span class="iconfont-archer">&#xe60a;</span>容器</span>
     
         <span class="sidebar-category-name" data-categories="自动化运维"><span class="iconfont-archer">&#xe60a;</span>自动化运维</span>
     
@@ -2440,6 +2695,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
     
         <span class="sidebar-category-name" data-categories="缓存"><span class="iconfont-archer">&#xe60a;</span>缓存</span>
+    
+        <span class="sidebar-category-name" data-categories="负载均衡"><span class="iconfont-archer">&#xe60a;</span>负载均衡</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
     

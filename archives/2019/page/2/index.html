@@ -345,6 +345,382 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/25/【web服务器】-nginx4层和7层负载均衡/" >
+            
+                <span>【web服务器】--4层和7层负载均衡</span>
+        </a>
+        <div class="abstract-content">
+            负载均衡分类
+负载均衡根据所采用的设备对象（软/硬件负载均衡），应用的OSI网络层次（网络层次上的负载均衡），及应用的地理结构（本地/全局负载均衡）等来分类 
+
+网络层次上的负载均衡
+ 
+
+根据负载均衡所作用在 OSI 模型的位置不同，负载均衡可以大概分为以下几类： 
+
+二层负载均衡（mac）
+
+根据OSI模型分的二层负载，一般是用虚拟mac地址方式，外部对虚拟MAC地址请求，负载均衡接收后分配后端实际的MAC地址响应。
+
+三层负载均衡（ip）
+
+一般采用虚拟IP地址方式，外部对虚拟的ip地址请求，负载均衡接收后分配后端实际的IP地址响应。
+
+四层负载均衡（tcp）
+
+在三层负载均衡的基...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "nginx">nginx</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "lvs">lvs</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "负载均衡">负载均衡</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/25/【缓存】-redis面试题/" >
+            
+                <span>【缓存】--redis面试题</span>
+        </a>
+        <div class="abstract-content">
+            
+memcached和redis的区别？
+
+1、 Redis和Memcache都是将数据存放在内存中，都是内存数据库。不过memcache还可用于缓存其他东西，例如图片、视频等等。2、Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，hash等数据结构的存储。3、虚拟内存–Redis当物理内存用完时，可以将一些很久没用到的value 交换到磁盘4、过期策略–memcache在set时就指定，例如set key1 0 0 8,即永不过期。Redis可以通过例如expire 设定，例如expire name 105、分布式–设定memcache集群，利用magent做一...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "缓存">缓存</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "redis">redis</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/25/【缓存】-memcached和redis差异/" >
+            
+                <span>【缓存】--memcached和redis差异</span>
+        </a>
+        <div class="abstract-content">
+            缓存
+缓存的作用：​    加速：用户体验非常快​          减轻了服务器的压力
+
+缓存的内容：​    1.web内容：视频、音频、文字等​    2.数据库内容​    3.直播视频
+
+缓存应用系统
+计算机体系存储系统模型扩展到应用也是一样，应用需要数据，数据哪里来？缓存(更快的存储)-&gt;DB（较慢的存储），他们的工作流程大致如下图所示： 
+ 
+
+
+为什么要使用？缓存用在哪里？​    加速、减轻服务器压力​    用户–》缓存–》服务器
+
+redis和memcached
+数据库：​    关系型数据库–》mysql​    非关系型数据库—》redis  –》nosq...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "缓存">缓存</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "redis">redis</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "memcached">memcached</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/23/【web服务器】-Nginx负载均衡/" >
+            
+                <span>【web服务器】--Nginx负载均衡</span>
+        </a>
+        <div class="abstract-content">
+            nginx负载均衡
+前言
+nginx可以做负载均衡器
+load  balancerbalance
+集群：  很多台电脑完成相同的工作，至少是2台以上的电脑。负载均衡器： 分配访问任务的一个机器（软件）
+场景：
+很多用户的情况下，很多机器提供相同服务，需要均匀的分配任务到不同的机器上，不让某台机器压力过大，导致用户访问不了
+
+
+使用负载均衡的好处
+优化资源利用率
+最大化吞吐量
+减少延迟
+系统的伸缩性和可靠性也得到了相应的保障。
+
+
+4种算法
+4 种负载均衡算法upstream 支持4种负载均衡调度算法:
+A)轮询rr(默认):每个请求按时间顺序逐一分配到不同的后端服务器;
+B)ip_has...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Nginx">Nginx</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "负载均衡">负载均衡</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/23/Linux基础-系统性能监控/" >
+            
+                <span>Linux基础--系统性能监控</span>
+        </a>
+        <div class="abstract-content">
+            系统性能监控
+进程查看命令
+1.静态查看进程的信息，某一个时刻进程的信息
+ps -l
+1234567[root@LNMP LNMP]# ps -lF S   UID    PID   PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD4 S     0   1538   1536  0  80   0 - 28888 do_wai pts/0    00:00:00 bash4 S     0   1709   1538  0  80   0 - 47939 do_wai pts/0    00:00:00 su4 S     0  ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/23/【web服务器】-nginx里的虚拟主机/" >
+            
+                <span>【web服务器】--nginx里的虚拟主机</span>
+        </a>
+        <div class="abstract-content">
+            nginx里的虚拟主机
+含义
+其实就是一个nginx进程带动几个web网站
+
+
+
+
+
+类型
+3种类型的虚拟主机:1.基于ip地址
+  2.基于端口
+  3.基于域名 --》推荐使用的
+
+
+实验
+图示
+
+
+
+
+
+
+问题
+虚拟主机和云服务器的区别
+
+虚拟主机： 很多个网站都跑一个nginx里
+云服务器：一台独立的服务器–》nginx–》一个网站        ssh过去，自己配置
+参考文章
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Nginx">Nginx</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/23/【web服务器】-LAMP-LNMP/" >
+            
+                <span>【web服务器】--LAMP/LNMP</span>
+        </a>
+        <div class="abstract-content">
+            WEB
+web环境
+网 —》internet 互联网 —-》网站
+
+
+
+流程：​    1.服务是什么？为什么要使用？​    2.用在哪里？​    3.如何搭建使用？​        安装​    4.排错–》日志​    5.熟悉服务的配置文件​    6.写出部署脚本–》一键部署
+LNMP
+含义
+linux   nginx   MySQL   php/python/perl
+
+
+Nginx
+Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler....
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "LAMP">LAMP</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "LNMP">LNMP</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/23/Linux基础-开机启动流程/" >
+            
+                <span>Linux基础--开机启动流程</span>
+        </a>
+        <div class="abstract-content">
+            开机启动流程
+含义
+你按电脑的开机按钮，看到开机启动的过程–》到让你输入用户名和密码 —》登录进去的整个过程，背后这10多秒的时间里发生哪些事情？
+
+
+为什么需要知道开机启动流程？​    答案：万一开机进入不了系统，我们好去排错。
+
+步骤
+POST –&gt; Boot Sequence –&gt; bootloader(MBR) –&gt; Kernel –&gt; 加载rootfs –&gt; switchroot –&gt; /sbin/init –&gt; (配置文件：/etc/inittab, /etc/init/*.conf) –&gt; 根据init配置文件设置默认运行级...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "开机启动">开机启动</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/10/21/【Zabbix】-Zabbix安装部署/" >
+            
+                <span>【Zabbix】--Zabbix安装部署</span>
+        </a>
+        <div class="abstract-content">
+            
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/21</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/10/21/【Zabbix】-Zabbix学习/" >
             
                 <span>【Zabbix】--Zabbix学习</span>
@@ -383,411 +759,10 @@
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/21/【自动化运维】-Ansible的Playbook模式/" >
-            
-                <span>【自动化运维】--Ansible的Playbook模式</span>
-        </a>
-        <div class="abstract-content">
-            Ansible playbook
-简介
-　playbook 是 ansible 用于配置，部署，和管理被控节点的剧本。　　通过 playbook 的详细描述，执行其中的一系列 tasks ，可以让远端主机达到预期的状态。playbook 就像 Ansible 控制器给被控节点列出的的一系列 to-do-list ，而被控节点必须要完成。　　也可以这么理解，playbook 字面意思，即剧本，现实中由演员按照剧本表演，在Ansible中，这次由计算机进行表演，由计算机安装，部署应用，提供对外服务，以及组织计算机处理各种各样的事情。 
-
-
-Ansible playbook使用场景
-　　执行一...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Ansible">Ansible</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/20/【自动化运维】-自动化运维概述/" >
-            
-                <span>【自动化运维】--自动化运维概述</span>
-        </a>
-        <div class="abstract-content">
-            自动化运维
-自动化运维可以做什么？
-消除无效率
-运维工作的手动工作，如果可以实现自动化，将显著提升效率水平。 
-
-
-减少错误
-即使最谨慎的人，也会犯错，尤其是面对着重复性工作。通过运维自动化工具来完成这样的工作，结果是显而易见的，错误率将大大降低。 
-
-
-最大化员工使用
-通过运维自动化，运维专家们的经历可以集中在更复杂、更有战略意义的业务问题上。同时也降低了雇佣更多员工来应对工作量增加的需求。同样一批人，有自动化运维，就有更大的能量来创造价值。 
-
-
-提高满意度水平
-自动化运维工具帮助IT运维，为内部和外部客户提供高水平支持。无论是通过提供自助服务选项，还是大幅缩短时间（最多达90％）来...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "DevOps">DevOps</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/20/【自动化运维】-ansible/" >
-            
-                <span>【自动化运维】--Ansible</span>
-        </a>
-        <div class="abstract-content">
-            Ansible
-底层通道使用ssh服务，源码使用Python写
-
-概念
-Ansible 是近年越来越火的一款运维自动化工具，其主要功能是帮忙运维实现 IT 工作的自动化、降低人为操作失误、提高业务自动化率、提升运维工作效率，常用于软件部署自动化、配置自动化、管理自动化、系统化系统任务、持续集成、零宕机平滑升级等。它丰富的内置模块（如acl、command、shell、cron、yum、copy、file、user等，多达569个）和开放的 API接口，同时任何遵循 GPL 协议的企业或个人都可以随意修改和发布自己的版本。
-Ansible是一个部署一群远程主机的工具;Ansible通过SS...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Ansile">Ansile</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/20/Linux服务-DNS/" >
-            
-                <span>Linux服务--DNS</span>
-        </a>
-        <div class="abstract-content">
-            DNS
-DNS概述
-域名系统（英文：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。
-域名 —》解析成ip
-
-早起使用hosts文件解析域名
-主机名称重复
-
-主机维护困难
-
-1234[root@NFS-server ~]# cat /etc/hosts127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4::1         localhost localhost.localdomai...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "DNS">DNS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/20/Linux学习-NFS文件系统/" >
-            
-                <span>Linux学习--NFS文件系统</span>
-        </a>
-        <div class="abstract-content">
-            NFS服务
-概述
-NFS（Network File System）即网络文件系统，是FreeBSD支持的文件系统中的一种，它允许网络中的计算机之间通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。
-用于Linux和Linux之间共享文件
-多台电脑之间的共享文件
-
-
-NFS操作
-准备工作
-关闭selinux
-123[root@NFS-server ~]# vim /etc/sysconfig/selinux SELINUX=disabled   ---》永久关闭[root@NFS-server ~]# s...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "NFS">NFS</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "文件系统">文件系统</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/20/Linux学习-raid和LVM/" >
-            
-                <span>Linux学习--raid和LVM</span>
-        </a>
-        <div class="abstract-content">
-            raid
-概述；
-廉价冗余磁盘阵列
-raid  磁盘阵列（独立冗余磁盘阵列）
-硬raid（推荐）： 会有一个raid卡，用来控制这个raid，是正raid的大脑
-        容错功能
-        专门有数据处理的芯片
-软raid： 通过软件来实现raid控制功能，不需要需要硬件。
-        需要使用电脑的cpu里来处理数据
-        kernel里有这个软件--》linux自带不需要安装
-磁盘阵列（Redundant Arrays of Independent Drives，RAID），有“独立磁盘构成的具有冗余能力的阵列”之意。磁盘阵列是由很多块独立的磁盘，组合成一...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "raid">raid</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "LVM">LVM</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/18/Linux学习-文件系统2/" >
-            
-                <span>Linux学习--文件系统2</span>
-        </a>
-        <div class="abstract-content">
-            接上一篇文章，继续讲Linux文件系统
-文件系统
-文件系统其实是一个逻辑上的概念
-
-文件系统是什么
-管理文件和目录的一套机制（方法）
-
-
-1.文件存取2.文件的查找3.文件的大小4.一个目录可以存放多少个文件5.文件的命名6.一个分区可以多大7.一个文件最大可以多大8.一个分区使用了多少空间，还有多少空间没有使用等等
-
-
-
-
-文件系统的种类
-Linux下的文件系统
-XFS  —》centos7
-ext4  —》centos6
-ext3  –》centos5
-iso9660  光盘
-tmpfs   –》内存里划分一块空间，使用这种文件系统
-
-
-windows下的文件系统
-NTFS  –》n...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "文件系统">文件系统</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "磁盘">磁盘</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/18/Linux学习-文件系统/" >
-            
-                <span>Linux学习--文件系统</span>
-        </a>
-        <div class="abstract-content">
-            磁盘（disk）
-磁盘接口
-常用磁盘接口
-
-IDESCSI光纤通道SATASASUSBPCI-E
-
-
-
-
-
-
-硬盘类型
-机械盘：
-转速：5400rpm   rate per minute 每分钟多少转
-转速：7200rpm
-每秒钟：100~150M/s固态盘：
-速度快
-每秒钟：300~600M/s
-英特尔（Intel）DC P4600系列2T/4T SSD PCIE接口数据中心企业级固态硬盘
-​    4TB  –》数据库服务器喜欢使用
-​    读取速度：3300-3900 MB/s
-U盘：
-2.0  10M/s
-3.0  30~60M/s
-
-
-磁盘物理结构
-磁盘的术语
-磁道track...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "文件系统">文件系统</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "磁盘">磁盘</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/18/Linux学习-开启启动流程/" >
-            
-                <span>Linux学习--开启启动流程</span>
-        </a>
-        <div class="abstract-content">
-            Linux开机启动流程简述
-
-1.开机BIOS自检
-2.MBR引导
-3.grub引导菜单
-4.加载内核kernel
-5.启动init进程
-6.读取inittab文件，执行rc.sysinit,rc等脚本
-7.启动mingetty，进入系统登陆界面
-
-
-简图
- 
-
-
-
-参考文章
-简要描述linux系统从开机到登陆界面的启动过程 
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "开机启动">开机启动</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2019/">&#60; PREV</a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2019/page/3/">3</a><a class="page-number" href="/archives/2019/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/7/">7</a><a class="extend next" rel="next" href="/archives/2019/page/3/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/archives/2019/">&#60; PREV</a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2019/page/3/">3</a><a class="page-number" href="/archives/2019/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/8/">8</a><a class="extend next" rel="next" href="/archives/2019/page/3/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1850,9 +1825,232 @@ U盘：
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 64
+        Total : 73
         </div>
         <!-- search  -->
         
@@ -1868,12 +2066,57 @@ U盘：
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-LVS负载均衡/" >【web服务器】--LVS负载均衡</a>
+            <span class="archive-post-date">10/29</span><a class="archive-post-title" href= "/2019/10/29/【web服务器】-LVS的FULLNAT模式/" >【web集群】--LVS的FULLNAT模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-nginx4层和7层负载均衡/" >【web服务器】--nginx4层和7层负载均衡</a>
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【容器】-k8s入门/" >【容器】--k8s入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【容器】-Docker入门/" >【容器】---Docker入门</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【Linux服务】-服务的restart和reload的区别/" >【Linux服务】--服务的restart和reload的区别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-Docker/" >【面试题】--Docker</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-网络/" >【面试题】--网络</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-Linux/" >【面试题】--Linux</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【面试题】-Zabbix/" >【面试题】--Zabbix</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2019/10/28/【web服务器】-Nginx和LVS优缺点比较/" >【web服务器】--Nginx和LVS、HAproxy优缺点比较</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-nginx4层和7层负载均衡/" >【web服务器】--4层和7层负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/25</span><a class="archive-post-title" href= "/2019/10/25/【web服务器】-LVS负载均衡/" >【web服务器】--LVS负载均衡</a>
         </li>
     
     
@@ -2003,12 +2246,12 @@ U盘：
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/Linux学习-EPEL源/" >Linux学习--EPEL源</a>
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2019/10/15/【web服务器】-Nginx安装部署/" >【web服务器】--Nginx安装部署</a>
         </li>
     
     
@@ -2053,12 +2296,12 @@ U盘：
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/计算机网络（六）-传输层/" >计算机网络（六）--传输层</a>
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/小鸡子/" >歌单分享</a>
         </li>
     
     
@@ -2083,12 +2326,12 @@ U盘：
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/【计算机网络】-ip地址/" >【计算机网络】--ip地址</a>
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/计算机网络（五）-网络层/" >计算机网络（五）--网络层</a>
         </li>
     
     
@@ -2163,12 +2406,12 @@ U盘：
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/linux基础（一）/" >linux基础（一）---操作系统和Linux常用命令</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href= "/2019/09/26/vim编辑器/" >VIM编辑器</a>
         </li>
     
     
@@ -2201,9 +2444,9 @@ U盘：
     
         <span class="sidebar-tag-name" data-tags="EPEL源"><span class="iconfont-archer">&#xe606;</span>EPEL源</span>
     
-        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
-    
         <span class="sidebar-tag-name" data-tags="开机启动"><span class="iconfont-archer">&#xe606;</span>开机启动</span>
+    
+        <span class="sidebar-tag-name" data-tags="ftp"><span class="iconfont-archer">&#xe606;</span>ftp</span>
     
         <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
     
@@ -2213,25 +2456,29 @@ U盘：
     
         <span class="sidebar-tag-name" data-tags="cortab"><span class="iconfont-archer">&#xe606;</span>cortab</span>
     
-        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
-    
         <span class="sidebar-tag-name" data-tags="DNS"><span class="iconfont-archer">&#xe606;</span>DNS</span>
     
         <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Mardown"><span class="iconfont-archer">&#xe606;</span>Mardown</span>
     
         <span class="sidebar-tag-name" data-tags="Markdown"><span class="iconfont-archer">&#xe606;</span>Markdown</span>
     
         <span class="sidebar-tag-name" data-tags="SSH"><span class="iconfont-archer">&#xe606;</span>SSH</span>
     
-        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
-    
         <span class="sidebar-tag-name" data-tags="Python模块"><span class="iconfont-archer">&#xe606;</span>Python模块</span>
+    
+        <span class="sidebar-tag-name" data-tags="Git"><span class="iconfont-archer">&#xe606;</span>Git</span>
     
         <span class="sidebar-tag-name" data-tags="Nginx"><span class="iconfont-archer">&#xe606;</span>Nginx</span>
     
         <span class="sidebar-tag-name" data-tags="Tomcat"><span class="iconfont-archer">&#xe606;</span>Tomcat</span>
     
         <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
+    
+        <span class="sidebar-tag-name" data-tags="kubernetes"><span class="iconfont-archer">&#xe606;</span>kubernetes</span>
+    
+        <span class="sidebar-tag-name" data-tags="k8s"><span class="iconfont-archer">&#xe606;</span>k8s</span>
     
         <span class="sidebar-tag-name" data-tags="DevOps"><span class="iconfont-archer">&#xe606;</span>DevOps</span>
     
@@ -2243,15 +2490,15 @@ U盘：
     
         <span class="sidebar-tag-name" data-tags="WLAN"><span class="iconfont-archer">&#xe606;</span>WLAN</span>
     
-        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
-    
-        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
-    
         <span class="sidebar-tag-name" data-tags="传输层"><span class="iconfont-archer">&#xe606;</span>传输层</span>
     
         <span class="sidebar-tag-name" data-tags="TCP"><span class="iconfont-archer">&#xe606;</span>TCP</span>
     
         <span class="sidebar-tag-name" data-tags="UDP"><span class="iconfont-archer">&#xe606;</span>UDP</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络层"><span class="iconfont-archer">&#xe606;</span>网络层</span>
+    
+        <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
         <span class="sidebar-tag-name" data-tags="私密"><span class="iconfont-archer">&#xe606;</span>私密</span>
     
@@ -2265,23 +2512,27 @@ U盘：
     
         <span class="sidebar-tag-name" data-tags="网络"><span class="iconfont-archer">&#xe606;</span>网络</span>
     
+        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
+    
         <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
     
         <span class="sidebar-tag-name" data-tags="文件系统"><span class="iconfont-archer">&#xe606;</span>文件系统</span>
     
-        <span class="sidebar-tag-name" data-tags="iptables"><span class="iconfont-archer">&#xe606;</span>iptables</span>
-    
         <span class="sidebar-tag-name" data-tags="SElinux"><span class="iconfont-archer">&#xe606;</span>SElinux</span>
     
         <span class="sidebar-tag-name" data-tags="LVS"><span class="iconfont-archer">&#xe606;</span>LVS</span>
-    
-        <span class="sidebar-tag-name" data-tags="负载均衡"><span class="iconfont-archer">&#xe606;</span>负载均衡</span>
     
         <span class="sidebar-tag-name" data-tags="缓存"><span class="iconfont-archer">&#xe606;</span>缓存</span>
     
         <span class="sidebar-tag-name" data-tags="redis"><span class="iconfont-archer">&#xe606;</span>redis</span>
     
         <span class="sidebar-tag-name" data-tags="memcached"><span class="iconfont-archer">&#xe606;</span>memcached</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvs"><span class="iconfont-archer">&#xe606;</span>lvs</span>
+    
+        <span class="sidebar-tag-name" data-tags="负载均衡"><span class="iconfont-archer">&#xe606;</span>负载均衡</span>
     
         <span class="sidebar-tag-name" data-tags="IP地址"><span class="iconfont-archer">&#xe606;</span>IP地址</span>
     
@@ -2295,21 +2546,23 @@ U盘：
     
         <span class="sidebar-tag-name" data-tags="磁盘"><span class="iconfont-archer">&#xe606;</span>磁盘</span>
     
+        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
+    
         <span class="sidebar-tag-name" data-tags="Linux学习"><span class="iconfont-archer">&#xe606;</span>Linux学习</span>
     
         <span class="sidebar-tag-name" data-tags="软件安装"><span class="iconfont-archer">&#xe606;</span>软件安装</span>
     
-        <span class="sidebar-tag-name" data-tags="日志"><span class="iconfont-archer">&#xe606;</span>日志</span>
+        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
         <span class="sidebar-tag-name" data-tags="Redis"><span class="iconfont-archer">&#xe606;</span>Redis</span>
-    
-        <span class="sidebar-tag-name" data-tags="VIM"><span class="iconfont-archer">&#xe606;</span>VIM</span>
     
         <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
     
         <span class="sidebar-tag-name" data-tags="LAMP"><span class="iconfont-archer">&#xe606;</span>LAMP</span>
     
         <span class="sidebar-tag-name" data-tags="LNMP"><span class="iconfont-archer">&#xe606;</span>LNMP</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
     
         <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
     
@@ -2360,17 +2613,19 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux学习"><span class="iconfont-archer">&#xe60a;</span>Linux学习</span>
     
-        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
-    
         <span class="sidebar-category-name" data-categories="Linux服务"><span class="iconfont-archer">&#xe60a;</span>Linux服务</span>
     
         <span class="sidebar-category-name" data-categories="博客"><span class="iconfont-archer">&#xe60a;</span>博客</span>
     
-        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+        <span class="sidebar-category-name" data-categories="文本编辑器"><span class="iconfont-archer">&#xe60a;</span>文本编辑器</span>
     
         <span class="sidebar-category-name" data-categories="Python学习"><span class="iconfont-archer">&#xe60a;</span>Python学习</span>
     
+        <span class="sidebar-category-name" data-categories="Git"><span class="iconfont-archer">&#xe60a;</span>Git</span>
+    
         <span class="sidebar-category-name" data-categories="web服务器"><span class="iconfont-archer">&#xe60a;</span>web服务器</span>
+    
+        <span class="sidebar-category-name" data-categories="容器"><span class="iconfont-archer">&#xe60a;</span>容器</span>
     
         <span class="sidebar-category-name" data-categories="自动化运维"><span class="iconfont-archer">&#xe60a;</span>自动化运维</span>
     
@@ -2381,6 +2636,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="Linux复习"><span class="iconfont-archer">&#xe60a;</span>Linux复习</span>
     
         <span class="sidebar-category-name" data-categories="缓存"><span class="iconfont-archer">&#xe60a;</span>缓存</span>
+    
+        <span class="sidebar-category-name" data-categories="负载均衡"><span class="iconfont-archer">&#xe60a;</span>负载均衡</span>
     
         <span class="sidebar-category-name" data-categories="redis数据库"><span class="iconfont-archer">&#xe60a;</span>redis数据库</span>
     
